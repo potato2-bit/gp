@@ -1,0 +1,137 @@
+% ======================================================================
+% nac_beamer_theme.tex  --  shared modern Beamer styling for the
+% TEC PV-cleaning-robot decks (defense + technical recording).
+% pdflatex-safe: no external fonts, no metropolis dependency.
+% Build each deck with: pdflatex <deck>.tex  (run twice for the
+% progress bar and section references).
+% ======================================================================
+
+\usetheme{default}
+\useinnertheme{rectangles}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercovered{transparent}
+
+% --- packages (shared by both decks) ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+% --- siunitx custom units (shared) ---
+\DeclareSIUnit{\Wp}{Wp}
+\DeclareSIUnit{\kWp}{kWp}
+\DeclareSIUnit{\Wh}{Wh}
+\DeclareSIUnit{\kWh}{kWh}
+\DeclareSIUnit{\EGP}{EGP}
+\DeclareSIUnit{\year}{yr}
+\sisetup{detect-weight=true,detect-family=true}
+
+% --- palette (NAC navy / water teal / solar sand) ---
+\definecolor{nacblue}{RGB}{20,52,84}
+\definecolor{nacblueL}{RGB}{37,86,128}
+\definecolor{nacteal}{RGB}{0,150,158}
+\definecolor{nacsand}{RGB}{226,170,74}
+\definecolor{nacink}{RGB}{31,36,42}
+\definecolor{nacgray}{RGB}{108,118,128}
+\definecolor{naclight}{RGB}{244,247,250}
+
+% --- base colours ---
+\setbeamercolor{normal text}{fg=nacink,bg=white}
+\setbeamercolor{alerted text}{fg=nacteal}
+\setbeamercolor{structure}{fg=nacblue}
+\setbeamercolor{title}{fg=nacblue}
+\setbeamercolor{frametitle}{fg=nacblue,bg=white}
+\setbeamercolor{itemize item}{fg=nacteal}
+\setbeamercolor{itemize subitem}{fg=nacsand}
+\setbeamercolor{itemize subsubitem}{fg=nacblueL}
+\setbeamercolor{enumerate item}{fg=nacblue}
+\setbeamercolor{block title}{fg=white,bg=nacblue}
+\setbeamercolor{block body}{fg=nacink,bg=naclight}
+\setbeamercolor{caption name}{fg=nacgray}
+
+% --- fonts ---
+\setbeamerfont{title}{series=\bfseries,size=\LARGE}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{block title}{series=\bfseries,size=\normalsize}
+\setbeamerfont{author in head/foot}{size=\scriptsize}
+\setbeamerfont{title in head/foot}{size=\scriptsize}
+\setbeamerfont{date in head/foot}{size=\scriptsize}
+
+% --- blocks: flat, rounded, no shadow ---
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{frametitle continuation}{}
+\setlength{\leftmargini}{1.4em}
+
+% --- frame title with a teal accent rule underneath ---
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip%
+  \vskip0.55em%
+  \begin{beamercolorbox}[wd=\paperwidth,sep=0pt,leftskip=0.55cm,rightskip=0.55cm]{frametitle}%
+    {\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle\strut\par}%
+    \vskip3pt%
+    {\color{nacteal}\rule{2.4cm}{2.2pt}}%
+  \end{beamercolorbox}%
+  \vskip0.35em%
+}
+
+% --- minimal footline with a teal progress bar ---
+\setbeamertemplate{footline}{%
+  \pgfmathsetmacro{\nacprog}{\insertframenumber/(\inserttotalframenumber<1?1:\inserttotalframenumber)}%
+  \hbox to\paperwidth{%
+    \rlap{\color{nacblue!12}\rule{\paperwidth}{1.6pt}}%
+    \rlap{\color{nacteal}\rule{\nacprog\paperwidth}{1.6pt}}\hfil}%
+  \vskip2pt%
+  \hbox to\paperwidth{%
+    \hskip0.45cm{\color{nacgray}\usebeamerfont{author in head/foot}\insertshortauthor}\hfil
+    {\color{nacgray}\usebeamerfont{title in head/foot}\insertshorttitle}\hfil
+    {\color{nacblue}\usebeamerfont{date in head/foot}\insertframenumber\,/\,\inserttotalframenumber}\hskip0.45cm}%
+  \vskip3pt%
+}
+
+% --- section divider slides ---
+\AtBeginSection[]{%
+  {\setbeamertemplate{footline}{}%
+   \begin{frame}[plain,noframenumbering]%
+    \begin{tikzpicture}[remember picture,overlay]%
+      \fill[nacblue](current page.south west)rectangle(current page.north east);%
+      \fill[nacteal](current page.south west)rectangle([yshift=6pt]current page.south east);%
+    \end{tikzpicture}%
+    \vfill
+    \begin{center}
+      {\color{nacsand}\large\bfseries Part~\insertsectionnumber}\\[0.55em]
+      {\color{white}\Huge\bfseries\insertsection}\\[0.75em]
+      {\color{nacteal}\rule{3cm}{2.5pt}}
+    \end{center}
+    \vfill
+   \end{frame}}%
+}
+
+% --- reusable custom title slide: \nactitleframe ---
+\newcommand{\nactitleframe}[5]{%
+  % #1 eyebrow line, #2 title (may use \\), #3 subtitle, #4 author, #5 footer line
+  {\setbeamertemplate{footline}{}%
+   \begin{frame}[plain,noframenumbering]%
+    \begin{tikzpicture}[remember picture,overlay]%
+      \fill[nacblue](current page.south west)rectangle(current page.north east);%
+      \fill[nacteal](current page.south west)rectangle([yshift=7pt]current page.south east);%
+    \end{tikzpicture}%
+    \vfill
+    \begin{center}
+      {\color{nacsand}\large\bfseries #1}\\[1.05em]
+      {\color{white}\usebeamerfont{title}#2}\\[0.8em]
+      {\color{nacteal}\rule{4cm}{2.5pt}}\\[0.8em]
+      {\color{white!88}\large #3}\\[1.7em]
+      {\color{white}\large\bfseries #4}\\[0.35em]
+      {\color{white!75}\normalsize #5}
+    \end{center}
+    \vfill
+   \end{frame}}%
+}

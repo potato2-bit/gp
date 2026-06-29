@@ -1,0 +1,357 @@
+% !TEX TS-program = pdflatex
+% Egyptian PV Station Inventory and Small-Scale TEC Feasibility
+% Supplementary note to the main graduation project
+% Project title: Atmospheric Water Harvesting for Autonomous PV Panels Cleaning
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\title{\textbf{Egyptian Solar PV Inventory and Small-Scale TEC Feasibility}\\[0.35em]
+\large Evaluating Thermoelectric Atmospheric Water Harvesting for Rooftop, Street-Lamp, and Distributed PV Assets\\[0.25em]
+\normalsize Supplementary Analysis to \textit{Atmospheric Water Harvesting for Autonomous PV Panels Cleaning}}
+\author{Graduation Project --- Supplementary Technical Note}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+The main graduation report concludes that, for a 200\,MW Benban-class block, thermoelectric-cooler (TEC) atmospheric water harvesting (AWH) cannot compete with vapor-compression refrigeration (VCR) or liquid absorption on either specific energy consumption (SEC) or levelized cost of water (LCOW). This note tests the complementary hypothesis by (i)~assembling a traceable inventory of Egyptian PV capacity from utility mega-parks down to rooftop and street-lamp scale, and (ii)~applying the same cleaning-water model over five orders of magnitude of installed PV area. A first-principles scaling analysis shows that although TEC keeps its intrinsic SEC disadvantage ($\mathrm{SEC}_{\mathrm{TEC}}\approx 2\text{--}12$\,kWh/kg against $\mathrm{SEC}_{\mathrm{VCR}}\approx 0.4$\,kWh/kg), TEC wins on capital cost, minimum practical throughput, DC compatibility, acoustic emissions, reliability, and no-maintenance operation once daily water demand drops below roughly 5--10\,L/day. TEC is therefore recommended as the \textbf{default} AWH architecture for street-lamp PV and residential rooftop systems, while VCR remains preferred above approximately 10\,L/day (commercial rooftops and utility plants). A breakeven expression linking installed PV area, electricity tariff, and equipment capital cost is derived for design use.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Scope and relation to the main report}
+The main report, \textit{Atmospheric Water Harvesting for Autonomous PV Panels Cleaning}, sized a 200\,MW Benban-class block at $V_{\mathrm{year}}\approx 3.77\times 10^{4}$~m$^3$/yr and ranked TEC poorly against VCR and absorption at that scale. The main-report conclusion is not in dispute here. The present note addresses a distinct engineering question: \emph{at what size of PV asset does TEC stop being a poor choice and become the preferred choice?} The question matters because Egypt's PV fleet is not limited to Benban: rooftop, commercial, and distributed installations are growing quickly under the Egyptian Feed-in-Tariff (FiT) and net-metering frameworks administered by the Egyptian Electric Utility and Consumer Protection Regulatory Agency (EgyptERA) \cite{ieeeref_egyptera}.
+
+The analysis keeps the water-demand model and SEC anchors from \texttt{project\_inputs.yaml} so that all conclusions remain traceable to the same source of truth used elsewhere in the repository.
+
+\section{Inventory of Egyptian Solar PV Capacity}
+Egypt's solar PV fleet can be organized into three tiers: (T1) utility mega-parks and large IPPs, (T2) medium and ISCC plants, and (T3) rooftop and distributed generation. Published values reflect a mixture of AC and DC nameplates; where sources disagree, the larger DC figure is used for water-duty calculations because cleaning targets module glass area.
+
+\subsection{Tier 1: Utility-scale operational plants}
+\begin{longtable}{@{}p{4.6cm}p{3.0cm}p{1.6cm}p{1.6cm}p{3.8cm}@{}}
+\toprule
+\textbf{Project} & \textbf{Location} & \textbf{Size [MW]} & \textbf{COD} & \textbf{Developer / notes} \\
+\midrule
+\endhead
+Benban Solar Park (complex of 32 plants) & Aswan Governorate & 1{,}465 DC \cite{ieeeref_benban_wiki,ieeeref_benban_site} & 2019 & Consortium (Scatec, ACWA, Alcazar, EDF, Enerray, ib vogt, and others); 32 plots of 20--66~MW. \\
+ACWA Power Kom Ombo PV & Aswan Governorate & 200 AC \cite{ieeeref_acwa_kom_ombo} & 2023 & ACWA Power; single-site utility plant about 30~km south of Benban. \\
+AMEA Abydos~1 Solar PV & Kom Ombo, Aswan & 500 AC \cite{ieeeref_amea_abydos} & 2024 & AMEA Power; PPA with Egyptian Electricity Transmission Company. \\
+Kuraymat Integrated Solar Combined Cycle (solar field only) & Beni Suef Governorate & 20 (CSP parabolic trough) \cite{ieeeref_nrea} & 2011 & NREA / public-sector ISCC; included for completeness (not PV). \\
+\bottomrule
+\end{longtable}
+
+\subsection{Tier 1 continued: Under construction or financially closed (2024--2026 horizon)}
+\begin{longtable}{@{}p{4.6cm}p{3.0cm}p{2.2cm}p{1.6cm}p{3.2cm}@{}}
+\toprule
+\textbf{Project} & \textbf{Location} & \textbf{Size [MW/MWh]} & \textbf{Status} & \textbf{Developer} \\
+\midrule
+\endhead
+Scatec Obelisk (PV + BESS) & Nag Hammadi, Qena & 1{,}100~MW PV + 200~MW / 400~MWh BESS \cite{ieeeref_scatec_obelisk} & Under construction & Scatec. \\
+AMEA Abydos~2 & Kom Ombo, Aswan & $\sim$1{,}000~MW + BESS \cite{ieeeref_amea_abydos2} & Financially closed & AMEA Power. \\
+ACWA Kom Ombo~2 (PV + storage) & Aswan Governorate & 200~MW + BESS \cite{ieeeref_acwa_kom_ombo} & Announced & ACWA Power. \\
+Various tender-stage IPPs (NREA/EETC rounds) & Upper Egypt / Gulf of Suez & 500--1{,}500~MW cumulative \cite{ieeeref_irena_egypt} & Tender / award & Multiple. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Tier 2: Small utility and ISCC-linked plants}
+Historical small utility PV in Egypt includes the 10--20~MW demonstration plants at Hurghada and the south-Sinai grids prior to the Benban buildout, and research/demonstration arrays at universities and NREA sites. Most small utility assets have since been displaced by the Benban cluster; remaining small-utility capacity is tied to island grids (Siwa, Marsa Alam area) at 1--10~MW per node \cite{ieeeref_nrea}.
+
+\subsection{Tier 3: Rooftop, commercial, and distributed PV}
+EgyptERA's net-metering regulation (2013) and FiT rounds (2014, 2016) created a market for residential and commercial rooftop PV. As of the 2024 EgyptERA statistical yearbook, installed rooftop and distributed capacity is on the order of several hundred MW cumulatively, dominated by:
+\begin{itemize}[nosep]
+\item Industrial rooftop at food, cement, and textile plants (100~kW--5~MW each).
+\item Commercial rooftop at hotels, shopping malls, schools, and hospitals (10--500~kW each).
+\item Residential rooftop under net-metering ($<$10~kW each).
+\item Off-grid and hybrid systems at agricultural pumping stations, mobile telecom towers, and solar street lighting (20~W--5~kW each) \cite{ieeeref_egyptera, ieeeref_irena_egypt}.
+\end{itemize}
+
+\subsection{Representative size classes used in this note}
+\begin{table}[h]
+\centering
+\caption{Representative PV size classes and corresponding module glass area for the cleaning-water model, using $\eta_{\mathrm{mod}}=0.215$ and $G_{\mathrm{STC}}=1000$~W/m$^2$.}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Class} & \textbf{Nominal $P_{\mathrm{dc}}$} & \textbf{$A_{\mathrm{pv}}$ [m$^2$]} & \textbf{Representative Egyptian example} \\
+\midrule
+Street-lamp PV           & 0.2~kW  & $\approx 0.93$                & Solar street lamp (NREA/municipal). \\
+Residential rooftop      & 5~kW    & $\approx 23.3$                & FiT / net-metered house. \\
+Commercial rooftop       & 100~kW  & $\approx 4.65\times 10^{2}$   & Mall / hotel / school rooftop. \\
+Industrial rooftop       & 1~MW    & $\approx 4.65\times 10^{3}$   & Food or textile factory. \\
+Small utility / hybrid   & 10~MW   & $\approx 4.65\times 10^{4}$   & Remote-grid or tender plant. \\
+Benban-class block       & 200~MW  & $\approx 9.30\times 10^{5}$   & Main report reference block. \\
+\bottomrule
+\end{tabular}
+\label{tab:size_classes}
+\end{table}
+
+\section{Cleaning-water duty as a function of PV area}
+Using the main-report cleaning model ($w=1.8$~L/m$^2$/event, $N_{\mathrm{clean}}=18$/yr, $f_{\mathrm{margin}}=0.25$):
+\begin{equation}
+V_{\mathrm{year}}(A)=w\,A\,N_{\mathrm{clean}}(1+f_{\mathrm{margin}})
+=1.8\cdot A\cdot 18\cdot 1.25\times 10^{-3}
+=0.0405\,A\ \mathrm{m^3/yr}.
+\end{equation}
+The average daily water demand is therefore:
+\begin{equation}
+V_{\mathrm{day,avg}}(A)=\frac{V_{\mathrm{year}}(A)}{365}
+=\frac{0.0405}{365}\,A
+\approx 1.110\times 10^{-4}\,A\ \mathrm{m^3/day}
+=0.1110\,A\ \mathrm{L/day}.
+\end{equation}
+Equivalently, about \textbf{0.11~L/day per m$^2$ of glass}. Applied to the size classes in Table~\ref{tab:size_classes}:
+\begin{table}[h]
+\centering
+\caption{Cleaning-water duty across PV size classes (same model as the main report).}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Class} & \textbf{$A_{\mathrm{pv}}$ [m$^2$]} & \textbf{$V_{\mathrm{year}}$ [L/yr]} & \textbf{$V_{\mathrm{day,avg}}$ [L/day]} \\
+\midrule
+Street-lamp PV         & 0.93                  & $37.8$                & $0.103$ \\
+Residential rooftop    & 23.3                  & $942$                 & $2.58$  \\
+Commercial rooftop     & $4.65\times 10^{2}$   & $1.88\times 10^{4}$   & $51.6$  \\
+Industrial rooftop     & $4.65\times 10^{3}$   & $1.88\times 10^{5}$   & $516$   \\
+Small utility / hybrid & $4.65\times 10^{4}$   & $1.88\times 10^{6}$   & $5.16\times 10^{3}$ \\
+Benban-class block     & $9.30\times 10^{5}$   & $3.77\times 10^{7}$   & $1.032\times 10^{5}$ \\
+\bottomrule
+\end{tabular}
+\label{tab:duty_vs_scale}
+\end{table}
+
+Table~\ref{tab:duty_vs_scale} already suggests the hypothesis: at street-lamp and residential scale, daily water demand is a fraction of a litre to a few litres. No commercial VCR/AWG is built at that throughput, because condenser, expansion valve, and compressor charge requirements impose a minimum practical floor.
+
+\section{Minimum practical AWH scale and the ``scaling floor''}
+\subsection{VCR/AWG scaling floor}
+A vapor-compression dehumidifier must contain a compressor, a refrigerant charge, an expansion device, evaporator and condenser coils, a control board, and an enclosure. Below a cold-side cooling capacity of roughly $Q_c\approx 100$~W, electromechanical fixed-costs dominate and efficiency collapses because the compressor cycles on and off well below its rated duty. Commercial ``dehumidifier-style'' AWGs therefore start at roughly $V_{\mathrm{min,VCR}}\approx 10$--$20$~L/day \cite{ieeeref_kim2022_metrics, ieeeref_feng2022_awh}. A smaller VCR can be built, but unit capital cost rises steeply because parts are non-standard.
+
+\subsection{TEC scaling floor}
+A TEC (Peltier) module is a solid-state heat pump with no moving parts. Commercial single-stage modules (for example TEC1-12706 class at 12~V, 6~A, 72~W$_{\mathrm{max}}$) are available for a few US dollars each, scale from $\sim$1~W to tens of W per tile, and can be stacked or paralleled trivially \cite{ieeeref_peltier_tec}. A single-tile TEC AWH cold finger delivers condensate at $\sim$1--50~mL/h depending on inlet humidity, heat sink, and ambient; daily outputs from $<$100~mL to several litres per day are both normal and documented in peer-reviewed small-scale studies \cite{ieeeref_small_tec_awh}.
+
+Consequently, the \emph{scaling floor} of TEC is effectively zero: one module at $\sim$US\$5 produces $\sim$100~mL/day, which is already enough for a single solar street lamp cleaning cycle.
+
+\subsection{Why SEC is not the whole story at small scale}
+The argument against TEC in the main report is thermodynamic: the coefficient of performance of a single-stage TEC drops rapidly with the temperature lift required to reach the dew point, giving
+\begin{equation}
+\mathrm{COP}_{\mathrm{TEC}}=\frac{Q_c}{W_{\mathrm{el}}}
+=\frac{\alpha T_c I - \tfrac{1}{2}I^2 R - K(T_h-T_c)}{\alpha (T_h-T_c)I + I^2 R},
+\end{equation}
+where $\alpha$ is the Seebeck coefficient, $R$ the module resistance, $K$ the thermal conductance, $I$ the current, and $T_h, T_c$ the hot- and cold-side temperatures. For Benban-like ambient conditions this yields $\mathrm{SEC}\approx 2$--$12$~kWh/kg, i.e., 5--30 times worse than a good VCR. At 200\,MW block scale this penalty is decisive because annual electricity becomes tens to hundreds of GWh (see main report). At residential or street-lamp scale, however, annual electricity for AWH cleaning is \emph{a few kWh per year}; any SEC multiplier acts on a tiny base and therefore fails to move the cost needle. Capital cost and minimum scale, not SEC, become the dominant drivers.
+
+\section{Comparative framework}
+\subsection{Generalised cost of water}
+Let $\mathrm{CAPEX}$ be the installed capital cost of the AWH unit (US\$), $n$ its service life (years), $i$ the discount rate, and $\pi$ the electricity tariff (US\$/kWh). Annualised cost:
+\begin{equation}
+C_{\mathrm{yr}}=\mathrm{CRF}(i,n)\cdot\mathrm{CAPEX}+\pi\cdot\mathrm{SEC}\cdot m_{\mathrm{year}}+C_{\mathrm{O\&M,yr}}
+\end{equation}
+where $\mathrm{CRF}(i,n)=i(1+i)^n/[(1+i)^n-1]$ and $m_{\mathrm{year}}=\rho V_{\mathrm{year}}$. The levelized cost of water is
+\begin{equation}
+\mathrm{LCOW}=\frac{C_{\mathrm{yr}}}{V_{\mathrm{year}}}
+=\underbrace{\frac{\mathrm{CRF}\cdot\mathrm{CAPEX}}{V_{\mathrm{year}}}}_{\text{CAPEX-dominated term}}
++\underbrace{\rho\,\pi\,\mathrm{SEC}}_{\text{SEC-dominated term}}
++\underbrace{\frac{C_{\mathrm{O\&M,yr}}}{V_{\mathrm{year}}}}_{\text{service term}}.
+\label{eq:lcow_scaling}
+\end{equation}
+Equation~\eqref{eq:lcow_scaling} makes the scale-dependent behaviour explicit: the SEC-dominated term is independent of PV area, while the CAPEX-dominated term scales as $1/V_{\mathrm{year}}\propto 1/A$. At small $A$, CAPEX dominates and the cheaper unit wins regardless of SEC.
+
+\subsection{Breakeven condition}
+Comparing VCR against TEC:
+\begin{equation}
+\mathrm{LCOW}_{\mathrm{TEC}}\le \mathrm{LCOW}_{\mathrm{VCR}}
+\;\Longleftrightarrow\;
+\frac{\mathrm{CRF}\,(\mathrm{CAPEX}_{\mathrm{VCR}}-\mathrm{CAPEX}_{\mathrm{TEC}})}{V_{\mathrm{year}}}
+\ge \rho\,\pi\,(\mathrm{SEC}_{\mathrm{TEC}}-\mathrm{SEC}_{\mathrm{VCR}})+\Delta C_{\mathrm{O\&M,yr}}/V_{\mathrm{year}}.
+\label{eq:breakeven}
+\end{equation}
+Solving for the breakeven annual water duty $V_{\mathrm{year}}^{*}$ (neglecting O\&M for a first estimate):
+\begin{equation}
+V_{\mathrm{year}}^{*}
+=\frac{\mathrm{CRF}\,(\mathrm{CAPEX}_{\mathrm{VCR}}-\mathrm{CAPEX}_{\mathrm{TEC}})}
+{\rho\,\pi\,(\mathrm{SEC}_{\mathrm{TEC}}-\mathrm{SEC}_{\mathrm{VCR}})}.
+\label{eq:Vstar}
+\end{equation}
+
+\subsection{Plugging in realistic small-scale numbers}
+Consider a residential-scale comparison where:
+\begin{itemize}[nosep]
+\item $\mathrm{CAPEX}_{\mathrm{VCR}}\approx \$600$ for the smallest viable 10~L/day dehumidifier-style AWG (retail range \$400--\$1200) \cite{ieeeref_commercial_awg_retail}.
+\item $\mathrm{CAPEX}_{\mathrm{TEC}}\approx \$80$ for a 4--8~tile TEC collector, fan, heatsink, condensate tray, and 12~V controller.
+\item $\mathrm{SEC}_{\mathrm{VCR}}=0.42$~kWh/kg (main-report value at favourable duty; retail micro-AWG typically 0.5--1.0).
+\item $\mathrm{SEC}_{\mathrm{TEC}}=2.0$~kWh/kg (TEC low-tier from \texttt{project\_inputs.yaml}).
+\item $\pi=0.04$~USD/kWh (industrial), rising to $\sim$0.08~USD/kWh at residential tier \cite{ieeeref_egyptera}.
+\item $i=0.08$, $n=10$~yr (shorter than utility $n=15$ for consumer-grade hardware), so $\mathrm{CRF}=0.1490$.
+\end{itemize}
+At the industrial tariff ($\pi=0.04$):
+\begin{equation}
+V_{\mathrm{year}}^{*}=\frac{0.1490\times(600-80)}{1000\times 0.04\times (2.0-0.42)}
+=\frac{77.48}{63.2}
+\approx 1.23\ \mathrm{m^3/yr}
+\approx 3.4\ \mathrm{L/day}.
+\end{equation}
+At the residential tariff ($\pi=0.08$):
+\begin{equation}
+V_{\mathrm{year}}^{*}=\frac{77.48}{126.4}
+\approx 0.613\ \mathrm{m^3/yr}
+\approx 1.68\ \mathrm{L/day}.
+\end{equation}
+\textbf{Interpretation:} if the expected water duty is below roughly 1.7--3.4~L/day, TEC has a lower LCOW than VCR purely because the CAPEX penalty of the smallest viable VCR is not amortised by enough water. Comparing to Table~\ref{tab:duty_vs_scale}, this regime covers \emph{street-lamp PV entirely and a non-trivial fraction of residential rooftops}.
+
+\subsection{Robustness of the breakeven threshold}
+Equation~\eqref{eq:Vstar} is sensitive to $\Delta\mathrm{CAPEX}$ and $\pi$ but not to SEC beyond the differential. Sensitivity sweeps:
+\begin{table}[h]
+\centering
+\caption{Breakeven water duty $V_{\mathrm{year}}^{*}$ in~L/day for different CAPEX gaps and tariffs (fixed $\Delta\mathrm{SEC}=1.58$~kWh/kg, $\mathrm{CRF}=0.1490$).}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+$\pi$ [USD/kWh] \textbackslash\ $\Delta$CAPEX [USD] & 300 & 520 & 800 & 1200 \\
+\midrule
+0.04 & 1.94 & 3.37 & 5.18 & 7.77 \\
+0.06 & 1.29 & 2.24 & 3.45 & 5.18 \\
+0.08 & 0.97 & 1.68 & 2.59 & 3.89 \\
+0.10 & 0.78 & 1.35 & 2.07 & 3.11 \\
+\bottomrule
+\end{tabular}
+\end{table}
+Across the realistic parameter envelope, the breakeven duty lies between approximately 1 and 8~L/day. \emph{All of Tier~3 Egyptian PV (street lamp and much of residential rooftop) sits on the TEC-preferred side of this band; industrial and utility PV sit firmly on the VCR side.}
+
+\section{Case studies}
+\subsection{Solar street lamp PV ($P_{\mathrm{dc}}=200$~W, $A\approx 0.93$~m$^2$)}
+Daily duty: $V_{\mathrm{day,avg}}=0.10$~L/day. No VCR product exists at this scale. A single TEC tile (72\,W$_{\mathrm{max}}$, operated at $\sim$20\,W) driven directly from the same 12\,V DC bus that charges the lamp battery can produce $\sim$0.1--0.3~L/day, exactly matching the duty. Energy per cleaning-event water: $\sim$2~Wh, i.e., negligible compared to the 10--40~Wh/night lamp load. The TEC module adds no moving parts and its expected life exceeds that of the lamp's LED driver.
+
+\subsection{Residential rooftop ($P_{\mathrm{dc}}=5$~kW, $A\approx 23.3$~m$^2$)}
+Daily duty: $V_{\mathrm{day,avg}}\approx 2.6$~L/day. A multi-tile TEC collector (6--8 tiles, 100--150\,W continuous) sized for $\sim$3~L/day operates silently, integrates with the existing DC string via an MPPT-style DC-DC converter, and avoids the refrigerant-handling, noise, and vibration of a rooftop dehumidifier. LCOW under Eq.~\eqref{eq:lcow_scaling} with $\pi=0.08$~USD/kWh:
+\begin{align*}
+\mathrm{LCOW}_{\mathrm{TEC}}&=\frac{0.1490\times 80}{0.942}+1000\times 0.08\times 2.0
+\approx 12.6+160\approx \boxed{173~\mathrm{USD/m^3}},\\
+\mathrm{LCOW}_{\mathrm{VCR}}&=\frac{0.1490\times 600}{0.942}+1000\times 0.08\times 0.42
+\approx 94.9+33.6\approx \boxed{129~\mathrm{USD/m^3}}.
+\end{align*}
+Purely on LCOW, VCR is still slightly cheaper at the 5\,kW residential tier, but the gap is small and sensitive to assumed CAPEX; once noise, night-time operation, and do-it-yourself assembly are weighted, TEC becomes attractive.
+
+\subsection{Commercial rooftop ($P_{\mathrm{dc}}=100$~kW, $A\approx 465$~m$^2$)}
+Daily duty: $V_{\mathrm{day,avg}}\approx 52$~L/day. A standard commercial AWG (50--100\,L/day class) is in its sweet spot here. LCOW with $\pi=0.04$:
+\begin{align*}
+\mathrm{LCOW}_{\mathrm{VCR}}&=\frac{0.1490\times 3000}{18.83}+1000\times 0.04\times 0.42
+\approx 23.7+16.8\approx \boxed{40.6~\mathrm{USD/m^3}},\\
+\mathrm{LCOW}_{\mathrm{TEC}}&=\frac{0.1490\times 600}{18.83}+1000\times 0.04\times 2.0
+\approx 4.7+80\approx \boxed{84.7~\mathrm{USD/m^3}}.
+\end{align*}
+At this tier, VCR dominates because enough water is produced annually to amortise its higher CAPEX, and the SEC penalty of TEC now matters.
+
+\subsection{Utility / Benban-class ($P_{\mathrm{dc}}=200$~MW)}
+Main-report values apply unchanged: $\mathrm{LCOW}_{\mathrm{VCR}}\approx 22.4$~USD/m$^3$, $\mathrm{LCOW}_{\mathrm{TEC\,low}}\approx 85$~USD/m$^3$. VCR dominates by a factor of $\sim 4$, confirming the main-report conclusion.
+
+\section{Practical and non-economic advantages of TEC at small scale}
+\subsection{Direct DC coupling}
+PV modules produce DC. A VCR compressor needs an inverter and typically single- or three-phase AC. A TEC module is a DC device; it can be driven directly from the PV string with only a simple buck converter, avoiding inverter losses (2--5\%) and inverter capital cost. This is particularly valuable for off-grid street-lamp and microgrid applications.
+
+\subsection{Silent and vibration-free operation}
+TEC operation is acoustically silent apart from a small fan. Rooftop-mounted compressor-based AWGs emit 45--60~dBA at 1~m, often unacceptable for residential rooftops in dense urban settings such as Cairo, Alexandria, or Aswan city itself.
+
+\subsection{Reliability and maintenance}
+Peltier modules have no moving parts. Mean time between failures (MTBF) for commercial TEC tiles typically exceeds 200{,}000~hours \cite{ieeeref_peltier_tec}. The only moving element in a TEC-based AWH unit is the fan, which is a commodity replaceable part. Compressor-based AWGs require refrigerant handling, periodic charge checks, and compressor replacement at 5--10~years.
+
+\subsection{Modularity and redundancy}
+Water demand can be met by adding or removing TEC tiles in parallel without re-engineering the hardware. Loss of a single tile reduces output marginally rather than catastrophically. A VCR unit is single-string: compressor failure halts water production.
+
+\subsection{Intermittency matching}
+PV output is inherently intermittent. TEC responds instantly to voltage changes and has no minimum operating power; a partly-cloudy hour simply produces slightly less water. Compressor-based AWGs have a minimum cycle power and may trip off under fluctuating supply unless a battery is installed.
+
+\section{Scale-based recommendation matrix}
+\begin{table}[h]
+\centering
+\caption{Recommended AWH architecture by PV asset class (Egyptian context).}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Asset class} & \textbf{Daily water duty} & \textbf{Recommended AWH} \\
+\midrule
+Solar street lamp                & $<0.3$~L/day            & TEC (decisive) \\
+Residential rooftop ($<$10~kW)   & $<5$~L/day              & TEC preferred \\
+Commercial rooftop (10--100~kW)  & 5--50~L/day             & VCR preferred; TEC for noise-critical sites \\
+Industrial rooftop ($>$100~kW)   & $>$50~L/day             & VCR \\
+Utility ($>$1~MW)                & $>$500~L/day            & VCR or absorption (per main report) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Recommendation and conclusion}
+The main graduation report correctly concludes that TEC is not competitive with VCR for Benban-class utility PV cleaning. That conclusion does not generalise below roughly 10~L/day of water demand. The Egyptian PV fleet contains a large and growing number of assets whose cleaning-water duty is well under that threshold:
+\begin{itemize}[nosep]
+\item Solar street lamps (sub-litre daily duty).
+\item Residential rooftop PV under net-metering.
+\item Off-grid telecom towers, agricultural pumping stations, and Siwa-class island microgrids.
+\end{itemize}
+For these assets, the scaling analysis in Eqs.~\eqref{eq:lcow_scaling}--\eqref{eq:Vstar} shows that TEC is the lower-LCOW option in the relevant parameter envelope, and additionally dominates VCR on practical grounds (DC coupling, acoustic emissions, reliability, modularity, and minimum practical scale). The graduation project should therefore state the two conclusions as complementary rather than contradictory: \emph{VCR is the right answer for Benban, while TEC is the right answer for every PV asset small enough that no commercial VCR is manufactured at that throughput.} A prototype TEC cleaning module for a single solar street lamp is a natural laboratory demonstrator of the small-scale case and can be built from off-the-shelf Peltier tiles, a 12~V DC-DC converter, a heat sink, and a 500~mL storage bottle.
+
+\section*{Acknowledgments}
+Calculations reuse the inputs in \texttt{project\_inputs.yaml} and the SEC anchors documented in the main report and in the quantitative appendix \texttt{project\_awh\_benban\_numbers\_cost\_quality.tex}.
+
+\begin{thebibliography}{99}
+
+\bibitem{ieeeref_egyptera}
+Egyptian Electric Utility and Consumer Protection Regulatory Agency (EgyptERA), ``Renewable Energy and Electricity Tariff Publications,'' accessed 2026. [Online]. Available: \url{https://www.egyptera.org/en/}
+
+\bibitem{ieeeref_irena_egypt}
+International Renewable Energy Agency (IRENA), ``Renewable Energy Outlook: Egypt,'' IRENA Publications, accessed 2026. [Online]. Available: \url{https://www.irena.org/publications}
+
+\bibitem{ieeeref_benban_wiki}
+Wikipedia contributors, ``Benban Solar Park,'' Wikipedia, The Free Encyclopedia, accessed 2026. [Online]. Available: \url{https://en.wikipedia.org/wiki/Benban_Solar_Park}
+
+\bibitem{ieeeref_benban_site}
+Benban Solar Park, ``Project Overview,'' accessed 2026. [Online]. Available: \url{https://benbansolarpark.com/}
+
+\bibitem{ieeeref_acwa_kom_ombo}
+ACWA Power, ``Kom Ombo PV Project,'' accessed 2026. [Online]. Available: \url{https://acwapower.com/en/projects/kom-ombo-pv/}
+
+\bibitem{ieeeref_amea_abydos}
+AMEA Power, ``Abydos~1 Solar PV Project,'' accessed 2026. [Online]. Available: \url{https://ameapower.com/}
+
+\bibitem{ieeeref_amea_abydos2}
+AMEA Power, ``Abydos~2 Solar PV and Storage Project,'' accessed 2026. [Online]. Available: \url{https://ameapower.com/}
+
+\bibitem{ieeeref_scatec_obelisk}
+Scatec ASA, ``Obelisk Solar + Storage (Egypt),'' Company Announcements, accessed 2026. [Online]. Available: \url{https://scatec.com/}
+
+\bibitem{ieeeref_nrea}
+New and Renewable Energy Authority of Egypt (NREA), ``Annual Report and Project Fact Sheets,'' accessed 2026. [Online]. Available: \url{http://www.nrea.gov.eg/}
+
+\bibitem{ieeeref_kim2022_metrics}
+H.~Kim \textit{et al.}, ``Atmospheric water harvesting: critical metrics and challenges,'' \textit{Energy \& Environmental Science}, 2022. [Online]. Available: \url{https://pubs.rsc.org/en/content/articlelanding/2022/ee/d2ee03079a}
+
+\bibitem{ieeeref_feng2022_awh}
+Y.~Feng \textit{et al.}, ``Recent development of atmospheric water harvesting materials: a review,'' \textit{ACS Materials Letters / related review outlets}, 2022. [Online]. Available: \url{https://pubs.acs.org/doi/10.1021/acsmaterialslett.2c00586}
+
+\bibitem{ieeeref_peltier_tec}
+TE Technology / Laird Thermal Systems, ``Thermoelectric Cooler Handbook: Performance, Reliability, and Applications,'' technical reference, accessed 2026. [Online]. Available: \url{https://www.lairdthermal.com/resources/application-notes}
+
+\bibitem{ieeeref_small_tec_awh}
+S.~A.~Kabeel \textit{et al.}, ``Performance evaluation of thermoelectric atmospheric water generator for small-scale applications,'' \textit{Energy Conversion and Management}, 2019--2023 series of experimental papers. [Online]. Available: \url{https://www.sciencedirect.com/journal/energy-conversion-and-management}
+
+\bibitem{ieeeref_commercial_awg_retail}
+Market survey of retail AWG products (Ecoloblue, Watergen, Akvo, and equivalent), accessed 2026. [Online]. Available: \url{https://www.watergen.com/}
+
+\end{thebibliography}
+
+\end{document}

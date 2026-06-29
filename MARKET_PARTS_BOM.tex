@@ -1,0 +1,702 @@
+% !TEX TS-program = pdflatex
+% MARKET_PARTS_BOM.tex
+% Market parts selection and full bill of materials for both builds:
+%   A) 4-tile bench prototype (bought now, Cairo)
+%   B) full 69-tile robot (priced for the thesis, not bought)
+% Companion documents: prototype_design_report.tex (design basis),
+% FIVE_DAY_WRAPUP_PLAN.tex (schedule), output/tec_robot_results.json (numbers).
+% Live prices fetched 12 June 2026; indicative prices flagged [I].
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{siunitx}
+\sisetup{group-separator={,},group-minimum-digits=4,per-mode=symbol,
+         range-units=single,detect-all}
+\DeclareSIUnit{\Wp}{Wp}
+\DeclareSIUnit{\bar}{bar}
+\DeclareSIUnit{\rpm}{rpm}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\emergencystretch=1.5em
+
+% Price-provenance flags used in every BOM line
+\newcommand{\liveflag}{\textsuperscript{L}}
+\newcommand{\indflag}{\textsuperscript{I}}
+
+\title{\textbf{Market Parts Selection and Bill of Materials}\\[0.4em]
+\large Autonomous Thermoelectric Atmospheric-Water PV-Cleaning Robot\\[0.2em]
+\normalsize 4-Tile Bench Prototype (to buy) and Full 69-Tile Robot (priced)\\
+Cairo sourcing, June 2026}
+\author{Rahma El-Hamouly, Graduation Project (REE598)}
+\date{12 June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This document fixes one specific market part for every line of the two
+builds defined in the prototype design package: the 4-tile bench condenser
+that gets built this week, and the full 69-tile robot that is priced for the
+thesis but not purchased. Each line names a manufacturer and part number,
+states the governing requirement next to the catalogue specification, gives
+the unit price in Egyptian pounds with the price provenance flagged, names
+the vendor, and records lead time. Prices marked \liveflag{} were read from
+vendor web stores on 12 June 2026; prices marked \indflag{} are indicative
+market figures that must be verified at the counter before purchase. The
+bench build totals \num{5290}~EGP against the \num{5760}~EGP allowance in
+the design report. The full robot prices at \num{221800}~EGP
+($\approx$\,\num{4621}~USD), and the energy store alone is \SI{61}{\percent}
+of that figure, which confirms the battery-cost warning raised in the REE598
+proposal review. All conversions use \num{48}~EGP/USD.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% =============================================================================
+\section{Scope and selection method}
+% =============================================================================
+
+\subsection{The two builds}
+The design report \cite{nasa_power,kazem2023soiling} sizes a full-scale
+robot at 69 TEC1-12706 tiles, \SI{1147}{\Wp} of dedicated PV, a
+\SI{698}{\ampere\hour} battery at \SI{12}{\volt}, two geared drive motors of
+at least \SI{1.03}{\newton\metre} each, and a \SI{12}{\volt} diaphragm pump
+feeding a spray bar, with a daily load of \SI{5.32}{\kilo\watt\hour}. It
+also concludes that a 4-tile bench prototype validates the per-tile physics
+at a small fraction of the cost, because the condensation model is linear in
+tile count. This document therefore sources two distinct part sets:
+
+\begin{enumerate}[nosep]
+  \item \textbf{Build A, bench prototype (buy now).} Four tiles, one cold
+        plate, hot-side coolers, instrumentation, and a mains supply. No
+        mobility hardware: the bench answers the water-yield question only.
+  \item \textbf{Build B, full robot (price only).} Every subsystem of the
+        thesis design, priced from the Egyptian market where stock exists
+        and from import channels where it does not.
+\end{enumerate}
+
+\subsection{Price provenance and exchange rate}
+Vendor stores were queried by script on 12 June 2026. Future Electronics
+Egypt (\url{https://store.fut-electronics.com}) returns machine-readable
+prices and stock status, and every price taken from it is marked
+\liveflag{} with the quoted figure unmodified. RAM Electronics
+(\url{https://ram-e-shop.com}) and free-electronic.com refuse scripted
+search queries, so their items carry indicative prices marked \indflag{}
+from recent market knowledge; these must be confirmed in store before money
+changes hands. No indicative figure is presented as a quotation. The
+conversion rate is taken as \num{48}~EGP/USD, the same rate used in the
+design report; USD figures are rounded to the nearest dollar.
+
+\subsection{Selection criteria}
+Each part was selected in three steps. First, the governing requirement was
+taken from the design report or the verified results file
+(\texttt{output/tec\_robot\_results.json}). Second, candidates were drawn
+from Egyptian stock (Future Electronics, RAM Electronics, Amazon.eg, local
+solar and marine suppliers) before import channels, because same-day
+availability dominates a five-day build schedule. Third, among candidates
+that meet the requirement, the choice falls to the one with the best
+spec-to-requirement margin per pound, with a documented fallback for every
+line that has a single source. Imports are accepted only where no local part
+meets the requirement, and each import line carries a customs and lead-time
+note.
+
+% =============================================================================
+\section{Build A: bench prototype bill of materials}
+% =============================================================================
+
+Table~\ref{tab:benchbom} lists the full bench purchase. Vendor codes:
+FE = Future Electronics Egypt (Cairo), RAM = RAM Electronics (Cairo),
+LOC = local market (aluminium workshops, computer mall, glassware or
+lab-supply shops), AMZ = Amazon.eg. Flags: \liveflag{} live web price,
+12 June 2026; \indflag{} indicative, verify in store.
+
+\begin{footnotesize}
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{@{}p{2.5cm}p{4.1cm}p{3.1cm}ccrr@{}}
+\caption{Bench prototype BOM (Build A). All prices in EGP.}
+\label{tab:benchbom}\\
+\toprule
+\textbf{Item} & \textbf{Selected part} & \textbf{Requirement $\to$ spec} &
+\textbf{Qty} & \textbf{Vendor} & \textbf{Unit} & \textbf{Subtotal}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Item} & \textbf{Selected part} & \textbf{Requirement $\to$ spec} &
+\textbf{Qty} & \textbf{Vendor} & \textbf{Unit} & \textbf{Subtotal}\\
+\midrule
+\endhead
+\midrule
+\multicolumn{7}{r}{\emph{continued on next page}}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Peltier tile & TEC1-12706, \qtyproduct{40 x 40}{\milli\metre}
+  \cite{tec12706ds,futelec2026tec} &
+  $\Delta T_{max}\ge\SI{40}{\kelvin}$ $\to$ \SI{66}{\kelvin} (1.65$\times$) &
+  4 & FE & 120\liveflag & 480\\
+Cold plate & Al 5052, \qtyproduct{100 x 100 x 3}{\milli\metre}, laser cut &
+  $\ge$ tile footprint $\to$ 1.56$\times$ area &
+  1 & LOC & 150\indflag & 150\\
+Hot-side cooler & CPU tower cooler, \SI{95}{\watt} TDP class
+  (Intel LGA115x clone) &
+  reject \SI{90}{\watt} per tile $\to$ \SI{95}{\watt} rated &
+  4 & LOC & 300\indflag & 1200\\
+Cold-side fan & \SI{60}{\milli\metre} \SI{12}{\volt} axial &
+  face velocity \SI{2}{\metre\per\second} $\to$ met at \SI{50}{\percent} duty &
+  2 & FE & 75\liveflag & 150\\
+Controller & ESP32 DevKit, 30 pin \cite{esp32ds} &
+  PWM + 1-Wire + I2C $\to$ all present &
+  1 & FE & 260\liveflag & 260\\
+Air T/RH sensor & DHT22 (AM2302) module \cite{dht22ds} &
+  $\pm$\SI{0.5}{\celsius}, $\pm$\SI{2}{\percent} RH $\to$ met &
+  1 & FE & 285\liveflag & 285\\
+Plate sensor & DS18B20 waterproof probe \cite{ds18b20ds} &
+  $\pm$\SI{0.5}{\celsius}, wet plate $\to$ met &
+  2 & RAM & 90\indflag & 180\\
+Power monitor & INA219 breakout \cite{ina219ds} &
+  $\pm$\SI{3.2}{\ampere} bus range via external shunt $\to$ met &
+  1 & RAM & 120\indflag & 120\\
+Bench supply & Mean Well LRS-350-12, \SI{12}{\volt} \SI{29}{\ampere}
+  \cite{meanwell2023lrs} &
+  4 tiles full drive \SI{24}{\ampere} $\to$ \SI{29}{\ampere} (1.2$\times$) &
+  1 & RAM/AMZ & 1250\indflag & 1250\\
+TEC switch & IRF540N MOSFET, \SI{100}{\volt} \SI{28}{\ampere}
+  \cite{irf540ds} &
+  \SI{6}{\ampere} per tile $\to$ \SI{28}{\ampere} (4.7$\times$) &
+  4 & FE & 40\liveflag & 160\\
+Gate drive, board & resistors, optocoupler, perfboard &
+  \SI{10}{\kilo\hertz} PWM $\to$ met &
+  1 & FE/RAM & 100\indflag & 100\\
+Pump/fan relay & 2-channel \SI{5}{\volt} relay module &
+  \SI{10}{\ampere} contacts $\to$ met &
+  1 & FE & 65\liveflag & 65\\
+Logic supply & LM2596 buck module, \SI{12}{\volt} to \SI{5}{\volt} &
+  \SI{2}{\ampere} logic rail $\to$ \SI{3}{\ampere} (1.5$\times$) &
+  2 & RAM & 80\liveflag & 160\\
+Wiring & \SI{2.5}{\milli\metre\squared} silicone wire, lugs, XT60 &
+  \SI{24}{\ampere} main run $\to$ met &
+  1 & RAM & 250\indflag & 250\\
+Thermal paste & HY510 \SI{25}{\gram} tube &
+  8 interfaces $\to$ 2 tubes &
+  2 & LOC & 60\indflag & 120\\
+Condensate tray & Al gutter + food-grade tray &
+  collect from \SI{100}{\milli\metre} plate $\to$ met &
+  1 & LOC & 120\indflag & 120\\
+Measurement & graduated cylinder, \SI{100}{\milli\litre},
+  \SI{1}{\milli\litre} divisions &
+  resolve \SI{40}{\gram} per night $\to$ \SI{1}{\percent} &
+  1 & LOC & 90\indflag & 90\\
+Hardware & standoffs, M3/M4 fasteners, clamp bar &
+  \SI{0.2}{\mega\pascal} clamp on tiles $\to$ met &
+  1 & LOC & 150\indflag & 150\\
+\midrule
+\multicolumn{6}{l}{\textbf{Bench total}} & \textbf{\num{5290}}\\
+\multicolumn{6}{l}{Equivalent at \num{48} EGP/USD} & $\approx$ 110 USD\\
+\end{longtable}
+\end{footnotesize}
+
+\subsection{Comparison with the design-report allowance}
+The design report carries a prototype allowance of \num{5760}~EGP. The
+bench list above lands at \num{5290}~EGP, about \SI{8}{\percent} under, but
+the two figures cover different scopes. The report's table included drive
+motors, a pump, a brush, a \SI{12}{\volt} battery and a small PV module
+(together about \num{2490}~EGP) because it priced a mobile demonstrator.
+Build A drops all mobility hardware and instead adds a mains bench supply
+and proper instrumentation (about \num{2020}~EGP), since the five-day plan
+tests condensation physics indoors, not driving. The water-yield experiment
+loses nothing by this trade, and the freed budget absorbs price drift on
+the indicative lines. Note also that the TEC tile itself now quotes at
+\num{120}~EGP live against the \num{130}~EGP design basis, so the
+headline assumption of the whole costing survived contact with the market.
+
+% =============================================================================
+\section{Build B: full-robot bill of materials}
+% =============================================================================
+
+Table~\ref{tab:robotbom} prices the complete 69-tile thesis design, grouped
+by subsystem. Vendor codes as before, plus SOL = Cairo solar distributors
+(Obour and 10th-of-Ramadan wholesale market), MAR = marine chandlers
+(Alexandria and Cairo), IMP = courier import (Pololu direct or AliExpress).
+Import unit prices include the landed-cost uplift estimated in
+Section~\ref{sec:procurement}.
+
+\begin{footnotesize}
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{@{}p{2.5cm}p{4.2cm}p{3.1cm}ccrr@{}}
+\caption{Full-robot BOM (Build B), subsystem-grouped. All prices in EGP.}
+\label{tab:robotbom}\\
+\toprule
+\textbf{Item} & \textbf{Selected part} & \textbf{Requirement $\to$ spec} &
+\textbf{Qty} & \textbf{Vendor} & \textbf{Unit} & \textbf{Subtotal}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Item} & \textbf{Selected part} & \textbf{Requirement $\to$ spec} &
+\textbf{Qty} & \textbf{Vendor} & \textbf{Unit} & \textbf{Subtotal}\\
+\midrule
+\endhead
+\midrule
+\multicolumn{7}{r}{\emph{continued on next page}}\\
+\endfoot
+\bottomrule
+\endlastfoot
+\multicolumn{7}{@{}l}{\emph{Atmospheric water generator (AWG)}}\\
+\midrule
+Peltier tile & TEC1-12706 \cite{tec12706ds,futelec2026tec} &
+  69 tiles per sizing $\to$ exact &
+  69 & FE+RAM & 120\liveflag & 8280\\
+Hot-side heat sink & extruded Al fin profile,
+  \qtyproduct{120 x 40}{\milli\metre} section, \SI{9}{\metre} total &
+  $R_{th}\le\SI{0.5}{\kelvin\per\watt}$ per tile $\to$ met at
+  \SI{13}{\centi\metre} per tile &
+  9 & LOC & 700\indflag & 6300\\
+Fans & \SI{120}{\milli\metre} \SI{12}{\volt} axial,
+  \SI{2.5}{\watt} class &
+  36 fans per energy budget $\to$ exact &
+  36 & RAM/LOC & 180\indflag & 6480\\
+Condenser plates & Al 5052 sheet, \SI{3}{\milli\metre},
+  $\approx$\SI{2}{\metre\squared} cut &
+  69 cold faces + gutters $\to$ met &
+  1 & LOC & 1800\indflag & 1800\\
+Bank switching & IRF540N pairs, heat sinks, boards
+  (9 banks of 8 tiles) \cite{irf540ds} &
+  \SI{48}{\ampere} per bank peak $\to$ paralleled (1.2$\times$) &
+  9 & FE & 133\indflag & 1200\\
+Thermal paste & HY510, \SI{300}{\gram} bulk &
+  138 interfaces $\to$ met &
+  1 & LOC & 350\indflag & 350\\
+Condensate plumbing & gutters, food-grade tubing, strainer &
+  route to tank $\to$ met &
+  1 & LOC & 400\indflag & 400\\
+\midrule
+\multicolumn{6}{l}{\emph{AWG subtotal}} & \num{24810}\\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Energy system}}\\
+\midrule
+PV module & Jinko Tiger Neo 72HL4 \SI{580}{\Wp} \cite{jinko2024tigerneo} &
+  \SI{1147}{\Wp} $\to$ \SI{1160}{\Wp} (+\SI{1.1}{\percent}) &
+  2 & SOL & 7500\indflag & 15000\\
+MPPT controller & EPever Tracer 6415AN, \SI{60}{\ampere},
+  \SI{150}{\volt} PV \cite{epever2023tracer} &
+  \SI{86}{\ampere} charge $\to$ \SI{120}{\ampere} total (1.4$\times$) &
+  2 & SOL & 9500\indflag & 19000\\
+Station battery & \SI{12}{\volt} \SI{200}{\ampere\hour} LiFePO$_4$
+  (Felicity/TTN class) &
+  \SI{698}{\ampere\hour} $\to$ \SI{800}{\ampere\hour} (+\SI{15}{\percent}) &
+  4 & SOL & 32000\indflag & 128000\\
+Onboard battery & Dakota Lithium \SI{12}{\volt} \SI{20}{\ampere\hour}
+  LiFePO$_4$ \cite{dakota2023battery} &
+  \SI{13}{\ampere} peak draw $\to$ \SI{20}{\ampere} cont.\ (1.5$\times$) &
+  1 & IMP & 7150\indflag & 7150\\
+DC distribution & \SI{25}{\milli\metre\squared} cable, MEGA fuses,
+  breakers, Anderson SB50 &
+  \SI{120}{\ampere} bus $\to$ met &
+  1 & SOL & 2500\indflag & 2500\\
+DC-DC converters & LM2596/XL4015 buck, \SI{12}{\volt} to \SI{5}{\volt}
+  \SI{5}{\ampere} &
+  Pi + logic rails $\to$ 3 independent rails &
+  3 & RAM & 120\indflag & 360\\
+\midrule
+\multicolumn{6}{l}{\emph{Energy subtotal}} & \num{172010}\\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Mobility and cleaning}}\\
+\midrule
+Drive motor & Pololu \#4745, \SI{12}{\volt} 37D gearmotor,
+  64 CPR encoder \cite{pololu4745} &
+  \SI{1.03}{\newton\metre} $\to$ \SI{3.73}{\newton\metre} stall
+  (3.6$\times$) &
+  2 & IMP & 4350\indflag & 8700\\
+Brush motor & Pololu \#4741, \SI{12}{\volt} 19:1 37D
+  \cite{pololu4741} &
+  \SI{0.78}{\newton\metre} $\to$ \SI{1.37}{\newton\metre} stall
+  (1.75$\times$) &
+  1 & IMP & 2750\indflag & 2750\\
+Motor driver & BTS7960 H-bridge module, \SI{43}{\ampere}
+  \cite{bts7960ds} &
+  \SI{9.2}{\ampere} stall $\to$ \SI{43}{\ampere} (4.7$\times$) &
+  2 & RAM & 300\indflag & 600\\
+Pump & Seaflo SFDP1-010-035-21 diaphragm,
+  \SI{3.8}{\litre\per\minute} \cite{seaflo2023pump} &
+  \SI{0.94}{\litre\per\minute} $\to$ \SI{3.8}{\litre\per\minute}
+  (4.0$\times$) &
+  1 & MAR & 1800\indflag & 1800\\
+Tank & HDPE jerrycan, \SI{4}{\litre}, food grade &
+  \SI{3.6}{\litre} per event $\to$ \SI{4}{\litre} (+\SI{11}{\percent}) &
+  1 & LOC & 150\indflag & 150\\
+Spray hardware & spray bar, flat-fan nozzles, check valve, tubing &
+  \SI{1.5}{\bar} nozzle rating $\to$ met &
+  1 & LOC & 300\indflag & 300\\
+Roller brush & microfibre paint-roller sleeve + core,
+  \SI{250}{\milli\metre} &
+  \SI{0.25}{\metre} brush width $\to$ exact &
+  1 & LOC & 250\indflag & 250\\
+Wheels & high-grip rubber, \SI{60}{\milli\metre} dia. &
+  $r_w=\SI{0.03}{\metre}$ $\to$ exact &
+  4 & RAM & 100\indflag & 400\\
+Chassis sheet & Al 5052, \SI{3}{\milli\metre},
+  \qtyproduct{1200 x 600}{\milli\metre} &
+  \SI{6}{\kilo\gram} platform $\to$ met at \SI{4}{\kilo\gram} sheet &
+  1 & LOC & 1600\indflag & 1600\\
+Fasteners & M3 to M6 stainless, brackets, standoffs &
+  --- &
+  1 & LOC & 300\indflag & 300\\
+Limit switches & lever microswitch &
+  edge detection, 4 corners $\to$ exact &
+  4 & FE & 40\liveflag & 160\\
+\midrule
+\multicolumn{6}{l}{\emph{Mobility and cleaning subtotal}} & \num{17010}\\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Control and sensing}}\\
+\midrule
+Companion computer & Raspberry Pi 4 Model B, \SI{4}{\giga\byte}
+  \cite{rpi2021brief} &
+  ROS~2 host $\to$ met &
+  1 & RAM/AMZ & 5200\indflag & 5200\\
+Real-time MCU & ESP32 DevKit, 30 pin \cite{esp32ds} &
+  PWM, encoders, 1-Wire $\to$ met &
+  1 & FE & 260\liveflag & 260\\
+IMU & MPU-6050 breakout \cite{mpu6050ds} &
+  tilt + odometry fusion $\to$ met &
+  1 & FE & 180\liveflag & 180\\
+Power monitor & INA219 breakout \cite{ina219ds} &
+  battery + PV telemetry $\to$ met &
+  2 & RAM & 120\indflag & 240\\
+Air T/RH sensor & DHT22 module \cite{dht22ds} &
+  dew-point control $\to$ met, 1 spare &
+  2 & FE & 285\liveflag & 570\\
+Plate sensors & DS18B20 waterproof \cite{ds18b20ds} &
+  frost guard, 1 per bank $\to$ 8 of 9 banks + spares &
+  8 & RAM & 90\indflag & 720\\
+Misc.\ electronics & microSD, enclosure, connectors, level shifters &
+  --- &
+  1 & RAM & 800\indflag & 800\\
+\midrule
+\multicolumn{6}{l}{\emph{Control subtotal}} & \num{7970}\\
+\midrule
+\multicolumn{6}{l}{\textbf{Full-robot total}} & \textbf{\num{221800}}\\
+\multicolumn{6}{l}{Equivalent at \num{48} EGP/USD} & $\approx$ \num{4621} USD\\
+\end{longtable}
+\end{footnotesize}
+
+\subsection{Cost structure}
+Table~\ref{tab:share} breaks the total down. The energy system is
+\SI{77.6}{\percent} of the build, and batteries alone are
+\SI{60.9}{\percent}. This is the quantitative confirmation of the REE598
+review comment: the earlier proposal carried the battery at an optimistic
+figure, and repricing it at real market rates (Section~\ref{sec:battery})
+multiplies the energy-store line into the dominant cost of the whole robot.
+Any future cost reduction effort should start there, either by shrinking the
+night load (fewer tiles, smarter duty cycle) or by accepting a lower
+autonomy margin.
+
+\begin{table}[h]
+\centering
+\caption{Full-robot cost breakdown by subsystem.}
+\label{tab:share}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Subsystem} & \textbf{EGP} & \textbf{USD} & \textbf{Share}\\
+\midrule
+Energy system          & \num{172010} & \num{3584} & \SI{77.6}{\percent}\\
+\quad of which batteries & \num{135150} & \num{2816} & \SI{60.9}{\percent}\\
+AWG condenser stack    & \num{24810}  & \num{517}  & \SI{11.2}{\percent}\\
+Mobility and cleaning  & \num{17010}  & \num{354}  & \SI{7.7}{\percent}\\
+Control and sensing    & \num{7970}   & \num{166}  & \SI{3.6}{\percent}\\
+\midrule
+\textbf{Total}         & \textbf{\num{221800}} & \textbf{\num{4621}} & \SI{100}{\percent}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+\section{Selection rationale by subsystem}
+% =============================================================================
+
+\subsection{Thermoelectric tiles}
+The TEC1-12706 was fixed at design time for availability and
+$\Delta T_{max}$ \cite{tec12706ds}, with a costing basis of \num{130}~EGP
+per tile. The live check on 12 June 2026 found Future Electronics selling
+the part, in stock, at \num{120}~EGP \cite{futelec2026tec}, with a second
+listing at \num{250}~EGP for a premium batch. The design basis is therefore
+validated with \SI{7.7}{\percent} of headroom. The only open question at
+quantity 69 is stock depth, which the web store does not expose; the
+procurement plan splits the order across Future Electronics and RAM
+Electronics and allows one to two weeks for a restock, since both vendors
+import this part continuously.
+
+\subsection{Thermal stack}
+Each driven tile rejects up to \SI{90}{\watt} on the hot side (cooling duty
+plus electrical input). For the bench, a \SI{95}{\watt}-TDP CPU tower
+cooler per tile is the cheapest hardware that meets this with a fan
+already fitted, and Cairo's computer-mall used market sells them at about
+\num{300}~EGP. For the 69-tile robot, individual CPU coolers would cost
+over \num{20000}~EGP and weigh too much; the design instead uses nine
+banks of shared extruded fin profile (\SI{120x40}{\milli\metre} section,
+about \SI{13}{\centi\metre} of length per tile), cut from \SI{9}{\metre}
+of stock profile from a Cairo aluminium supplier, with the 36 fans of the
+energy budget \cite{nasa_power} providing forced draft.
+
+\subsection{Drive and brush motors}
+\label{sec:motors}
+The drive requirement comes from the traction analysis
+\cite{siegwart2011mobilerobots}: resistive force \SI{32.0}{\newton} on a
+\ang{24} slope, wheel radius \SI{0.03}{\metre}, drivetrain efficiency
+\num{0.7}, giving \SI{0.686}{\newton\metre} per motor at the wheel and
+\SI{1.03}{\newton\metre} after the 1.5 safety factor. The selected Pololu
+\#4745 (37D metal gearmotor, \SI{12}{\volt}, 64~CPR encoder) stalls at
+\SI{38}{\kilo\gram\centi\metre} = \SI{3.73}{\newton\metre}
+\cite{pololu4745}, which is 3.6 times the requirement; the continuous
+operating point sits at \SI{18}{\percent} of stall, where brushed
+gearmotors live comfortably, drawing roughly \SI{2}{\ampere} of the
+\SI{9.2}{\ampere} stall current. The required wheel speed of
+\SI{0.05}{\metre\per\second} corresponds to \SI{15.9}{\rpm}, well inside
+the motor's \SI{63}{\rpm} no-load point, so the encoder PI loop commands
+about \SI{40}{\percent} PWM in cruise and keeps authority in reserve for
+slope transients. The brush motor (Pololu \#4741, 19:1, \SI{208}{\rpm}
+no load, \SI{1.37}{\newton\metre} stall \cite{pololu4741}) carries a
+1.75$\times$ margin over the \SI{8}{\kilo\gram\centi\metre} roller-brush
+estimate. Both are import lines with the customs treatment of
+Section~\ref{sec:procurement}; the local fallback appears in
+Table~\ref{tab:risk}.
+
+\subsection{Pump and spray}
+A cleaning event delivers \SI{3.6}{\litre} over the \SI{230}{\second}
+coverage path, a mean demand of \SI{0.94}{\litre\per\minute}, and
+flat-fan nozzles want roughly \SI{1.5}{\bar} at the bar. The Seaflo
+21-series diaphragm pump (SFDP1-010-035-21) is rated
+\SI{3.8}{\litre\per\minute} open flow with a \SI{2.4}{\bar} (35 psi)
+pressure switch and draws \SI{4}{\ampere} at load \cite{seaflo2023pump}.
+That is a 4.0$\times$ flow margin and a 1.6$\times$ pressure margin, and
+the internal pressure switch gives dead-heading protection for free when
+the nozzles clog with dust. Seaflo is stocked by Egyptian marine and
+agricultural-spray suppliers at \num{1500} to \num{2000}~EGP, so no import
+is needed; the \num{320}~EGP brushless pump live-listed at Future
+Electronics fails the pressure requirement (\SI{0.3}{\bar} head) and is
+rejected despite matching the flow number.
+
+\subsection{Battery}
+\label{sec:battery}
+The verified energy budget is \SI{5.32}{\kilo\watt\hour\per\day}, of which
+\SI{5.30}{\kilo\watt\hour} must come from store during the night harvest.
+With a 1.2 design margin, \SI{80}{\percent} depth of discharge and
+\SI{95}{\percent} charge efficiency, the design report sizes the bank at
+\SI{698}{\ampere\hour} at \SI{12}{\volt}, nominally
+\SI{8.4}{\kilo\watt\hour}. Four parallel \SI{12}{\volt}
+\SI{200}{\ampere\hour} LiFePO$_4$ packs give \SI{800}{\ampere\hour}
+(\SI{9.6}{\kilo\watt\hour} nominal, \SI{15}{\percent} over requirement),
+and each cycle delivers \SI{7.7}{\kilo\watt\hour} usable against the
+\SI{6.4}{\kilo\watt\hour} margined need.
+
+The REE598 proposal review flagged the earlier battery costing as
+optimistic, and the market agrees. A \SI{200}{\ampere\hour} pack
+(\SI{2.56}{\kilo\watt\hour}) sells in Cairo solar channels at roughly
+\num{32000}~EGP, about \num{667}~USD, which normalises to
+\num{469}~USD per \SI{1.8}{\kilo\watt\hour}: inside the realistic 350 to
+600~USD band the review demanded, and nowhere near the older optimistic
+figure. The four-pack bank therefore costs \num{128000}~EGP and single-handedly
+sets the project's cost floor. The onboard robot battery is a separate,
+much smaller line: a Dakota Lithium \SI{12}{\volt} \SI{20}{\ampere\hour}
+pack \cite{dakota2023battery} (or a local equivalent at roughly half the
+price) covers the \SI{13}{\ampere} worst-case mobile draw with a
+\SI{20}{\ampere} continuous rating and decouples the robot from the
+station bank.
+
+\subsection{PV array}
+\label{sec:pv}
+The target is \SI{1147}{\Wp} \cite{nasa_power,globalsolaratlas}. Egyptian
+distributors stock Tier-1 modules in the 545 to \SI{585}{\Wp} class, so
+the practical choices are:
+
+\begin{itemize}[nosep]
+  \item 2 $\times$ Jinko Tiger Neo 72HL4 \SI{580}{\Wp}
+        \cite{jinko2024tigerneo}: \SI{1160}{\Wp}, \SI{1.1}{\percent} over
+        target. \textbf{Selected.}
+  \item 2 $\times$ LONGi LR5-72HPH-545M \cite{longi2022himo5}:
+        \SI{1090}{\Wp}, \SI{5}{\percent} under target; acceptable only if
+        the battery margin absorbs the shortfall.
+  \item 3 $\times$ LONGi LR5-72HPH-545M: \SI{1635}{\Wp},
+        \SI{43}{\percent} over; pays about \num{7000}~EGP for margin the
+        store already carries.
+\end{itemize}
+
+Two Jinko \SI{580}{\Wp} modules meet the target almost exactly at about
+\num{7500}~EGP each (indicative; Cairo wholesale runs near
+0.26~USD/\si{\Wp} in small quantity). The LONGi 545 remains the named
+drop-in because its datasheet dimensions (\SI{2278x1134x35}{\milli\metre},
+\SI{27.5}{\kilo\gram}) already drive the CAD envelope.
+
+\subsection{MPPT charge control}
+At a \SI{12}{\volt} bus, \SI{1160}{\Wp} of array implies up to
+\SI{86}{\ampere} of charge current, beyond any single affordable
+controller. Two EPever Tracer 6415AN units (\SI{60}{\ampere},
+\SI{150}{\volt} PV input) \cite{epever2023tracer}, one per module, give
+\SI{120}{\ampere} of capacity (1.4$\times$) and keep each PV string
+(V$_{oc}\approx\SI{52}{\volt}$) far below the input limit. A future
+revision should weigh moving the station to \SI{24}{\volt}, which would
+halve the current and allow one controller, but that decision belongs to
+the thesis design chapter, not the parts list.
+
+\subsection{Control electronics and sensing}
+The architecture pairs a Raspberry Pi 4B \SI{4}{\giga\byte}
+\cite{rpi2021brief} running ROS~2 with an ESP32 \cite{esp32ds} doing
+hard-real-time PWM, encoder counting and the 1-Wire sensor bus; both are
+stocked in Cairo. Sensing follows the bench set: DHT22 for the dew-point
+decision \cite{dht22ds}, DS18B20 probes for frost-guarding each cold bank
+\cite{ds18b20ds}, INA219 for power telemetry \cite{ina219ds}, and an
+MPU-6050 \cite{mpu6050ds} (live at \num{180}~EGP, Future Electronics) for
+tilt and odometry fusion. The only line that needed judgement is the
+INA219: Future Electronics does not list it, RAM normally does, and the
+fallback is a shunt plus the ESP32 ADC, so the line carries no schedule
+risk.
+
+% =============================================================================
+\section{Procurement plan}
+\label{sec:procurement}
+% =============================================================================
+
+\subsection{Day 1: buy in Cairo, same day}
+Everything in Build A is locally stocked, and the five-day plan requires
+the bench running by Day 2. The Day-1 route is:
+
+\begin{enumerate}[nosep]
+  \item \textbf{Future Electronics Egypt} (web order or counter): 4
+        $\times$ TEC1-12706, ESP32, DHT22, IRF540N $\times$4, relay
+        module, \SI{60}{\milli\metre} fans, limit switches if bench
+        end-stops are wanted. All confirmed in stock by the live query.
+  \item \textbf{RAM Electronics}: DS18B20 probes, INA219, LM2596 bucks
+        (Future's listing is live-priced but out of stock), Mean Well
+        LRS-350-12 or equivalent, wiring and connectors. Verify the
+        indicative prices at the counter.
+  \item \textbf{Local market}: cold plate cut at an aluminium workshop,
+        CPU coolers from the computer mall, thermal paste, tray, cylinder,
+        fasteners.
+\end{enumerate}
+
+Budget \num{5290}~EGP plus a \SI{10}{\percent} cash buffer
+($\approx$\num{5800}~EGP) for indicative-price drift.
+
+\subsection{Order online (Build B, when funded)}
+Three lines justify import: the two Pololu gearmotors (no Egyptian vendor
+stocks an encoder gearmotor above \SI{1.03}{\newton\metre}) and, optionally,
+the Dakota onboard battery, which a local \SI{12}{\volt}
+\SI{20}{\ampere\hour} LiFePO$_4$ replaces at half the price if schedule
+wins over brand. Panels, MPPT, station batteries, pump and aluminium are
+all local supply with one to two week quotes from solar wholesalers.
+
+\subsection{Customs and lead-time note}
+Courier imports (Pololu ships DHL/FedEx) attract roughly \SI{5}{\percent}
+duty on motors plus \SI{14}{\percent} VAT plus brokerage; experience prices
+the landed cost at \num{1.3} to \num{1.4} times the catalogue price plus
+freight, which is how the \num{4350}~EGP unit figure for the \#4745
+(catalogue 54.95~USD) was built. Allow two to four weeks door to door.
+AliExpress is cheaper per unit but routes through Egypt Post customs with
+three to six week queues and occasional holds, so it is acceptable only for
+non-critical spares. Nothing in Build A depends on any import.
+
+\subsection{Budget summary}
+
+\begin{table}[h]
+\centering
+\caption{Total budget at \num{48} EGP/USD.}
+\label{tab:budget}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Build} & \textbf{EGP} & \textbf{USD}\\
+\midrule
+A: bench prototype (buy now)        & \num{5290}   & 110\\
+B: full robot (priced, not bought)  & \num{221800} & \num{4621}\\
+\midrule
+A + B combined                      & \num{227090} & \num{4731}\\
+Recommended contingency (\SI{10}{\percent}) & \num{22709} & 473\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+\section{Risk and substitution table}
+% =============================================================================
+
+\begin{footnotesize}
+\begin{longtable}{@{}p{3.2cm}p{4.6cm}p{6.6cm}@{}}
+\caption{Supply risks and fallback substitutes.}
+\label{tab:risk}\\
+\toprule
+\textbf{Line} & \textbf{Risk} & \textbf{Fallback}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Line} & \textbf{Risk} & \textbf{Fallback}\\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+TEC1-12706 $\times$69 & single-vendor stock depth unknown at qty 69 &
+  split across Future Electronics and RAM; both restock in 1--2 weeks;
+  bench needs only 4, which are in stock now\\
+Pololu \#4745 drive motors & import delay or customs hold (2--4 weeks) &
+  4 $\times$ GA25-370 \SI{12}{\volt} \SI{250}{\rpm} encoder gearmotor
+  (live \num{445}~EGP, Future Electronics): each gives
+  \SI{0.88}{\newton\metre} stall, so two per side halve the per-motor
+  demand to \SI{0.34}{\newton\metre} and restore a 2.6$\times$ margin\\
+Pololu \#4741 brush motor & same import channel &
+  GA37-520 low-rpm gearmotor from RAM, sized at purchase against the
+  \SI{0.78}{\newton\metre} requirement\\
+Seaflo 21-series pump & marine-supplier stock varies &
+  generic 35 psi \SI{12}{\volt} diaphragm pump (AliExpress or
+  agricultural-spray shops); identical pressure-switch architecture\\
+LM2596 buck & out of stock at Future Electronics (live check) &
+  RAM stocks it; XL4015 \SI{5}{\ampere} module is a pin-compatible
+  upgrade\\
+INA219 & not listed at Future Electronics &
+  ACS723 \SI{5}{\ampere} sensor (listed, awaiting restock) or shunt
+  resistor + ESP32 ADC\\
+DHT22 & single local listing &
+  SHT31 breakout (better accuracy, same I2C bus)\\
+Mean Well LRS-350-12 & clones of variable quality at the same counter &
+  buy genuine from authorised distributor or substitute a
+  \SI{12}{\volt} server supply; verify ripple before driving TECs\\
+Station battery bank & EGP price volatility against USD &
+  hold quotes in USD, purchase last; capacity is modular (packs are
+  parallel), so the bank can be staged 2+2\\
+Jinko \SI{580}{\Wp} modules & model churn in distributor stock &
+  any Tier-1 module 545--585 \si{\Wp}; LONGi LR5-72HPH-545M
+  \cite{longi2022himo5} is the named drop-in with CAD dimensions
+  already fixed\\
+Raspberry Pi 4B & price spikes on Amazon.eg &
+  RAM Electronics counter price, or Pi~5 at similar money; ROS~2 runs
+  on either\\
+\end{longtable}
+\end{footnotesize}
+
+% =============================================================================
+\section{Conclusion}
+% =============================================================================
+
+The bench prototype is fully sourceable in Cairo in one day for
+\num{5290}~EGP, inside the design report's \num{5760}~EGP allowance, with
+every schedule-critical part confirmed in stock by a live vendor query on
+12 June 2026. The full robot prices at \num{221800}~EGP
+($\approx$\num{4621}~USD at \num{48}~EGP/USD), and the number is dominated
+not by the robot itself but by its energy store: batteries are
+\SI{61}{\percent} of the total once priced at verified market rates, the
+correction the REE598 review asked for. Every line in both tables names a
+specific part, a vendor, a margin against its governing requirement and a
+fallback, so purchasing can begin without further engineering input.
+
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+\end{document}

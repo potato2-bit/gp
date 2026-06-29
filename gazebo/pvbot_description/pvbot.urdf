@@ -1,0 +1,231 @@
+<?xml version="1.0" ?>
+<!--
+  pvbot.urdf - TEC PV-cleaning robot, REE598 graduation project.
+
+  THIS FILE IS NOW THE AUTHORITATIVE, HAND-MAINTAINED MODEL.
+  It adds the visible subsystems that the earlier skeleton hid inside one
+  block: the TEC atmospheric-water module (cold plate + 4 tiles + hot-side
+  heat sink with fins + 2 fans), a translucent water tank, and a front
+  spray bar with nozzles. pvbot.urdf.xacro is kept as the minimal inertia
+  skeleton; spawn THIS file.
+
+  Link names match ROS2_ARCHITECTURE.tex. Masses sum to 6.00 kg:
+    base_link 2.355 + tec_module 1.05 + tank_link 1.55 + spray_bar 0.045
+    + wheel_left 0.15 + wheel_right 0.15 + brush_link 0.60
+    + caster_link 0.09 + imu_link 0.01 = 6.00 kg.
+  Coordinate frame: +x forward (toward brush), +z up. Deck top at z=+0.06.
+
+  Spawn (Gazebo Classic 11 + ROS 2 Humble) - see README_GAZEBO.md / run_demo.sh.
+-->
+<robot name="pvbot">
+
+  <!-- ===================== materials ===================== -->
+  <material name="alu_grey">     <color rgba="0.62 0.64 0.68 1.0"/></material>
+  <material name="pom_black">    <color rgba="0.10 0.10 0.10 1.0"/></material>
+  <material name="tank_blue">    <color rgba="0.20 0.45 0.85 0.45"/></material>
+  <material name="brush_white">  <color rgba="0.92 0.92 0.86 1.0"/></material>
+  <material name="cold_cyan">    <color rgba="0.55 0.85 0.95 1.0"/></material>
+  <material name="tile_dark">    <color rgba="0.15 0.05 0.05 1.0"/></material>
+  <material name="sink_silver">  <color rgba="0.80 0.82 0.85 1.0"/></material>
+  <material name="fan_grey">     <color rgba="0.25 0.25 0.28 1.0"/></material>
+  <material name="spray_aqua">   <color rgba="0.35 0.70 1.00 0.40"/></material>
+  <material name="nozzle_brass"> <color rgba="0.80 0.65 0.25 1.0"/></material>
+
+  <!-- ===================== gantry beam (spans the panel width) =====================
+       The carriage is a gantry: a cross-beam that spans the 1 m panel width and
+       rides the two side guide rails. The full-width brush hangs from its front
+       edge. Four wheels (2 driven rear + 2 idler front) run just inside the rails
+       at y = +/-0.45. -->
+  <link name="base_link">
+    <inertial>
+      <mass value="2.355"/>
+      <inertia ixx="0.16810" ixy="0" ixz="0" iyy="0.01963" iyz="0" izz="0.18380"/>
+    </inertial>
+    <visual>
+      <geometry><box size="0.30 0.92 0.10"/></geometry>
+      <material name="alu_grey"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.30 0.92 0.10"/></geometry>
+    </collision>
+  </link>
+
+  <!-- ===================== TEC AWG module (clearly visible) =====================
+       Mounted on the rear half of the deck. Bottom-up: cold plate, four
+       TEC1-12706 tiles in a 2x2 array, hot-side heat sink, six fins, two fans. -->
+  <link name="tec_module">
+    <inertial>
+      <origin xyz="0 0 0.11"/>
+      <mass value="1.05"/>
+      <inertia ixx="0.00550" ixy="0" ixz="0" iyy="0.00340" iyz="0" izz="0.00716"/>
+    </inertial>
+    <!-- cold plate (condensing face) -->
+    <visual>
+      <origin xyz="0 0 0.072"/>
+      <geometry><box size="0.17 0.23 0.012"/></geometry>
+      <material name="cold_cyan"/>
+    </visual>
+    <!-- four TEC tiles, 40 x 40 mm, 2x2 -->
+    <visual><origin xyz=" 0.043  0.055 0.083"/><geometry><box size="0.04 0.04 0.006"/></geometry><material name="tile_dark"/></visual>
+    <visual><origin xyz=" 0.043 -0.055 0.083"/><geometry><box size="0.04 0.04 0.006"/></geometry><material name="tile_dark"/></visual>
+    <visual><origin xyz="-0.043  0.055 0.083"/><geometry><box size="0.04 0.04 0.006"/></geometry><material name="tile_dark"/></visual>
+    <visual><origin xyz="-0.043 -0.055 0.083"/><geometry><box size="0.04 0.04 0.006"/></geometry><material name="tile_dark"/></visual>
+    <!-- hot-side heat-sink base -->
+    <visual>
+      <origin xyz="0 0 0.100"/>
+      <geometry><box size="0.17 0.23 0.018"/></geometry>
+      <material name="sink_silver"/>
+    </visual>
+    <!-- six fins standing on the heat sink -->
+    <visual><origin xyz="-0.070 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz="-0.042 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz="-0.014 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz=" 0.014 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz=" 0.042 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz=" 0.070 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <!-- two extraction fans on top -->
+    <visual><origin xyz="0 0.058 0.168" rpy="0 0 0"/><geometry><cylinder length="0.012" radius="0.036"/></geometry><material name="fan_grey"/></visual>
+    <visual><origin xyz="0 -0.058 0.168" rpy="0 0 0"/><geometry><cylinder length="0.012" radius="0.036"/></geometry><material name="fan_grey"/></visual>
+    <collision>
+      <origin xyz="0 0 0.105"/>
+      <geometry><box size="0.17 0.23 0.090"/></geometry>
+    </collision>
+  </link>
+  <joint name="tec_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="tec_module"/>
+    <origin xyz="-0.075 0 0.060"/>
+  </joint>
+
+  <!-- ===================== water tank (translucent) ===================== -->
+  <link name="tank_link">
+    <inertial>
+      <mass value="1.55"/>
+      <inertia ixx="0.00723" ixy="0" ixz="0" iyy="0.00420" iyz="0" izz="0.01017"/>
+    </inertial>
+    <visual>
+      <geometry><box size="0.166 0.226 0.070"/></geometry>
+      <material name="tank_blue"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.166 0.226 0.070"/></geometry>
+    </collision>
+  </link>
+  <joint name="tank_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="tank_link"/>
+    <origin xyz="0.075 0 0.095"/>
+  </joint>
+
+  <!-- ===================== wheels ===================== -->
+  <link name="wheel_left">
+    <inertial><mass value="0.15"/><inertia ixx="3.9e-5" ixy="0" ixz="0" iyy="3.9e-5" iyz="0" izz="6.8e-5"/></inertial>
+    <visual><geometry><cylinder length="0.02" radius="0.03"/></geometry><material name="pom_black"/></visual>
+    <collision><geometry><cylinder length="0.02" radius="0.03"/></geometry>
+      <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface></collision>
+  </link>
+  <joint name="wheel_left_joint" type="continuous">
+    <parent link="base_link"/><child link="wheel_left"/>
+    <origin rpy="-1.5708 0 0" xyz="-0.10 0.45 -0.045"/>
+    <axis xyz="0 0 1"/><limit effort="1.8" velocity="10.0"/>
+  </joint>
+  <link name="wheel_right">
+    <inertial><mass value="0.15"/><inertia ixx="3.9e-5" ixy="0" ixz="0" iyy="3.9e-5" iyz="0" izz="6.8e-5"/></inertial>
+    <visual><geometry><cylinder length="0.02" radius="0.03"/></geometry><material name="pom_black"/></visual>
+    <collision><geometry><cylinder length="0.02" radius="0.03"/></geometry>
+      <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface></collision>
+  </link>
+  <joint name="wheel_right_joint" type="continuous">
+    <parent link="base_link"/><child link="wheel_right"/>
+    <origin rpy="-1.5708 0 0" xyz="-0.10 -0.45 -0.045"/>
+    <axis xyz="0 0 1"/><limit effort="1.8" velocity="10.0"/>
+  </joint>
+
+  <!-- ===================== front centre caster (3-point stance) =====================
+       A single low-friction caster on the centreline. With the two wide driven
+       rear wheels this gives a stable 3-point stance, so BOTH driven wheels stay
+       loaded (a rigid 4-wheel gantry rocks and lifts one driven wheel, killing
+       traction on the climb). -->
+  <link name="caster_link">
+    <inertial><mass value="0.09"/><inertia ixx="8.1e-6" ixy="0" ixz="0" iyy="8.1e-6" iyz="0" izz="8.1e-6"/></inertial>
+    <visual><geometry><sphere radius="0.015"/></geometry><material name="pom_black"/></visual>
+    <collision><geometry><sphere radius="0.015"/></geometry>
+      <surface><friction><ode><mu>0.20</mu><mu2>0.20</mu2></ode></friction></surface></collision>
+  </link>
+  <joint name="caster_joint" type="fixed">
+    <parent link="base_link"/><child link="caster_link"/>
+    <origin rpy="0 0 0" xyz="0.18 0 -0.06"/>
+  </joint>
+
+  <!-- ===================== IMU frame ===================== -->
+  <link name="imu_link">
+    <inertial><mass value="0.01"/><inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/></inertial>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/><child link="imu_link"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.06"/>
+  </joint>
+
+  <!-- ===================== full-width brush roller =====================
+       Rail-guided cleaner: the brush spans the full 1 m panel width so a
+       single fall-line sweep cleans the whole panel, with no turning. -->
+  <link name="brush_link">
+    <inertial><mass value="0.60"/><inertia ixx="0.0407" ixy="0" ixz="0" iyy="0.0407" iyz="0" izz="4.8e-4"/></inertial>
+    <visual><geometry><cylinder length="0.90" radius="0.04"/></geometry><material name="brush_white"/></visual>
+    <!-- visual-only: the roller rides just above the glass; no collision so it
+         never gouges the panel or stalls the gantry (the spray shows cleaning). -->
+  </link>
+  <joint name="brush_joint" type="continuous">
+    <parent link="base_link"/><child link="brush_link"/>
+    <origin rpy="-1.5708 0 0" xyz="0.22 0 -0.03"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- ===================== spray bar + nozzles (cleaning, visible) =====================
+       Sits just behind the brush, spraying distilled water onto the glass.
+       The translucent aqua cones are the spray fans; they make the wet-clean
+       action visible without a runtime plugin. -->
+  <link name="spray_bar">
+    <inertial><mass value="0.045"/><inertia ixx="3.5e-3" ixy="0" ixz="0" iyy="6e-6" iyz="0" izz="3.5e-3"/></inertial>
+    <!-- bar runs across the panel (along y), at the front of the carriage -->
+    <visual><origin rpy="1.5708 0 0" xyz="0 0 0"/><geometry><cylinder length="0.88" radius="0.012"/></geometry><material name="nozzle_brass"/></visual>
+    <!-- one translucent spray fan spanning the full width: a thin water curtain
+         hugging just ABOVE the glass at the head (must not dip through the panel) -->
+    <visual><origin rpy="0 0 0" xyz="0.03 0 -0.018"/><geometry><box size="0.05 0.86 0.025"/></geometry><material name="spray_aqua"/></visual>
+  </link>
+  <joint name="spray_joint" type="fixed">
+    <parent link="base_link"/><child link="spray_bar"/>
+    <origin rpy="0 0 0" xyz="0.20 0 -0.04"/>
+  </joint>
+
+  <!-- ===================== Gazebo per-link colours (Classic needs these) ===================== -->
+  <gazebo reference="base_link"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="tec_module"><material>Gazebo/SkyBlue</material></gazebo>
+  <gazebo reference="tank_link"><material>Gazebo/BlueTransparent</material></gazebo>
+  <gazebo reference="brush_link"><material>Gazebo/White</material></gazebo>
+  <gazebo reference="spray_bar"><material>Gazebo/BlueTransparent</material></gazebo>
+  <gazebo reference="wheel_left"><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="wheel_right"><material>Gazebo/Black</material></gazebo>
+
+  <!-- ===================== Gazebo Classic diff drive ===================== -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_diff_drive.so" name="diff_drive">
+      <ros><namespace>/</namespace></ros>
+      <left_joint>wheel_left_joint</left_joint>
+      <right_joint>wheel_right_joint</right_joint>
+      <wheel_separation>0.90</wheel_separation>
+      <wheel_diameter>0.06</wheel_diameter>
+      <max_wheel_torque>1.8</max_wheel_torque>
+      <max_wheel_acceleration>6.0</max_wheel_acceleration>
+      <command_topic>cmd_vel</command_topic>
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+      <publish_wheel_tf>true</publish_wheel_tf>
+      <odometry_topic>odom</odometry_topic>
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+      <update_rate>100</update_rate>
+    </plugin>
+  </gazebo>
+
+</robot>

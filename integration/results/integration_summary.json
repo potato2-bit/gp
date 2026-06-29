@@ -1,0 +1,78 @@
+{
+  "config": {
+    "L_per_m2": 0.3,
+    "soil_rate_pct_day": 1.0,
+    "clean_threshold_pct": 3.5,
+    "design_margin": 1.2,
+    "buffer_days": 7.0,
+    "gel_bed_ref_kg": 750.0
+  },
+  "residential": {
+    "aswan_benban": {
+      "interval_days": 3.5,
+      "demand_Lyr": 1435.2,
+      "gel_kg_sized": 67.6,
+      "min_gel_kg_zero_deficit": 76.5,
+      "self_supply_f": 1.2,
+      "deferred_days": 6,
+      "tec_tiles_for_demand": 57,
+      "parasitic_frac": 0.01635,
+      "energy_recovered_kWh_yr": 8926.8
+    },
+    "mansoura": {
+      "interval_days": 3.5,
+      "demand_Lyr": 1435.2,
+      "gel_kg_sized": 44.5,
+      "min_gel_kg_zero_deficit": 42.0,
+      "self_supply_f": 1.2,
+      "deferred_days": 0,
+      "tec_tiles_for_demand": 38,
+      "parasitic_frac": 0.0132,
+      "energy_recovered_kWh_yr": 7392.5
+    },
+    "new_alamein": {
+      "interval_days": 3.5,
+      "demand_Lyr": 1435.2,
+      "gel_kg_sized": 46.4,
+      "min_gel_kg_zero_deficit": 42.1,
+      "self_supply_f": 1.2,
+      "deferred_days": 0,
+      "tec_tiles_for_demand": 39,
+      "parasitic_frac": 0.01299,
+      "energy_recovered_kWh_yr": 7810.9
+    },
+    "hurghada": {
+      "interval_days": 3.5,
+      "demand_Lyr": 1435.2,
+      "gel_kg_sized": 58.0,
+      "min_gel_kg_zero_deficit": 60.9,
+      "self_supply_f": 1.2,
+      "deferred_days": 2,
+      "tec_tiles_for_demand": 49,
+      "parasitic_frac": 0.01432,
+      "energy_recovered_kWh_yr": 8787.3
+    },
+    "siwa": {
+      "interval_days": 3.5,
+      "demand_Lyr": 1435.2,
+      "gel_kg_sized": 52.0,
+      "min_gel_kg_zero_deficit": 58.2,
+      "self_supply_f": 1.2,
+      "deferred_days": 5,
+      "tec_tiles_for_demand": 44,
+      "parasitic_frac": 0.01352,
+      "energy_recovered_kWh_yr": 8368.9
+    },
+    "nac": {
+      "interval_days": 3.5,
+      "demand_Lyr": 1435.2,
+      "gel_kg_sized": 44.6,
+      "min_gel_kg_zero_deficit": 45.5,
+      "self_supply_f": 1.2,
+      "deferred_days": 1,
+      "tec_tiles_for_demand": 38,
+      "parasitic_frac": 0.0123,
+      "energy_recovered_kWh_yr": 7950.4
+    }
+  }
+}

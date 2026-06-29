@@ -1,0 +1,113 @@
+﻿AWH System Build and Cost Plan for the Egyptian Market
+This document provides a detailed cost analysis and conceptual build guide for a 1 m² sorption-based AWH unit, based entirely on the data and strategies outlined in "Sorption-Based AWH Analysis for the Egyptian Market."
+1. The Lowest Functional Cost System
+Goal: To build a working prototype for the absolute minimum initial investment, proving the concept. This approach prioritizes cost-saving at every step, accepting lower efficiency and durability as a trade-off.
+Component
+	Strategy for Lowest Cost
+	Estimated Cost (EGP)
+	Notes
+	Sorbent Material [1]
+	2 kg of CaCl₂ hosted in crushed local clay/pottery
+	250 EGP [3, 4]
+	Using free, locally sourced clay avoids the cost of silica gel.
+	Enclosure/Chamber
+	Frame built from salvaged/low-grade wood
+	800 EGP [4]
+	Function over form. Sealing must still be done carefully with silicone.
+	Condenser Surface
+	Basic, thin-gauge aluminum sheet
+	400 EGP [4]
+	The minimum viable surface area for condensation.
+	Glazing (Top Cover)
+	Standard, locally sourced window glass
+	600 EGP [4]
+	Cheapest transparent option, but heavy and fragile.
+	Airflow
+	Passive design (no fans), relying on natural convection
+	0 EGP
+	This significantly reduces complexity and cost but will lower sorption efficiency.
+	Miscellaneous
+	Basic silicone, screws, and minimal tubing
+	300 EGP [4]
+	Only the absolute essentials for assembly.
+	Total Estimated Cost
+	Bare-Bones Functional System
+	~2,350 EGP
+	This is the floor cost for a functional unit.
+	* Pros: Extremely low barrier to entry. Allows you to test the process with minimal financial risk.
+* Cons: Lower daily water yield due to passive airflow and potentially less effective insulation/sealing. The use of basic materials means it will have a shorter lifespan, especially the untreated wood frame under the Egyptian sun.
+2. The Optimum System Cost Analysis
+Goal: To build a durable, reliable, and more efficient system. This approach involves smart investments in key components to maximize water yield and longevity, providing the best long-term value.
+Component
+	Strategy for Optimum Performance
+	Estimated Cost (EGP)
+	Notes
+	Sorbent Material [2]
+	2 kg of CaCl₂ hosted in bulk silica gel
+	500 EGP [3, 4]
+	Silica gel's high porosity provides a superior host matrix, leading to better water capture.
+	Enclosure/Chamber
+	Well-constructed, sealed, and insulated wood frame
+	2,000 EGP [4]
+	Investing in better construction and insulation dramatically improves desorption by trapping heat.
+	Condenser Surface
+	Thicker aluminum sheet with attached heat sinks
+	900 EGP [4]
+	Heat sinks increase the surface area, significantly boosting condensation speed and efficiency.
+	Glazing (Top Cover)
+	Polycarbonate sheet (لوح بولي كربونيت)
+	1,500 EGP [4]
+	Lighter, far more durable, and safer than glass. Better resistance to impacts and thermal stress.
+	Airflow
+	Two small 12V DC fans with a dedicated solar panel
+	300 EGP [4]
+	Active airflow at night ensures the sorbent is fully exposed to humid air, maximizing capture.
+	Miscellaneous
+	High-grade UV-resistant sealant, quality tubing
+	500 EGP [4]
+	Better materials prevent leaks and degradation, reducing maintenance needs.
+	Total Estimated Cost
+	Durable & Efficient System
+	~5,700 EGP
+	This represents the best value for long-term operation.
+	* Pros: Significantly higher daily water yield (closer to or exceeding 1.0 L/kg/day). Much longer operational lifespan with less maintenance. More robust and reliable.
+* Cons: Higher initial capital investment.
+3. How to Build the System: Conceptual Design
+Think of the AWH unit as a "Solar Sorbent Box," a concept validated by research into solar-regenerated desiccant systems [5]. The structure is very similar to a solar oven [6] or a DIY solar water heater [7].
+Step 1: Construct the Insulated Box (Enclosure)
+* Build a shallow wooden box (e.g., 1.2m x 1.2m outer, 1m x 1m inner, 20 cm deep).
+* Line the inner walls and floor with a rigid foam insulation board.
+* Paint the entire interior, including the insulation, with matte black, high-temperature paint. This is crucial for absorbing maximum solar energy.
+Step 2: Create the Sorbent Tray
+* Build a shallow tray out of a thin aluminum sheet that fits inside the box, leaving a small gap around the edges.
+* Drill many small holes through the bottom of the tray to allow for airflow.
+* Paint this tray matte black as well.
+* Prepare your sorbent composite (mix CaCl₂ with your host material, like silica gel or crushed clay) and spread it evenly in this tray.
+Step 3: Install the Condenser and Collection System
+* Take your main condenser aluminum sheet. Mount it inside the box, underneath the sorbent tray, at a steep angle (e.g., 45 degrees).
+* The highest point of the condenser should be just below the sorbent tray, and the lowest point should end in a collection channel or gutter.
+* Drill a small hole at the lowest point of the box and attach a tube to drain the collected water from the gutter to an external container.
+Step 4: Add Airflow and Seal the Unit
+* Cut two holes in the sides of the main box, one for intake and one for exhaust. Mount your small 12V DC fans here. One fan will pull air in, and the other will push it out, forcing it to flow through the holes in the sorbent tray.
+* Place the sorbent tray on supports inside the box.
+* Mount the polycarbonate or glass sheet on top of the box, using a high-quality silicone sealant to make it completely airtight. This is the glazing.
+The Day/Night Operational Cycle:
+* Night (Sorption Phase): The top of the box is cool. The fans are turned on (powered by a small battery charged during the day). The fans pull the cooler, more humid night air through the sorbent material for several hours, allowing it to capture water.
+* Day (Desorption Phase): The fans are turned off. The box is completely sealed. The sun heats the interior through the glazing. The black surfaces get very hot, heating the sorbent and forcing it to release its captured water as hot vapor. This vapor fills the box and condenses into pure liquid water when it comes into contact with the cooler, angled condenser plate below. The pure water drips down the plate, into the gutter, and out the collection tube.
+4. Supporting Resources and Links
+Here are the resources that support the cost estimates, material choices, and design concepts outlined in this plan.
+Material Performance and Scientific Basis
+[1] Feng, A., et al. (2022). "Recent Development of Atmospheric Water Harvesting Materials: A Review." (User-provided file). This paper validates the use of Calcium Chloride (CaCl₂) as a high-performance, low-cost hygroscopic salt for AWH (see page 584), supporting its choice as the primary sorbent for the lowest-cost system.
+[2] Zhou, X., et al. (2020). "Atmospheric Water Harvesting: A Review of Material and Structural Designs." (User-provided file). This review (see page 678, refs 65-67) confirms that composite sorbents using CaCl₂ and hosts like silica gel are a well-researched and effective method for AWH, supporting the material choice for the optimum system.
+Local Sourcing and Cost Estimation (Egyptian Market)
+[3] El Gomhouria Co. for Chemicals: A primary state-owned supplier in Egypt for sourcing bulk industrial chemicals like Calcium Chloride.
+* Link: http://www.elgomhouria.com/
+[4] General Market Prices: Cost estimates for raw materials (wood, aluminum, glass, polycarbonate) and components (fans, sealant) are based on current market rates found at local hardware ("موان") and building material suppliers in the Greater Cairo area. Online marketplaces serve as a reference for smaller, off-the-shelf components.
+* Amazon Egypt (for fans, small parts): https://www.amazon.eg/
+* Jumia Egypt (for fans, small parts): https://www.jumia.com.eg/
+System Design and Build Concepts
+[5] Solar-Regenerated Desiccant Systems: The fundamental design is described in the paper ctz072.pdf (User-provided file, see page 1), which discusses systems that use solar heat to release water from a desiccant, validating the day/night cycle concept.
+[6] DIY Solar Oven/Cooker Design: The insulated box structure with a transparent top is functionally identical to a solar oven. This link provides a visual and structural guide for building the enclosure.
+   * Link (Example): https://www.youtube.com/watch?v=gSPcMLaXo-c
+[7] DIY Solar Water Heater Design: These designs are excellent references for creating the internal layout, particularly for trapping heat and managing the collection of a liquid (in this case, water condensate instead of heated water).
+   * Link (Example): https://www.instructables.com/Solar-Water-Heater/

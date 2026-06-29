@@ -1,0 +1,137 @@
+; ================================================================
+; rail_and_panel_3d.scr
+; PV PANEL + GUIDE RAILS + RACK + END STOPS  -  3D SOLID SCENE
+; REE598 GRADUATION PROJECT  -  DATE 2026-06-13   UNITS MM
+; Run in AutoCAD 2026:  SCRIPT -> pick this file -> ZOOM E.
+;
+; This is the fixed infrastructure the robot rides on. Build it FIRST
+; (or after pvbot_3d_assembly.scr in the same drawing) so the carriage
+; sits on the rails. Same coordinate frame as the robot script:
+;   +X = down the fall-line (panel long axis, 2.0 m)
+;   +Y = across the panel width (1.0 m), brush/rail axis
+;   +Z = up, normal to the glass
+; The panel glass plane is at z=-50 (the robot's brush-contact plane);
+; the carriage deck floats ~50 mm above it. The whole assembly is drawn
+; FLAT here; tilt the finished scene 24 deg about +Y (ROTATE3D, axis Y,
+; angle -24 through the lower edge) to stand it on its posts, exactly as
+; output/rail_guided_design.json specifies (panel 2.0 x 1.0 m, 24 deg).
+;
+; SIZES: panel 2000 x 1000 mm glass; rails 2 x 2400 mm 2040 V-slot;
+; rack 4800 mm total (2 x 2400). From rail_guided_design.json:rails.
+; BLANK LINES ARE DELIBERATE <ENTER> KEYSTROKES - DO NOT DELETE.
+; ================================================================
+FILEDIA 0
+EXPERT 5
+OSMODE 0
+INSUNITS 4
+ISOLINES 10
+FACETRES 6
+DISPSILH 1
+
+; ---------------- layers ----------------
+-LAYER N GLASS   C 140 GLASS
+-LAYER N PFRAME  C 8   PFRAME
+-LAYER N POST    C 18  POST
+-LAYER N RAIL    C 5   RAIL
+-LAYER N RACK    C 30  RACK
+-LAYER N STOP    C 1   STOP
+-LAYER N TEXT    C 7   TEXT
+
+; ================================================================
+; 1. PV PANEL  (2000 x 1000 mm).  Glass at z=-50, 4 mm thick.
+;    Aluminium frame 35 mm tall around the perimeter.
+; ================================================================
+CLAYER GLASS
+BOX -1000,-500,-54  1000,500,-50
+CLAYER PFRAME
+; perimeter frame rails (4 boxes, 35 high under the glass edge)
+BOX -1000,-500,-89 1000,-465,-50
+BOX -1000,465,-89  1000,500,-50
+BOX -1000,-500,-89 -965,500,-50
+BOX 965,-500,-89   1000,500,-50
+
+; ================================================================
+; 2. SUPPORT POSTS  (4 legs, the panel stands tilted on these;
+;    drawn vertical here, height differs after the 24 deg tilt).
+;    Box legs 50 x 50, dropping to a common ground reference z=-650.
+; ================================================================
+CLAYER POST
+BOX -900,-450,-650 -850,-400,-89
+BOX 850,-450,-650  900,-400,-89
+BOX -900,400,-650  -850,450,-89
+BOX 850,400,-650   900,450,-89
+
+; ================================================================
+; 3. GUIDE RAILS  -  2 x 2040 V-SLOT EXTRUSION, 2400 mm long.
+;    Run along +X (the fall-line) just outside the 0.96 m brush, at
+;    y = +/-510. Modelled as the 20 x 40 mm V-slot bounding section
+;    (20 wide in Y, 40 tall in Z); the seating V-grooves the carriage
+;    V-wheels ride are represented by long shallow wedge ribs added to
+;    the inner and outer faces (a robust, boolean-free approximation of
+;    the OpenBuilds 2040 V-slot profile). Bar length 2400.
+; ================================================================
+CLAYER RAIL
+; ---- LEFT RAIL (y = +510) : solid 2040 bar ----
+BOX -1200,500,-50  1200,520,-10
+; V-rib running the length of the outer face (y=520) - the wheel seat
+WEDGE -1200,520,-38 @2400,6,28
+; V-rib on the inner face (y=500)
+WEDGE -1200,500,-38 @2400,-6,28
+; ---- RIGHT RAIL (y = -510) ----
+BOX -1200,-520,-50 1200,-500,-10
+WEDGE -1200,-500,-38 @2400,6,28
+WEDGE -1200,-520,-38 @2400,-6,28
+
+; ================================================================
+; 4. RACK STRIPS  -  module-1 steel rack on the inner face of each
+;    rail, 2400 mm long, 12 mm tall x 8 mm deep tooth band. The pinion
+;    (robot script) meshes this. 2 x 2400 = 4800 mm total rack.
+; ================================================================
+CLAYER RACK
+BOX -1200,496,-36 1200,500,-24
+BOX -1200,-500,-36 1200,-496,-24
+
+; ================================================================
+; 5. END STOPS  -  bump stops at both ends of travel so the carriage
+;    cannot run off the rail. 25 mm tall blocks across each rail end.
+; ================================================================
+CLAYER STOP
+BOX -1210,496,-50 -1180,524,-2
+BOX 1180,496,-50  1210,524,-2
+BOX -1210,-524,-50 -1180,-496,-2
+BOX 1180,-524,-50  1210,-496,-2
+
+; ================================================================
+; 6. TITLE TEXT
+; ================================================================
+CLAYER TEXT
+-TEXT -1000,-560,-50 30 0 PV PANEL 2.0 x 1.0 m AT 24 deg + TWIN 2.4 m V-SLOT RAILS
+-TEXT -1000,-610,-50 22 0 RACK 4.8 m TOTAL (2 x 2.4 m, MODULE-1)  END STOPS BOTH ENDS
+-TEXT -1000,-650,-50 22 0 REE598 GRADUATION PROJECT  2026-06-13  UNITS MM
+-TEXT -1000,-690,-50 22 0 BASIS: output/rail_guided_design.json (panel, rails)
+
+; ================================================================
+; 7. (OPTIONAL) STAND THE SCENE ON ITS POSTS:
+;    Uncomment the next ROTATE3D block to tilt the whole assembly 24 deg
+;    about the +Y axis through the lower edge (x=-1000). Left commented
+;    so the flat scene overlays the flat robot script cleanly; tilt the
+;    combined drawing once, at the end, if you want the as-installed pose.
+; ================================================================
+; SELECT ALL
+;
+; ROTATE3D P
+; Y
+; -1000,0,-50
+; -24
+
+; ================================================================
+; 8. VIEW
+; ================================================================
+-VIEW SWISO
+VSCURRENT
+R
+ZOOM
+E
+EXPERT 0
+FILEDIA 1
+; ---------------- end rail_and_panel_3d.scr ----------------

@@ -1,0 +1,287 @@
+<!--
+  pvbot_railed_control.urdf - rack-and-pinion drive done RIGHT, with
+  gazebo_ros2_control. The carriage is constrained to the rail by a PRISMATIC
+  joint (no bounce/pitch), and driven by a velocity controller whose EFFORT is
+  capped at the real motor ceiling (45 N, from scripts/rack_pinion_drive.py:
+  two GA25-370 1:71 -> Ø30 mm pinions). It climbs because 45 N > 35.5 N load,
+  smoothly, because the joint is a hard constraint and the effort is bounded by
+  the motor - this is the actual motor + gear ratio.
+
+  COMPONENT-ACCURATE BUILD (2026-06-14): every real carriage part from the
+  finalized Option-B weight budget (ELECTRICAL_DESIGN.tex tab:weight; closes at
+  7.99 kg) is now a distinct link with budget mass, datasheet/CAD dimensions,
+  and its place on the carriage. The TEC AWG condenser is NO LONGER on the
+  carriage - the finalized residential design docks it at the bottom of the
+  rail (see panel_world_tilt.sdf, model awg_dock). Masses/inertias from
+  scripts_inertia_helper.py. Carriage envelope ~0.30 x 0.92 x 0.20 m.
+
+  Needs: ros-humble-gazebo-ros2-control. Launch with run_demo_motor.sh.
+-->
+<robot name="pvbot">
+
+  <material name="alu_grey">     <color rgba="0.62 0.64 0.68 1.0"/></material>
+  <material name="pom_black">    <color rgba="0.10 0.10 0.10 1.0"/></material>
+  <material name="tank_blue">    <color rgba="0.20 0.45 0.85 0.45"/></material>
+  <material name="brush_white">  <color rgba="0.92 0.92 0.86 1.0"/></material>
+  <material name="cold_cyan">    <color rgba="0.55 0.85 0.95 1.0"/></material>
+  <material name="tile_dark">    <color rgba="0.15 0.05 0.05 1.0"/></material>
+  <material name="sink_silver">  <color rgba="0.80 0.82 0.85 1.0"/></material>
+  <material name="fan_grey">     <color rgba="0.25 0.25 0.28 1.0"/></material>
+  <material name="spray_aqua">   <color rgba="0.35 0.70 1.00 0.40"/></material>
+  <material name="nozzle_brass"> <color rgba="0.80 0.65 0.25 1.0"/></material>
+  <material name="motor_copper"> <color rgba="0.72 0.45 0.20 1.0"/></material>
+  <material name="frame_dark">   <color rgba="0.30 0.32 0.36 1.0"/></material>
+  <material name="pcb_green">    <color rgba="0.10 0.45 0.20 1.0"/></material>
+  <material name="pcb_red">      <color rgba="0.70 0.15 0.12 1.0"/></material>
+  <material name="batt_navy">    <color rgba="0.12 0.16 0.30 1.0"/></material>
+  <material name="pi_green">     <color rgba="0.15 0.55 0.30 1.0"/></material>
+  <material name="wire_charcoal"><color rgba="0.18 0.18 0.18 0.85"/></material>
+  <material name="pump_white">   <color rgba="0.88 0.88 0.90 1.0"/></material>
+  <material name="sensor_blue">  <color rgba="0.20 0.40 0.75 1.0"/></material>
+
+  <!-- ===== world anchor + prismatic rail (the rack-and-pinion DOF) ===== -->
+  <link name="world"/>
+  <link name="rail_base">
+    <inertial><mass value="0.01"/><inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/></inertial>
+  </link>
+  <joint name="world_fix" type="fixed">
+    <parent link="world"/><child link="rail_base"/>
+    <origin xyz="-0.72 0 0.28" rpy="0 -0.41888 0"/>
+  </joint>
+  <joint name="rail_slide" type="prismatic">
+    <parent link="rail_base"/><child link="base_link"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="1.40" effort="45.0" velocity="0.15"/>
+    <dynamics damping="3.0" friction="0.5"/>
+  </joint>
+
+  <!-- ============================================================= -->
+  <!-- CARRIAGE. Frame: +X travel/down-slope, +Y brush axis/width,    -->
+  <!-- +Z out of glass. All masses from ELECTRICAL_DESIGN tab:weight  -->
+  <!-- (Option B, 7.99 kg). Inertias from scripts_inertia_helper.py.  -->
+  <!-- ============================================================= -->
+
+  <!-- 1. D-101 chassis base plate (Al 6061-T6, 3 mm) plus its gantry structure. The -->
+  <!--    box is the 0.30 x 0.92 x 0.10 m carriage envelope, not the bare plate: the -->
+  <!--    0.92 m spans the rail gauge and the 0.10 m height stands in for the deck -->
+  <!--    stack, so the inertia represents the whole gantry beam. 1.10 kg (D-101). -->
+  <link name="base_link">
+    <inertial><mass value="1.100"/><inertia ixx="0.07850" ixy="0" ixz="0" iyy="0.00917" iyz="0" izz="0.08584"/></inertial>
+    <visual><geometry><box size="0.30 0.92 0.10"/></geometry><material name="alu_grey"/></visual>
+  </link>
+
+  <!-- 2. D-108 carriage side-frames (2x, 0.80 kg total). Bridge deck to rails. -->
+  <link name="side_frame_left">
+    <inertial><mass value="0.400"/><inertia ixx="4.933e-4" ixy="0" ixz="0" iyy="4.333e-3" iyz="0" izz="3.867e-3"/></inertial>
+    <visual><geometry><box size="0.34 0.02 0.12"/></geometry><material name="frame_dark"/></visual>
+  </link>
+  <joint name="side_frame_left_joint" type="fixed"><parent link="base_link"/><child link="side_frame_left"/><origin xyz="0.0 0.455 -0.01"/></joint>
+  <link name="side_frame_right">
+    <inertial><mass value="0.400"/><inertia ixx="4.933e-4" ixy="0" ixz="0" iyy="4.333e-3" iyz="0" izz="3.867e-3"/></inertial>
+    <visual><geometry><box size="0.34 0.02 0.12"/></geometry><material name="frame_dark"/></visual>
+  </link>
+  <joint name="side_frame_right_joint" type="fixed"><parent link="base_link"/><child link="side_frame_right"/><origin xyz="0.0 -0.455 -0.01"/></joint>
+
+  <!-- 3. D-103/D-110 full-width brush 0.96 m, O50 core (O80 bristle shell). 1.00 kg -->
+  <link name="brush_link">
+    <inertial><mass value="1.000"/><inertia ixx="0.07720" ixy="0" ixz="0" iyy="0.07720" iyz="0" izz="8.0e-4"/></inertial>
+    <visual><geometry><cylinder length="0.96" radius="0.040"/></geometry><material name="brush_white"/></visual>
+  </link>
+  <joint name="brush_joint" type="fixed"><parent link="base_link"/><child link="brush_link"/><origin rpy="-1.5708 0 0" xyz="0.115 0 -0.045"/></joint>
+
+  <!-- 4. GA25-370 brush motor (O24.4 x 62). 0.105 kg. at +y brush end. -->
+  <link name="brush_motor">
+    <inertial><mass value="0.105"/><inertia ixx="3.75e-5" ixy="0" ixz="0" iyy="3.75e-5" iyz="0" izz="7.81e-6"/></inertial>
+    <visual><geometry><cylinder length="0.062" radius="0.0122"/></geometry><material name="motor_copper"/></visual>
+  </link>
+  <joint name="brush_motor_joint" type="fixed"><parent link="base_link"/><child link="brush_motor"/><origin rpy="-1.5708 0 0" xyz="0.115 0.49 -0.045"/></joint>
+
+  <!-- 5. GA25-370 drive motors (2x, O24.4 x 62, 0.21 kg total). At the driven rails. -->
+  <link name="drive_motor_left">
+    <inertial><mass value="0.105"/><inertia ixx="3.75e-5" ixy="0" ixz="0" iyy="3.75e-5" iyz="0" izz="7.81e-6"/></inertial>
+    <visual><geometry><cylinder length="0.062" radius="0.0122"/></geometry><material name="motor_copper"/></visual>
+  </link>
+  <joint name="drive_motor_left_joint" type="fixed"><parent link="base_link"/><child link="drive_motor_left"/><origin rpy="-1.5708 0 0" xyz="-0.05 0.42 -0.03"/></joint>
+  <link name="drive_motor_right">
+    <inertial><mass value="0.105"/><inertia ixx="3.75e-5" ixy="0" ixz="0" iyy="3.75e-5" iyz="0" izz="7.81e-6"/></inertial>
+    <visual><geometry><cylinder length="0.062" radius="0.0122"/></geometry><material name="motor_copper"/></visual>
+  </link>
+  <joint name="drive_motor_right_joint" type="fixed"><parent link="base_link"/><child link="drive_motor_right"/><origin rpy="-1.5708 0 0" xyz="-0.05 -0.42 -0.03"/></joint>
+
+  <!-- 6. O30 module-1 steel pinions (2x, 0.06 kg total) meshing the rack at y=+-0.47. -->
+  <link name="pinion_left">
+    <inertial><mass value="0.030"/><inertia ixx="2.05e-6" ixy="0" ixz="0" iyy="2.05e-6" iyz="0" izz="3.38e-6"/></inertial>
+    <visual><geometry><cylinder length="0.012" radius="0.015"/></geometry><material name="nozzle_brass"/></visual>
+  </link>
+  <joint name="pinion_left_joint" type="fixed"><parent link="base_link"/><child link="pinion_left"/><origin rpy="-1.5708 0 0" xyz="-0.05 0.47 -0.03"/></joint>
+  <link name="pinion_right">
+    <inertial><mass value="0.030"/><inertia ixx="2.05e-6" ixy="0" ixz="0" iyy="2.05e-6" iyz="0" izz="3.38e-6"/></inertial>
+    <visual><geometry><cylinder length="0.012" radius="0.015"/></geometry><material name="nozzle_brass"/></visual>
+  </link>
+  <joint name="pinion_right_joint" type="fixed"><parent link="base_link"/><child link="pinion_right"/><origin rpy="-1.5708 0 0" xyz="-0.05 -0.47 -0.03"/></joint>
+
+  <!-- 7. D-106 driver box: Cytron MDD3A + 2x IRLZ44N MOSFET. 0.05 kg. -->
+  <link name="driver_box">
+    <inertial><mass value="0.050"/><inertia ixx="1.05e-5" ixy="0" ixz="0" iyy="1.05e-5" iyz="0" izz="1.69e-5"/></inertial>
+    <visual><geometry><box size="0.045 0.045 0.022"/></geometry><material name="pcb_red"/></visual>
+  </link>
+  <joint name="driver_box_joint" type="fixed"><parent link="base_link"/><child link="driver_box"/><origin xyz="-0.10 0.15 0.072"/></joint>
+
+  <!-- 8. D-105 12V diaphragm water pump (90x40x35). 0.30 kg. -->
+  <link name="water_pump">
+    <inertial><mass value="0.300"/><inertia ixx="7.06e-5" ixy="0" ixz="0" iyy="2.33e-4" iyz="0" izz="2.43e-4"/></inertial>
+    <visual><geometry><box size="0.090 0.040 0.035"/></geometry><material name="pump_white"/></visual>
+  </link>
+  <joint name="water_pump_joint" type="fixed"><parent link="base_link"/><child link="water_pump"/><origin xyz="0.075 0.16 0.075"/></joint>
+
+  <!-- 9. D-105 HDPE tank 3.6 L (166x226x96 internal). Holds the tank-dry+spray+nozzle -->
+  <!--    line (0.40) less the 0.001 kg spray_bar visual token, plus mean water fill -->
+  <!--    (1.80): 0.399 + 1.800 = 2.199 kg, so the carriage closes at the 7.99 kg budget. -->
+  <link name="tank_link">
+    <inertial><mass value="2.199"/><inertia ixx="0.011049" ixy="0" ixz="0" iyy="0.006738" iyz="0" izz="0.014409"/></inertial>
+    <visual><geometry><box size="0.166 0.226 0.096"/></geometry><material name="tank_blue"/></visual>
+  </link>
+  <joint name="tank_joint" type="fixed"><parent link="base_link"/><child link="tank_link"/><origin xyz="0.07 0 0.098"/></joint>
+
+  <!-- 10. spray bar 0.96 m + 9 flat-fan nozzles. The bar's real mass sits in the -->
+  <!--    tank-dry line; the link keeps a 0.001 kg token for a valid inertia, and that -->
+  <!--    same 0.001 kg is netted out of tank_link so nothing is double-counted. -->
+  <link name="spray_bar">
+    <inertial><mass value="0.001"/><inertia ixx="7.06e-5" ixy="0" ixz="0" iyy="7.06e-5" iyz="0" izz="7.2e-8"/></inertial>
+    <visual><origin rpy="1.5708 0 0" xyz="0 0 0"/><geometry><cylinder length="0.92" radius="0.012"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03 0 -0.018"/><geometry><box size="0.05 0.90 0.025"/></geometry><material name="spray_aqua"/></visual>
+    <!-- 9 nozzles at 100 mm pitch across the 0.96 m bar -->
+    <visual><origin xyz="0.03  0.40 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03  0.30 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03  0.20 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03  0.10 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03  0.00 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03 -0.10 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03 -0.20 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03 -0.30 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin xyz="0.03 -0.40 -0.030"/><geometry><cylinder length="0.018" radius="0.009"/></geometry><material name="nozzle_brass"/></visual>
+  </link>
+  <joint name="spray_joint" type="fixed"><parent link="base_link"/><child link="spray_bar"/><origin xyz="0.16 0 -0.04"/></joint>
+
+  <!-- 11. 12V 10Ah LFP battery (150x100x95). 1.30 kg. -->
+  <link name="battery">
+    <inertial><mass value="1.300"/><inertia ixx="2.061e-3" ixy="0" ixz="0" iyy="3.415e-3" iyz="0" izz="3.521e-3"/></inertial>
+    <visual><geometry><box size="0.150 0.100 0.095"/></geometry><material name="batt_navy"/></visual>
+  </link>
+  <joint name="battery_joint" type="fixed"><parent link="base_link"/><child link="battery"/><origin xyz="-0.06 -0.16 0.085"/></joint>
+
+  <!-- 12. ESP32 DevKit (58x28x13). 0.010 kg. -->
+  <link name="esp32">
+    <inertial><mass value="0.010"/><inertia ixx="7.94e-7" ixy="0" ixz="0" iyy="2.94e-6" iyz="0" izz="3.46e-6"/></inertial>
+    <visual><geometry><box size="0.058 0.028 0.013"/></geometry><material name="pcb_green"/></visual>
+  </link>
+  <joint name="esp32_joint" type="fixed"><parent link="base_link"/><child link="esp32"/><origin xyz="-0.10 0.06 0.066"/></joint>
+
+  <!-- 13. Raspberry Pi 4B + heatsink (85x56x20). 0.055 kg. -->
+  <link name="rpi4">
+    <inertial><mass value="0.055"/><inertia ixx="1.62e-5" ixy="0" ixz="0" iyy="3.50e-5" iyz="0" izz="4.75e-5"/></inertial>
+    <visual><geometry><box size="0.085 0.056 0.020"/></geometry><material name="pi_green"/></visual>
+  </link>
+  <joint name="rpi4_joint" type="fixed"><parent link="base_link"/><child link="rpi4"/><origin xyz="-0.10 -0.02 0.070"/></joint>
+
+  <!-- 14. Sensor cluster: DHT22 + 2x DS18B20 + INA219 + MPU-6050 + 2 limit sw. 0.10 kg. -->
+  <link name="sensor_cluster">
+    <inertial><mass value="0.100"/><inertia ixx="1.67e-5" ixy="0" ixz="0" iyy="3.33e-5" iyz="0" izz="4.33e-5"/></inertial>
+    <visual><geometry><box size="0.060 0.040 0.020"/></geometry><material name="sensor_blue"/></visual>
+    <!-- two limit switches at the travel ends (down-slope edges) -->
+    <visual><origin xyz="0.030 0.025 0.000"/><geometry><box size="0.012 0.006 0.010"/></geometry><material name="pom_black"/></visual>
+    <visual><origin xyz="-0.030 0.025 0.000"/><geometry><box size="0.012 0.006 0.010"/></geometry><material name="pom_black"/></visual>
+  </link>
+  <joint name="sensor_cluster_joint" type="fixed"><parent link="base_link"/><child link="sensor_cluster"/><origin xyz="-0.10 0.30 0.070"/></joint>
+
+  <!-- 15. cabling, connectors, fuses (distributed). 0.30 kg. modelled as a thin tray. -->
+  <link name="wiring_tray">
+    <inertial><mass value="0.300"/><inertia ixx="2.252e-3" ixy="0" ixz="0" iyy="1.003e-3" iyz="0" izz="3.250e-3"/></inertial>
+    <visual><geometry><box size="0.20 0.30 0.010"/></geometry><material name="wire_charcoal"/></visual>
+  </link>
+  <joint name="wiring_tray_joint" type="fixed"><parent link="base_link"/><child link="wiring_tray"/><origin xyz="-0.02 0 0.056"/></joint>
+
+  <!-- 16. 8 V-groove guide wheels on 4 bogie plates (0.40 kg total). 2 wheels/bogie. -->
+  <link name="bogie_fr">
+    <inertial><mass value="0.100"/><inertia ixx="2.83e-5" ixy="0" ixz="0" iyy="5.08e-5" iyz="0" izz="3.75e-5"/></inertial>
+    <visual><geometry><box size="0.06 0.03 0.05"/></geometry><material name="frame_dark"/></visual>
+    <visual><origin rpy="-1.5708 0 0" xyz="0.020 0.022 0.0"/><geometry><cylinder length="0.012" radius="0.012"/></geometry><material name="pom_black"/></visual>
+    <visual><origin rpy="-1.5708 0 0" xyz="-0.020 0.022 0.0"/><geometry><cylinder length="0.012" radius="0.012"/></geometry><material name="pom_black"/></visual>
+  </link>
+  <joint name="bogie_fr_joint" type="fixed"><parent link="base_link"/><child link="bogie_fr"/><origin xyz="0.13 0.45 -0.045"/></joint>
+  <link name="bogie_rr">
+    <inertial><mass value="0.100"/><inertia ixx="2.83e-5" ixy="0" ixz="0" iyy="5.08e-5" iyz="0" izz="3.75e-5"/></inertial>
+    <visual><geometry><box size="0.06 0.03 0.05"/></geometry><material name="frame_dark"/></visual>
+    <visual><origin rpy="-1.5708 0 0" xyz="0.020 0.022 0.0"/><geometry><cylinder length="0.012" radius="0.012"/></geometry><material name="pom_black"/></visual>
+    <visual><origin rpy="-1.5708 0 0" xyz="-0.020 0.022 0.0"/><geometry><cylinder length="0.012" radius="0.012"/></geometry><material name="pom_black"/></visual>
+  </link>
+  <joint name="bogie_rr_joint" type="fixed"><parent link="base_link"/><child link="bogie_rr"/><origin xyz="-0.13 0.45 -0.045"/></joint>
+  <link name="bogie_fl">
+    <inertial><mass value="0.100"/><inertia ixx="2.83e-5" ixy="0" ixz="0" iyy="5.08e-5" iyz="0" izz="3.75e-5"/></inertial>
+    <visual><geometry><box size="0.06 0.03 0.05"/></geometry><material name="frame_dark"/></visual>
+    <visual><origin rpy="-1.5708 0 0" xyz="0.020 -0.022 0.0"/><geometry><cylinder length="0.012" radius="0.012"/></geometry><material name="pom_black"/></visual>
+    <visual><origin rpy="-1.5708 0 0" xyz="-0.020 -0.022 0.0"/><geometry><cylinder length="0.012" radius="0.012"/></geometry><material name="pom_black"/></visual>
+  </link>
+  <joint name="bogie_fl_joint" type="fixed"><parent link="base_link"/><child link="bogie_fl"/><origin xyz="0.13 -0.45 -0.045"/></joint>
+  <link name="bogie_rl">
+    <inertial><mass value="0.100"/><inertia ixx="2.83e-5" ixy="0" ixz="0" iyy="5.08e-5" iyz="0" izz="3.75e-5"/></inertial>
+    <visual><geometry><box size="0.06 0.03 0.05"/></geometry><material name="frame_dark"/></visual>
+    <visual><origin rpy="-1.5708 0 0" xyz="0.020 -0.022 0.0"/><geometry><cylinder length="0.012" radius="0.012"/></geometry><material name="pom_black"/></visual>
+    <visual><origin rpy="-1.5708 0 0" xyz="-0.020 -0.022 0.0"/><geometry><cylinder length="0.012" radius="0.012"/></geometry><material name="pom_black"/></visual>
+  </link>
+  <joint name="bogie_rl_joint" type="fixed"><parent link="base_link"/><child link="bogie_rl"/><origin xyz="-0.13 -0.45 -0.045"/></joint>
+
+  <!-- ===== Gazebo colours ===== -->
+  <!-- gravity off on the carriage: the real rack-and-pinion + MDD3A active brake
+       is non-backdrivable and HOLDS the carriage against gravity (it does not
+       free-slide down the rail). gazebo_ros2_control drops the joint limit, so
+       with sim gravity the carriage would slide off the rail before the
+       controller activates. The climb margin (45 N drive > 35.5 N load) is the
+       analytical result in scripts/rack_pinion_drive.py. -->
+  <gazebo reference="base_link"><material>Gazebo/Grey</material><gravity>0</gravity></gazebo>
+  <gazebo reference="side_frame_left"><material>Gazebo/DarkGrey</material></gazebo>
+  <gazebo reference="side_frame_right"><material>Gazebo/DarkGrey</material></gazebo>
+  <gazebo reference="brush_link"><material>Gazebo/White</material></gazebo>
+  <gazebo reference="brush_motor"><material>Gazebo/Orange</material></gazebo>
+  <gazebo reference="drive_motor_left"><material>Gazebo/Orange</material></gazebo>
+  <gazebo reference="drive_motor_right"><material>Gazebo/Orange</material></gazebo>
+  <gazebo reference="pinion_left"><material>Gazebo/Gold</material></gazebo>
+  <gazebo reference="pinion_right"><material>Gazebo/Gold</material></gazebo>
+  <gazebo reference="driver_box"><material>Gazebo/Red</material></gazebo>
+  <gazebo reference="water_pump"><material>Gazebo/White</material></gazebo>
+  <gazebo reference="tank_link"><material>Gazebo/BlueTransparent</material></gazebo>
+  <gazebo reference="spray_bar"><material>Gazebo/BlueTransparent</material></gazebo>
+  <gazebo reference="battery"><material>Gazebo/Blue</material></gazebo>
+  <gazebo reference="esp32"><material>Gazebo/Green</material></gazebo>
+  <gazebo reference="rpi4"><material>Gazebo/Green</material></gazebo>
+  <gazebo reference="sensor_cluster"><material>Gazebo/SkyBlue</material></gazebo>
+  <gazebo reference="wiring_tray"><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="bogie_fr"><material>Gazebo/DarkGrey</material></gazebo>
+  <gazebo reference="bogie_rr"><material>Gazebo/DarkGrey</material></gazebo>
+  <gazebo reference="bogie_fl"><material>Gazebo/DarkGrey</material></gazebo>
+  <gazebo reference="bogie_rl"><material>Gazebo/DarkGrey</material></gazebo>
+
+  <!-- ===== ros2_control: the prismatic driven by an effort-limited velocity interface ===== -->
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware><plugin>gazebo_ros2_control/GazeboSystem</plugin></hardware>
+    <joint name="rail_slide">
+      <command_interface name="velocity">
+        <param name="min">-0.15</param>
+        <param name="max">0.15</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.70</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </ros2_control>
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <robot_param>robot_description</robot_param>
+      <robot_param_node>robot_state_publisher</robot_param_node>
+      <parameters>/mnt/c/Users/rizk/Desktop/GRADUATION PROJECT/gazebo/pvbot_description/controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+</robot>

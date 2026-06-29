@@ -1,0 +1,49 @@
+/*--------------------------------*- C++ -*----------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      adsorptionProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// Silica-gel / water, Appendix A Table 7 + Tier-0 params.yaml.
+// dimensionedScalars (read with code-supplied units): plain numeric values.
+
+eps     0.38;          // bed porosity [-]
+rhoG    1.2;           // humid-air density [kg/m3]
+rhoS    750;           // silica-gel bulk density [kg/m3]
+cpG     1006;          // gas specific heat [J/kg/K]
+cpS     921;           // solid specific heat [J/kg/K]
+cpW     4180;          // adsorbed-water specific heat [J/kg/K]
+kG      0.026;         // gas thermal conductivity [W/m/K]
+kS      0.197;         // solid thermal conductivity [W/m/K]
+Dm      2.6e-5;        // H2O-air molecular diffusivity [m2/s]
+tau     1.6;           // tortuosity [-]
+dp      0.002;         // particle diameter [m]
+dHads   2.4e6;         // isosteric heat of adsorption [J/kg] (Tier-0 representative)
+
+// Ergun Darcy-Forchheimer coefficients (dp=2mm, eps=0.38; validated in V2)
+dDarcy  2.6269e8;      // viscous (Darcy) coefficient [1/m2]
+fForch  1.9773e4;      // inertial (Forchheimer) coefficient [1/m]
+
+// scalar constants (per-cell ODE only)
+Mw      0.018015;      // kg/mol water
+Mair    0.028964;      // kg/mol dry air
+Ptot    101325;        // Pa total pressure
+Ds0     2.54e-4;       // m2/s LDF pre-exponential
+Ea      4.2e4;         // J/mol LDF activation energy
+F0      15;            // Glueckauf factor [-]
+Rp      0.001;         // m pellet radius (= dp/2)
+Rgas    8.314462618;   // J/mol/K
+T0K     273.15;        // K
+
+// Tier-0 Sips isotherm constants (data/isotherm/params.yaml, van't Hoff T-law)
+qm_s    0.39079712878744455;
+Kref_s  3.707238835550887e-05;   // 1/Pa at Tref
+dHk_s   -99414.09542067378;      // J/mol
+n0_s    0.6819637278159347;
+n1_s    -0.017811620676531893;   // 1/degC
+Tref_C  30.0;                    // degC
+
+// ************************************************************************* //

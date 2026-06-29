@@ -1,0 +1,65 @@
+[
+  {
+    "route": "VCR",
+    "SEC_kWh_kg": 0.42,
+    "E_year_GWh": 15.823255813953487,
+    "C_el_yr_USD": 316465.11627906974,
+    "CAPEX_MUSD": 1.8,
+    "C_capex_yr_USD": 210293.18088483598,
+    "LCOW_USD_m3": 13.981856035832065
+  },
+  {
+    "route": "Absorption",
+    "SEC_kWh_kg": 0.38,
+    "E_year_GWh": 14.316279069767441,
+    "C_el_yr_USD": 286325.5813953488,
+    "CAPEX_MUSD": 1.8,
+    "C_capex_yr_USD": 210293.18088483598,
+    "LCOW_USD_m3": 13.181856035832066
+  },
+  {
+    "route": "Silica_adsorption",
+    "SEC_kWh_kg": 1.16,
+    "E_year_GWh": 43.70232558139534,
+    "C_el_yr_USD": 874046.5116279069,
+    "CAPEX_MUSD": 2.2,
+    "C_capex_yr_USD": 257024.99885924402,
+    "LCOW_USD_m3": 30.02226848823919
+  },
+  {
+    "route": "MOF",
+    "SEC_kWh_kg": 2.96,
+    "E_year_GWh": 111.51627906976744,
+    "C_el_yr_USD": 2230325.5813953485,
+    "CAPEX_MUSD": 5.0,
+    "C_capex_yr_USD": 584147.7246800999,
+    "LCOW_USD_m3": 74.70515565508906
+  },
+  {
+    "route": "TEC_low",
+    "SEC_kWh_kg": 2.0,
+    "E_year_GWh": 75.34883720930232,
+    "C_el_yr_USD": 1506976.7441860465,
+    "CAPEX_MUSD": 1.6,
+    "C_capex_yr_USD": 186927.271897632,
+    "LCOW_USD_m3": 44.961649809628504
+  },
+  {
+    "route": "TEC_mid",
+    "SEC_kWh_kg": 6.0,
+    "E_year_GWh": 226.04651162790697,
+    "C_el_yr_USD": 4520930.23255814,
+    "CAPEX_MUSD": 1.6,
+    "C_capex_yr_USD": 186927.271897632,
+    "LCOW_USD_m3": 124.96164980962851
+  },
+  {
+    "route": "TEC_high",
+    "SEC_kWh_kg": 12.0,
+    "E_year_GWh": 452.09302325581393,
+    "C_el_yr_USD": 9041860.46511628,
+    "CAPEX_MUSD": 1.6,
+    "C_capex_yr_USD": 186927.271897632,
+    "LCOW_USD_m3": 244.96164980962854
+  }
+]

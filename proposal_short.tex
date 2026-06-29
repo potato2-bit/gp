@@ -1,0 +1,223 @@
+% Graduation Project Proposal (3--5 pages)
+% !TEX TS-program = pdflatex
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{setspace}
+\usepackage{cite}
+\setstretch{1.15}
+
+\input{tex/assumptions}
+
+\title{\textbf{Project Proposal}\\[0.35em]
+\large Autonomous Thermoelectric-Based Atmospheric Water Harvesting Robot\\
+for Photovoltaic Panel Cleaning\\[0.25em]
+\normalsize Multi-Scale Design for Egyptian New Cities}
+\author{Rahma El Hamouly\\Faculty of Engineering --- Graduation Project}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Keywords}
+Autonomous PV cleaning robot; thermoelectric cooler (TEC); Peltier module; atmospheric water
+harvesting (AWH); photovoltaic soiling; Egypt new cities; street-lamp PV; commercial rooftop;
+industrial ground-mount; prototype design.
+
+% -----------------------------------------------------------------------
+\section{Problem Statement}
+% -----------------------------------------------------------------------
+
+Photovoltaic panels in Egyptian arid environments accumulate dust at rates of 0.3--2.0\% power
+loss per day, with monthly soiling losses reaching 15--40\% during the dry season without
+intervention \cite{kazem2023soiling,sarver2013pvsoiling}. Wet cleaning is the most effective
+remediation, restoring 90--98\% of lost transmittance \cite{mejia2021cleaning}, but it requires
+a reliable supply of rinse-quality water at or near the panel array.
+
+Egypt's new cities --- the New Administrative Capital (NAC), New Alamein, New Mansoura, and
+others --- deploy PV systems at three distinct scales: (i)~\textbf{pole-mounted street-lamp
+panels} (\ScaleAPV~W), installed across large urban footprints in the tens of thousands;
+(ii)~\textbf{commercial rooftop arrays} (\ScaleBPV~kWp), on buildings whose sites precede
+the maturation of municipal water supply; and (iii)~\textbf{industrial ground-mount plants}
+(\ScaleCPV~kWp), sited at desert peripheries where piped water is unavailable
+\cite{egypt2030vision,irena2023egypt}.
+
+Current autonomous cleaning solutions depend on mains water, on-site water trucks, or a static
+filled reservoir --- all of which require either infrastructure that does not yet exist or
+regular human attendance. \textbf{No commercially available autonomous PV cleaner integrates
+its own water source.} This project fills that gap by designing a robot that harvests cleaning
+water directly from ambient air using thermoelectric cooler (TEC) modules, enabling fully
+autonomous, water-independent PV panel cleaning.
+
+% -----------------------------------------------------------------------
+\section{Objectives}
+% -----------------------------------------------------------------------
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Validate TEC-based AWH feasibility} for Egyptian climatic conditions using
+  hourly psychrometric analysis of NASA POWER data at Benban Solar Park (Aswan) as the
+  worst-case arid reference site.
+  \item \textbf{Design TEC condensation subsystems} for three deployment scales, with
+  thermodynamic sizing (COP, cold-side temperature, condensate yield, SEC) derived from first
+  principles and validated against published experimental data
+  \cite{eslami2021tec,shourideh2021tec,alqaed2023awg}.
+  \item \textbf{Design complete autonomous robot systems} for each scale --- mechanical structure,
+  motion mechanism, cleaning head, water delivery, power supply, and control architecture ---
+  capable of operating without human intervention between scheduled maintenance intervals.
+  \item \textbf{Develop and build a Scale~B prototype} (commercial rooftop, \ScaleBPV~kWp),
+  with a complete bill of materials, fabrication protocol, and experimental validation plan.
+  \item \textbf{Quantify energy and economic performance}: self-consumption fraction,
+  payback period, and soiling-loss recovery value for each scale.
+\end{enumerate}
+
+% -----------------------------------------------------------------------
+\section{Role of Benban in the Methodology}
+% -----------------------------------------------------------------------
+
+Benban Solar Park (\BenbanLat$^\circ$N, \BenbanLon$^\circ$E) serves as the \textbf{climate
+validation reference}, not the deployment target. Its well-characterised arid
+microclimate---high ambient temperature, low relative humidity, and strong diurnal
+swing---represents the most thermodynamically demanding operating condition for a TEC condenser
+in Egypt. Demonstrating adequate condensate yield at Benban conditions proves feasibility for
+all new-city deployment sites, which generally have higher humidity (coastal or Delta locations)
+and are therefore \emph{easier} cases for TEC AWH.
+
+All prior analysis work (hourly psychrometrics, dew-point distributions, TEC COP calculations,
+SEC and LCOW comparisons against VCR, desiccant, and MOF systems) is incorporated into the
+project as supporting evidence and methodology. The primary deliverable is the \textbf{robot
+system design and prototype}.
+
+% -----------------------------------------------------------------------
+\section{Methodology}
+% -----------------------------------------------------------------------
+
+\subsection{Climate Analysis (Benban Reference)}
+
+Five-year hourly NASA POWER data \cite{nasa_power} are processed by
+\texttt{scripts/psychrometrics\_hourly.py} to extract dew-point temperature distributions,
+condensation-viable hour counts by month, and absolute humidity profiles. The conservative
+summer design point is: $T_{\mathrm{amb}} = \TambSummer\,^\circ$C, RH = \RHdesign\%,
+$T_{\mathrm{dp}} = \TdewDesign\,^\circ$C, harvesting window = 6~h/night.
+
+\subsection{TEC Subsystem Sizing}
+
+The governing equations for a single TEC1-12706 module are:
+\begin{align}
+  Q_c &= \alpha\,T_c\,I - \tfrac{1}{2}\,I^2 R - K\,(T_h - T_c), \label{eq:Qc} \\
+  P_{\mathrm{in}} &= \alpha\,(T_h - T_c)\,I + I^2 R, \label{eq:Pin} \\
+  \mathrm{COP} &= Q_c / P_{\mathrm{in}}, \label{eq:COP}
+\end{align}
+with parameters $\alpha = \TECAlpha$~V/K, $R = \TECR$~$\Omega$, $K = \TECK$~W/K
+\cite{riffat2003peltier,eslami2021tec}. At the design operating point
+($T_c = \TcoldDesign\,^\circ$C, $T_h = \ThotDesign\,^\circ$C, $I^* = 3.2$~A):
+COP~$\approx$~\TECCOPnom, $P_{\mathrm{in}} \approx 22.1$~W per module.
+
+Condensate yield per module is estimated from the humid-air mass balance across the cold plate:
+\begin{equation}
+  \dot{V}_w = \eta_c \,\dot{m}_{\mathrm{air}}\,(\rho_{v,\mathrm{in}} - \rho_{v,\mathrm{out}})
+  \times 10^{-3} \approx 0.026\;\text{L/h}. \label{eq:Vw}
+\end{equation}
+Over a 6-hour summer night, one module yields $\approx$0.155~L. Module counts for each scale
+follow from the daily water demand (Table~\ref{tab:scales}).
+
+\begin{table}[htbp]
+\centering
+\caption{Scale summary: deployment targets and key design parameters.}
+\label{tab:scales}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Scale} & \textbf{Application} & \textbf{PV} & \textbf{Water/day} & \textbf{TEC modules} & \textbf{Battery} \\
+\midrule
+A & Street lamp & \ScaleAPV~W & \ScaleAWaterDay~L & \ScaleATECn & \ScaleABattWh~Wh \\
+B & Commercial rooftop & \ScaleBPV~kWp & \ScaleBWaterDay~L & \ScaleBTECn & \ScaleBBattWh~Wh \\
+C & Industrial & \ScaleCPV~kWp & \ScaleCWaterDay~L & \ScaleCTECn & \ScaleCBattWh~Wh \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Robot System Design}
+
+For each scale the mechanical and control design covers:
+\begin{itemize}[leftmargin=*,noitemsep]
+  \item \textbf{Chassis and motion:} Scale~A: single-axis rail wiper on pole frame; Scale~B:
+  wheeled row-traversing platform; Scale~C: gantry rail vehicle.
+  \item \textbf{Cleaning head:} microfibre brush/squeegee bar (\BrushWidth~m wide) with
+  fan-spray nozzles (\FlowNozzle~L/s each).
+  \item \textbf{Water treatment:} sediment filter (5~$\mu$m) $\rightarrow$ activated carbon
+  $\rightarrow$ UV-C sterilisation, targeting TDS $<$ 50~mg/L \cite{beattie2012waterspots}.
+  \item \textbf{Power architecture:} MPPT charge controller, LiFePO\textsubscript{4} battery,
+  buck converter for TEC current control. Robot self-powered from the PV array it cleans.
+  \item \textbf{Control:} ESP32-class microcontroller running a four-state machine (Harvest,
+  Standby, Clean, Emergency) driven by RTC scheduling and sensor feedback.
+\end{itemize}
+
+\subsection{Prototype Build (Scale B)}
+
+The Scale~B prototype bill of materials totals $\approx$USD~600. Build timeline: 3 weeks
+(Week~1: TEC subassembly and water treatment chain; Week~2: chassis fabrication and electronics
+integration; Week~3: field integration and 72-hour autonomous cycle test).
+
+Validation metrics: condensate yield $\geq 80\%$ of model prediction; TDS $<$ 50~mg/L;
+contact force $<$ 5~N; battery SoC $>$ 20\% after full cycle; transmittance restoration
+$\geq 85\%$; 72-hour unattended operation.
+
+% -----------------------------------------------------------------------
+\section{Expected Deliverables}
+% -----------------------------------------------------------------------
+
+\begin{enumerate}[leftmargin=*,noitemsep]
+  \item Complete technical report (\texttt{main\_report.tex} $\rightarrow$ PDF) covering all
+  chapters: climate validation, TEC sizing, mechanical design (3 scales), water delivery,
+  power and control, prototype plan, and results.
+  \item \textbf{Scale~B working prototype} with logged sensor data from 72-hour autonomous
+  test run.
+  \item Engineering drawings: system architecture block diagram, robot assembly drawing (Scales
+  A and B), TEC module mounting detail, water treatment schematic, control wiring diagram.
+  \item Calculation notebook (\texttt{scripts/project\_calculations.py}) covering water demand,
+  TEC condensate yield, power budget, and battery sizing, with auto-generated tables.
+  \item Bibliography in IEEE format (\texttt{references.bib}).
+\end{enumerate}
+
+% -----------------------------------------------------------------------
+\section{Risks and Mitigation}
+% -----------------------------------------------------------------------
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Low condensate yield in summer:} mitigated by running TEC during the
+  longer, more humid winter nights and implementing adaptive current control based on real-time
+  RH. The system can also buffer 7--14 days of production for a single cleaning event.
+  \item \textbf{TEC module degradation:} Peltier modules degrade over thermal cycling. Mitigation:
+  derate current to 70\% of $I_{\max}$ during operation; specify 10-year design life based on
+  supplier MTBF data.
+  \item \textbf{Robot derailment or brush damage:} limit normal contact force via spring-loaded
+  brush mount; install reed-switch end-stops at panel frame edges.
+  \item \textbf{Cost overrun:} the USD~600 BOM is dominated by the battery (30\%); LiFePO4
+  prices have fallen 40\% since 2022 and continue to decline \cite{irena2023egypt}.
+\end{itemize}
+
+% -----------------------------------------------------------------------
+\section{Timeline}
+% -----------------------------------------------------------------------
+
+\textbf{Week 1 (23--30 Apr 2026):} finalise and submit this proposal; complete TEC sizing and
+condensate yield calculations; write Chapters 1--5 of \texttt{main\_report.tex}; begin procuring
+BOM for Scale~B prototype.
+
+\textbf{Week 2 (30 Apr -- 7 May 2026):} write Chapters 6--9 (mechanical, water, power, prototype);
+fabricate TEC subassembly and water treatment chain (Scale~B); bench-test condensate yield and
+water quality.
+
+\textbf{Week 3 (7--14 May 2026):} fabricate robot chassis; integrate electronics; run 72-hour
+field test; write Chapter 10 (results and discussion); full report rebuild and submission.
+
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+\end{document}

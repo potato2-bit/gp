@@ -1,0 +1,105 @@
+﻿Egypt has successfully positioned itself as a regional hub for renewable energy, with solar power playing a central role.1 The country's solar infrastructure is dominated by Industrial (Utility-Scale) projects, though there are several Medium and Small off-grid stations serving remote areas.
+
+
+The following is a detailed breakdown of the solar PV stations in Egypt, categorized by size.
+1. Industrial / Utility-Scale Stations
+These are massive projects connected to the national high-voltage grid, designed to power hundreds of thousands of homes.
+Benban Solar Park
+* Size: Massive Industrial (One of the largest in the world)2
+
+* Capacity: ~1,650 MW (1.65 GW) total capacity.
+* Location: Benban, Aswan Governorate (Western Desert).3
+
+* Details: This is not just one station but a cluster of 41 separate solar power plants (mostly ~50 MW each) developed by different companies (e.g., Scatec, Infinity, ACWA Power, Alcazar Energy) in a single park.
+* Status: Fully Operational.
+* Data & Resources:
+   * World Bank / IFC Project Data: Nubian Suns Solar Park
+   * NREA (New & Renewable Energy Authority): Benban Project Overview
+   * Developer Example (Scatec): Scatec Egypt Projects
+Kom Ombo Solar Plant
+   * Size: Industrial
+   * Capacity: 200 MW.4
+
+   * Location: Kom Ombo, Aswan (approx.5 20km from Benban).
+
+   * Details: A single-site utility-scale plant developed by ACWA Power.6 It uses bifacial solar panels (capturing sunlight from both sides) to increase efficiency.7
+
+   * Status: Operational (Inaugurated recently).
+   * Data & Resources:
+      * ACWA Power Project Page: Kom Ombo PV
+      * EBRD Project Summary: Kom Ombo Solar Details
+Zaafarana Solar Plant
+      * Size: Industrial
+      * Capacity: 50 MW.8
+
+      * Location: Zaafarana, Red Sea Governorate.9
+
+      * Details: While Zaafarana is famous for wind farms, this PV plant was built to diversify the site's output. It was developed with German financing (KfW).
+      * Status: Operational.
+      * Data & Resources:
+         * Belectric (EPC Contractor): Zaafarana Project News (Search "Egypt" in their press releases for technical specifics).
+Kuraymat Integrated Solar Combined Cycle (ISCC)
+         * Size: Industrial (Hybrid)
+         * Capacity: ~140 MW Total (Solar component contributes ~20 MW thermal equivalent).
+         * Location: Atfih, Giza (South of Cairo).
+         * Details: This is a hybrid plant using natural gas and a solar field of parabolic troughs (CSP technology, not PV).10 It was Egypt's first major foray into solar thermal power.
+
+         * Status: Operational since 2011.
+         * Data & Resources:
+            * NREA Project Page: Kuraymat ISCC Details
+________________
+2. Medium-Scale Stations
+These projects typically power specific cities, tourism districts, or industrial zones.
+Hurghada Solar PV Plant
+            * Size: Medium
+            * Capacity: 20 MW (+ Battery Storage).11
+
+            * Location: Hurghada, Red Sea.12
+
+            * Details: Developed in cooperation with JICA (Japan), this plant is unique because it includes battery storage to stabilize the grid for the tourism-heavy city.13
+
+            * Status: Under Development/Construction.
+            * Data & Resources:
+               * JICA Project Brief: Hurghada PV Project
+Siwa Solar Plant
+               * Size: Medium
+               * Capacity: 10 MW.
+               * Location: Siwa Oasis, Western Desert.
+               * Details: An off-grid/hybrid solution designed to reduce the oasis's reliance on diesel generators.
+               * Status: Operational.
+               * Data & Resources:
+               * Masdar (Developer): Siwa Solar PV Plant
+________________
+3. Small / Off-Grid Stations
+These are critical infrastructure projects for remote towns not connected to the national grid.
+Station Name
+	Capacity
+	Location
+	Type
+	Marsa Alam Solar Plant14
+	6 MW15
+	Red Sea16
+	Off-grid/Diesel Hybrid17
+	Shalateen Solar Plant18
+	5 MW19
+	Red Sea (South)20
+	Off-grid21
+	El Farafra Solar Plant22
+	5 MW23
+	New Valley24
+	Off-grid25
+	Abu Ramad Solar Plant
+	2 MW
+	Red Sea (South)
+	Off-grid
+	Halayeb Solar Plant
+	1 MW
+	Red Sea (South)
+	Off-grid
+	               * Resources for Small Stations: Detailed data for these smaller plants is often aggregated in NREA annual reports rather than individual websites.
+               * Official NREA Annual Reports: Download Reports Here (Look for the "Isolated Networks" or "Off-grid" sections).
+How to access detailed technical data:
+For the most granular technical data (exact coordinates, output charts, technical datasheets), your best resource is the NREA (New and Renewable Energy Authority) website.
+               * Main Link: NREA Official Website
+               * Atlas: They also maintain a "Solar Atlas" which gives irradiation data for these specific locations.
+Would you like me to find the specific contractors or investment values for any of these specific projects?

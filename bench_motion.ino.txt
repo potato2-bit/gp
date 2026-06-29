@@ -1,0 +1,46 @@
+// Bench motion test: GA25-370 on L298N, encoder feedback, limit-switch reverse.
+// ESP32 Arduino core 3.x (uses ledcAttach / ledcWrite).
+
+const int ENA = 25, IN1 = 26, IN2 = 27;   // L298N
+const int ENC_A = 32, ENC_B = 33;          // encoder channels
+const int LIM_L = 18, LIM_R = 19;          // end stops
+
+const int PWM_FREQ = 20000, PWM_RES = 8;   // 20 kHz, 0-255
+int DUTY = 120;                            // ~47% -> trim to sweep speed
+
+volatile long ticks = 0;
+int dir = +1;                              // +1 = toward right, -1 = toward left
+
+void IRAM_ATTR encISR() {
+  // quadrature: read B at A's rising edge to get direction
+  if (digitalRead(ENC_B)) ticks++; else ticks--;
+}
+
+void drive(int d) {                        // d = +1, -1, or 0 (stop)
+  if (d > 0)      { digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);  ledcWrite(ENA, DUTY); }
+  else if (d < 0) { digitalWrite(IN1, LOW);  digitalWrite(IN2, HIGH); ledcWrite(ENA, DUTY); }
+  else            { digitalWrite(IN1, LOW);  digitalWrite(IN2, LOW);  ledcWrite(ENA, 0); }
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  ledcAttach(ENA, PWM_FREQ, PWM_RES);
+  pinMode(ENC_A, INPUT_PULLUP); pinMode(ENC_B, INPUT_PULLUP);
+  pinMode(LIM_L, INPUT_PULLUP); pinMode(LIM_R, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(ENC_A), encISR, RISING);
+  drive(dir);
+}
+
+void loop() {
+  if (dir > 0 && digitalRead(LIM_R) == LOW) {   // hit right end
+    drive(0); delay(300); dir = -1; drive(dir);
+  }
+  if (dir < 0 && digitalRead(LIM_L) == LOW) {   // hit left end
+    drive(0); delay(300); dir = +1; drive(dir);
+  }
+  static unsigned long t = 0;
+  if (millis() - t > 200) { t = millis();
+    Serial.printf("dir %+d  ticks %ld\n", dir, ticks);
+  }
+}

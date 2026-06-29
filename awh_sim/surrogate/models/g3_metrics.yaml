@@ -1,0 +1,16 @@
+m_w_kg:
+  r2: 0.9834328659319136
+  nrmse: 2.612839766329961
+  passed: true
+removal_frac:
+  r2: 0.7433639544244466
+  nrmse: 7.3729812786023095
+  passed: false
+SEC_kWh_per_kg:
+  r2: 0.8971598864331831
+  nrmse: 3.6337621016261017
+  passed: false
+Q_reg_J:
+  r2: 0.9816463399983087
+  nrmse: 2.9161347799282513
+  passed: true

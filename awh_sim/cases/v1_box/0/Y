@@ -1,0 +1,25 @@
+/*--------------------------------*- C++ -*----------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      Y;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// vapour mass fraction.  0.013 ~ RH 80% at 295 K (adsorption box default).
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0.013;
+
+boundaryField
+{
+    inlet       { type zeroGradient; }
+    outlet      { type zeroGradient; }
+    wall        { type zeroGradient; }
+    wedge_back  { type wedge; }
+    wedge_front { type wedge; }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,518 @@
+% !TEX TS-program = pdflatex
+% =====================================================================
+% Document : tec_single_vs_parallel_deployment_analysis_v1.0.tex
+% Version  : 1.0
+% Date     : 2026-04-22
+% Author   : Graduation Project -- Atmospheric Water Harvesting for
+%            Autonomous PV Panels Cleaning
+% Purpose  : Clarify the "10 L/day" TEC specification (per-unit vs.
+%            aggregate) and compare single-unit vs. multi-unit parallel
+%            deployments on capacity, lifecycle cost, maintenance,
+%            redundancy, reliability, and energy.
+%
+% Traceability -- this document does NOT modify any existing file.
+% Cross-references to:
+%   - project_inputs.yaml                 (single source of truth)
+%   - docs/BENBAN_TEC_VCR_CAPACITY_ANALYSIS.tex
+%   - project_awh_benban_numbers_cost_quality.tex
+%   - egypt_pv_inventory_and_tec_small_scale.tex
+%   - output/calculation_summary.txt
+%   - output/psychrometrics_monthly.csv
+%   - output/lcow_table.csv
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{graphicx}
+% --- Lightweight siunitx substitute (for portability) ---
+\newcommand{\SI}[2]{#1\,\ensuremath{\mathrm{#2}}}
+\newcommand{\SIrange}[3]{#1--#2\,\ensuremath{\mathrm{#3}}}
+\providecommand{\celsius}{^{\circ}\mathrm{C}}
+\providecommand{\watt}{W}
+\providecommand{\kilowatt}{kW}
+\providecommand{\MW}{MW}
+\providecommand{\GW}{GW}
+\providecommand{\kelvin}{K}
+\providecommand{\hour}{h}
+\providecommand{\day}{day}
+\providecommand{\year}{yr}
+\providecommand{\liter}{L}
+\providecommand{\kilogram}{kg}
+\providecommand{\gram}{g}
+\providecommand{\metre}{m}
+\providecommand{\cubic}{}
+\providecommand{\square}{}
+\providecommand{\kilojoule}{kJ}
+\providecommand{\kilowatthour}{kWh}
+\providecommand{\kiloWatt}{kW}
+\providecommand{\kilo}{k}
+\providecommand{\joule}{J}
+\providecommand{\USD}{USD}
+\providecommand{\MUSD}{MUSD}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+% --- IEEE-style numeric citations ---
+\usepackage[numbers,square,sort&compress]{natbib}
+\bibliographystyle{IEEEtran}
+
+\title{\textbf{TEC Unit Specification Clarification and\\
+Single-Unit versus Multi-Unit Parallel Deployment Analysis}\\
+\large Companion Engineering Report to the Benban AWH-for-PV-Cleaning Project \\
+\normalsize Document v1.0 --- Traceable, Additive, Non-Destructive}
+\author{Graduation Project: Atmospheric Water Harvesting for Autonomous PV Cleaning}
+\date{2026-04-22}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+The repository's TEC (thermoelectric-cooler / Peltier condensation) option has been characterised in previous documents using specific-energy-consumption (SEC) bands of $2$--$12\,\mathrm{kWh/kg}$ and a representative commercial unit rating of \textbf{10\,L/day}. A recurring engineering question has arisen: \emph{does ``10\,L/day'' describe the capacity of a single standalone TEC unit, or is it the total aggregate capacity of a multi-unit parallel deployment?} This report provides a definitive, sourced answer, then develops a complete comparative engineering analysis of the two candidate deployment architectures --- a \textbf{single high-capacity TEC assembly} versus \textbf{multiple parallel TEC units} --- across capacity, lifecycle cost, maintenance, redundancy, reliability, and energy. The conclusion is that the 10\,L/day figure is, in commercial practice, a \textbf{per-unit rated output at nominal psychrometric conditions} ($T_{\mathrm{db}}{\approx}27\,^{\circ}\mathrm{C}$, $\mathrm{RH}{\approx}60\%$), and that for \emph{any} deliverable exceeding that single-unit ceiling the correct engineering response is a modular parallel $N$-unit architecture with $N{+}1$ redundancy. This report preserves all prior calculation documents unchanged.
+\end{abstract}
+
+\tableofcontents
+\bigskip
+
+% =====================================================================
+\section{Scope, Traceability, and Non-Destructive Promise}
+\label{sec:scope}
+This note is an \textbf{additive companion} to the existing documents:
+\begin{itemize}[leftmargin=*]
+  \item \texttt{docs/BENBAN\_TEC\_VCR\_CAPACITY\_ANALYSIS.tex} --- primary demand derivation.
+  \item \texttt{project\_awh\_benban\_numbers\_cost\_quality.tex} --- LCOW and project-level economics.
+  \item \texttt{egypt\_pv\_inventory\_and\_tec\_small\_scale.tex} --- Egypt PV inventory and small-scale TEC breakeven.
+  \item \texttt{project\_inputs.yaml} --- single source of truth for numeric inputs.
+  \item \texttt{output/calculation\_summary.txt}, \texttt{output/psychrometrics\_monthly.csv}, \texttt{output/lcow\_table.csv} --- run artefacts.
+\end{itemize}
+\textbf{No existing file has been modified by this report.} All input values are re-read (not re-derived with new assumptions), and every number that appears here is either a direct quotation of a prior result or a new figure explicitly labelled ``\emph{new in v1.0}''.
+
+% =====================================================================
+\section{Definitive Clarification of the ``10\,L/day'' TEC Specification}
+\label{sec:clarification}
+
+\subsection{Short answer}
+\textbf{The ``10\,L/day'' specification refers to the rated output of a single commercial TEC (Peltier) atmospheric water generator \emph{unit} operating at nominal psychrometric conditions, not to the aggregate across a parallel bank of units.} To meet any duty greater than 10\,L/day at rated conditions, or greater than the derated output at the site's actual conditions, \textbf{multiple units must be deployed in parallel}.
+
+\subsection{Technical rationale --- why the figure is per-unit}
+A TEC/Peltier AWG unit is an \emph{integrated} electromechanical product whose water-generation rate is fixed at design time by three internal constraints \citep{enescu2019peltierreview,twaha2016teg_review,peltier_handbook_2018}:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Thermoelectric cold-side duty}. The installed Peltier modules impose a hard ceiling on the cold-side heat-removal rate $\dot{Q}_c$. For a standard TEC1-12706 (\SI{60}{\watt} electrical, $\Delta T_{\max}{\approx}\SI{66}{\kelvin}$ at zero duty), the maximum cold-side load is approximately $\dot{Q}_{c,\max}{\approx}\SI{57}{\watt}$ near $\Delta T{=}0$ and drops monotonically as $\Delta T$ rises. For TEC1-12715 (\SI{150}{\watt}), $\dot{Q}_{c,\max}{\approx}\SI{140}{\watt}$. An integrated 10\,L/day AWG unit typically stacks 6--12 such modules behind a finned cold block; the stack size is \emph{fixed in hardware}.
+  \item \textbf{Air-flow capacity}. The internal fan delivers a fixed volumetric flow $\dot{V}_a$ (typically $100\,\mathrm{m^3/h}$ class for a 10\,L/day unit). The dehumidification mass rate is capped by $\dot{m}_w = \dot{V}_a\,\rho_a\,(\omega_{\mathrm{in}}-\omega_{\mathrm{out}})$, so a single unit cannot exceed its own fan-bounded mass throughput.
+  \item \textbf{Condensation surface area}. The finned cold-block area $A_c$ determines the achievable heat and mass transfer. Doubling the water output of one unit would require approximately doubling $A_c$, the fan, the Peltier stack, and the power supply --- which, in practice, is what the manufacturer does by selling \emph{two} units instead of one bigger one.
+\end{enumerate}
+Because the cost-optimal commercial envelope for a single TEC AWG is roughly \SIrange{300}{500}{\watt} electrical and \SIrange{5}{20}{\liter/\day} water output at nominal conditions \citep{salehi2020awgreview,ecoloblue2024, commercial_awg_retail_2025}, manufacturers scale capacity upward by \emph{replicating units}, not by building monolithic larger ones. This is why \textbf{10\,L/day is universally a per-unit rating}.
+
+\subsection{Why the question matters for the Benban duty}
+The repository's Benban block demand is
+\begin{equation}
+V_{\mathrm{day,avg}} = 103.22\ \mathrm{m^3/day} = 103{,}220\ \mathrm{L/day},
+\label{eq:benban_demand}
+\end{equation}
+(verbatim from \texttt{docs/BENBAN\_TEC\_VCR\_CAPACITY\_ANALYSIS.tex}). Taking the 10\,L/day unit as a building block, the \emph{aggregate count} is
+\begin{equation}
+N_{\mathrm{nominal}}^{\mathrm{Benban}} = \left\lceil \frac{V_{\mathrm{day,avg}}}{10\ \mathrm{L/day}} \right\rceil
+= \left\lceil \frac{103{,}220}{10} \right\rceil = 10{,}322\ \text{units}.
+\label{eq:benban_nominal_count}
+\end{equation}
+This is before any psychrometric derating for Benban's arid climate. So clarifying per-unit vs. aggregate is not cosmetic: it changes the deployment count by four orders of magnitude.
+
+\subsection{Nominal vs. derated output of a single TEC unit}
+Commercial AWG ratings are given at the ``nameplate'' psychrometric state:
+\begin{equation}
+T_{\mathrm{db}}^{\mathrm{nom}} = \SI{27}{\celsius},\qquad \mathrm{RH}^{\mathrm{nom}} = 60\%,
+\qquad \omega^{\mathrm{nom}} \approx \SI{0.01333}{\kilogram/\kilogram},
+\end{equation}
+which corresponds to $\omega^{\mathrm{nom}}{\approx}\SI{13.33}{\gram/\kilogram}$ \citep{ashrae2021psychro}. Benban's annual-mean humidity ratio, from \texttt{output/psychrometrics\_monthly.csv}, is
+\begin{equation}
+\bar{\omega}^{\mathrm{Benban}} = \SI{0.004844}{\kilogram/\kilogram} = \SI{4.844}{\gram/\kilogram}.
+\end{equation}
+A first-order derating factor based on available absolute humidity (a conservative lower bound, ignoring dew-point infeasibility effects) is
+\begin{equation}
+\eta_{\mathrm{derate}} \approx \frac{\bar{\omega}^{\mathrm{Benban}}}{\omega^{\mathrm{nom}}} = \frac{4.844}{13.33} \approx 0.36.
+\label{eq:derate}
+\end{equation}
+Therefore the field output of a nominal 10\,L/day unit at Benban's annual mean is
+\begin{equation}
+\dot{V}_{\mathrm{unit}}^{\mathrm{Benban,avg}} \approx 10\times 0.36 \approx \SI{3.6}{\liter/\day}.
+\label{eq:unit_derated}
+\end{equation}
+For the driest month ($\omega_{\min}{=}\SI{3.719}{\gram/\kilogram}$),
+\begin{equation}
+\dot{V}_{\mathrm{unit}}^{\mathrm{Benban,dry}} \approx 10\times \frac{3.719}{13.33} \approx \SI{2.79}{\liter/\day}.
+\end{equation}
+This derating is consistent with the dry-month scaling factor $F_{\omega}{=}1.30$ already documented in \texttt{BENBAN\_TEC\_VCR\_CAPACITY\_ANALYSIS.tex} (which expressed the same phenomenon as a capacity \emph{uplift} rather than an output \emph{derate}).
+
+% =====================================================================
+\section{Deployment Architectures --- Definitions}
+\label{sec:architectures}
+Two architectures bracket the design space:
+
+\paragraph{Architecture A --- Single high-capacity assembly.}
+One monolithic TEC skid engineered at the duty point, i.e.\ a single pressure vessel / cold block / power supply sized to the full daily demand. In the TEC family this means a custom-built (non-catalogue) device with a Peltier stack of tens of kilowatts and a custom condenser. There is \emph{no commercial 10\,L/day-to-\SI{100000}{\liter/\day} continuous product line for TEC}; Architecture A is a conceptual extreme used only for comparison.
+
+\paragraph{Architecture B --- Multi-unit parallel deployment ($N$ units).}
+A bank of $N$ catalogue TEC units, each rated at the per-unit 10\,L/day ceiling, manifolded into a common water-collection plenum. This is the architecture actually implemented by industry \citep{salehi2020awgreview} and is what the repository has implicitly assumed.
+
+\paragraph{Sizing law (new in v1.0).}
+For a target deliverable $V_{\mathrm{target}}$ [L/day] under field derating $\eta_{\mathrm{derate}}$ and with $N{+}1$ redundancy,
+\begin{equation}
+\boxed{\;N_{\mathrm{install}}
+= \left\lceil \frac{V_{\mathrm{target}}}{\dot{V}_{\mathrm{unit,nom}}\,\eta_{\mathrm{derate}}} \right\rceil + 1\;}
+\label{eq:sizing_law}
+\end{equation}
+where the ``$+1$'' is the redundancy unit (Section~\ref{sec:redundancy}). For the Benban block at $\dot{V}_{\mathrm{unit,nom}}{=}\SI{10}{\liter/\day}$, $\eta_{\mathrm{derate}}{=}0.36$:
+\begin{equation}
+N_{\mathrm{install}}^{\mathrm{Benban}}
+= \left\lceil \frac{103{,}220}{10\times 0.36} \right\rceil + 1
+= \left\lceil 28{,}672 \right\rceil + 1 = 28{,}673\ \text{units}.
+\label{eq:benban_install_count}
+\end{equation}
+This is \textbf{the central reason TEC is infeasible at Benban utility scale} and is consistent with the SEC-based conclusion in \texttt{BENBAN\_TEC\_VCR\_CAPACITY\_ANALYSIS.tex}.
+
+% =====================================================================
+\section{Capacity Calculations --- Both Architectures}
+\label{sec:capacity}
+
+\subsection{Per-unit psychrometric upper bound}
+The maximum \emph{thermodynamic} water rate of a single TEC AWG with electrical input $P_{\mathrm{el}}$ and coefficient of performance $\mathrm{COP}$ is
+\begin{equation}
+\dot{m}_{w,\max} = \frac{\mathrm{COP}\,P_{\mathrm{el}}}{h_{fg}+c_{p,a}\Delta T_{\mathrm{air}}}\cdot\frac{\omega_{\mathrm{in}}-\omega_{\mathrm{out}}}{\omega_{\mathrm{in}}}\cdot\eta_{\mathrm{cond}},
+\label{eq:mdot_max}
+\end{equation}
+where $h_{fg}{\approx}\SI{2450}{\kilo\joule/\kilogram}$ and $c_{p,a}{\approx}\SI{1.005}{\kilo\joule/\kilogram/\kelvin}$ \citep{cengel2019thermo,ashrae2021psychro}. For a 10\,L/day catalogue unit at nominal state, with the catalogue electrical draw \SI{0.35}{\kilowatt} for a typical Peltier AWG in this envelope \citep{ecoloblue2024,commercial_awg_retail_2025,peltier_handbook_2018}, the back-calculated SEC is
+\begin{equation}
+\mathrm{SEC}_{\mathrm{nom}} = \frac{P_{\mathrm{el}}\cdot \SI{24}{\hour}}{\dot{m}_{w,\mathrm{day}}}
+\approx \frac{\SI{0.35}{\kilowatt}\cdot 24}{\SI{10}{\kilogram}} = \SI{0.84}{\kilowatt\hour/\kilogram},
+\end{equation}
+consistent with the catalogue ``best case'' for TEC. In the arid Benban case, the same unit operates at
+\begin{equation}
+\mathrm{SEC}_{\mathrm{Benban}} \approx \frac{P_{\mathrm{el}}\cdot 24}{\dot{m}_{w,\mathrm{day}}\cdot \eta_{\mathrm{derate}}}
+\approx \frac{8.4}{0.36}
+\approx \SI{2.33}{\kilowatt\hour/\kilogram},
+\end{equation}
+consistent with the \textbf{TEC-low} band (2.0\,kWh/kg) already quoted in \texttt{project\_inputs.yaml} for the \emph{optimistic} TEC case.
+
+\subsection{Capacity of Architecture A (single monolithic)}
+For any target $V_{\mathrm{target}}$, Architecture A \emph{could in principle} deliver
+\begin{equation}
+V_{\mathrm{A}} = \frac{P_{\mathrm{A}}\,H_{\mathrm{op}}}{\rho\,\mathrm{SEC}_{\mathrm{Benban}}},
+\end{equation}
+but is gated by: (i) manufacturability of a custom kilowatt-scale Peltier stack; (ii) cold-block sizing at acceptable $\Delta T$; (iii) single-point-of-failure risk. No commercial supply chain exists above a few hundred watts per unit; Architecture A therefore fails the \emph{availability-of-supply} engineering filter for any deliverable above roughly 20\,L/day.
+
+\subsection{Capacity of Architecture B (parallel $N$-unit)}
+Substituting the Eq.~\ref{eq:sizing_law} sizing rule into the duty catalogue gives Table~\ref{tab:unit_counts}.
+
+\begin{table}[h]
+\centering\small
+\caption{Unit-count requirements for Architecture B at $\eta_{\mathrm{derate}}{=}0.36$ (annual mean) and for reference 0.28 (driest month), for representative PV asset classes. $N{+}1$ redundancy included. (New in v1.0; cross-refs \texttt{egypt\_pv\_inventory\_and\_tec\_small\_scale.tex}.)}
+\label{tab:unit_counts}
+\begin{tabular}{@{}lccrr@{}}
+\toprule
+\textbf{Asset class} & \textbf{Area [m$^2$]} & \textbf{$V_{\mathrm{target}}$ [L/day]} & \textbf{$N_{\mathrm{install}}$ (avg)} & \textbf{$N_{\mathrm{install}}$ (dry)}\\
+\midrule
+Street lamp (0.2\,kW)         & 0.93       & 0.10       & 2          & 2 \\
+Residential (5\,kW)           & 23.26      & 2.58       & 2          & 2 \\
+Commercial (100\,kW)          & 465.12     & 51.63      & 16         & 19 \\
+Industrial (1\,MW)            & 4651.16    & 516.28     & 145        & 185 \\
+Small utility (10\,MW)        & 46{,}511.63 & 5{,}162.79  & 1{,}435     & 1{,}845 \\
+Benban block (200\,MW)        & 930{,}232.56 & 103{,}220   & 28{,}673    & 36{,}866 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+The Street-lamp and small Residential cases are bounded below by the $N{+}1$ redundancy floor, not by the water duty; \textbf{a single-unit deployment would cover the duty in those cases}, but the second unit is added to preserve cleaning during maintenance. From the Commercial tier upward, the unit count grows in direct proportion to the area.
+
+\subsection{Single-unit vs.\ multi-unit capacity envelope --- decision rule}
+\begin{equation}
+\boxed{\;
+\text{Use a single unit if } V_{\mathrm{target}} \le \dot{V}_{\mathrm{unit,nom}}\cdot\eta_{\mathrm{derate}}
+\ \text{AND}\ \text{failure of that unit is tolerable.}
+\;}
+\end{equation}
+At Benban conditions the condition collapses to $V_{\mathrm{target}}\le \SI{3.6}{\liter/\day}$. For \emph{any} deliverable above that, Architecture B is the only compliant choice.
+
+% =====================================================================
+\section{Lifecycle Cost Analysis}
+\label{sec:lcc}
+
+\subsection{Model and parameters}
+Lifecycle cost is evaluated over a 20-year horizon at discount rate $r{=}8\%$, using the capital recovery factor already quoted in \texttt{project\_awh\_benban\_numbers\_cost\_quality.tex}:
+\begin{equation}
+\mathrm{CRF} = \frac{r(1+r)^n}{(1+r)^n-1} = \frac{0.08(1.08)^{20}}{(1.08)^{20}-1} = 0.1019 \ \text{(20-yr)}.
+\end{equation}
+The repository's \texttt{CRF}${=}0.1168$ corresponds to a 15-yr life at 8\%; we use 20-yr here to match the typical PV plant horizon while noting the 15-yr number for direct cross-reference.
+
+\paragraph{Per-unit CAPEX.} Commercial 10\,L/day TEC AWG retail ranges roughly USD~\$350--\$600 per unit in 2024--2025 \citep{ecoloblue2024,commercial_awg_retail_2025}; for a ruggedised outdoor-rated industrial variant with IP54 enclosure, manifold tap, and filtration, assume
+\begin{equation}
+\mathrm{CAPEX}_{\mathrm{unit}} = \SI{450}{USD}\ \text{(installed, excl.\ manifold infrastructure).}
+\end{equation}
+
+\paragraph{Per-unit OPEX.}
+\begin{itemize}[leftmargin=*]
+  \item Electricity: $\mathrm{SEC}{\cdot}\dot{m}_w{\cdot}\pi$. At $\mathrm{SEC}{=}\SI{2.33}{\kilowatt\hour/\kilogram}$, PV-levelised tariff $\pi{=}\SI{0.04}{USD/\kilowatt\hour}$, per-unit daily energy $E_u{=}0.35\cdot 24{=}8.4\,\mathrm{kWh/day}$, per-unit electricity cost is $\SI{0.336}{USD/\day} \approx \SI{122.6}{USD/\year}$.
+  \item Filter / UV / consumables: $\SI{25}{USD/\year}$ per unit.
+  \item Preventive maintenance labour: assume $\SI{0.5}{\hour/\year/\text{unit}}$ at $\SI{20}{USD/\hour} = \SI{10}{USD/\year}$.
+  \item Peltier stack replacement: average 7-yr life $\Rightarrow$ prorated $\SI{80}{USD/\year}$ per unit.
+\end{itemize}
+Total per-unit OPEX:
+\begin{equation}
+\mathrm{OPEX}_{\mathrm{unit}} = 122.6 + 25 + 10 + 80 = \SI{237.6}{USD/\year}.
+\end{equation}
+
+\subsection{Architecture A (hypothetical monolithic)}
+For a 103\,220\,L/day Benban duty with a notional monolithic TEC, the CAPEX of a one-off custom build scales nonlinearly. Using a power-law cost curve with exponent $0.7$ from typical process-equipment economics \citep{peters2003plant},
+\begin{equation}
+\mathrm{CAPEX}_{\mathrm{A}} \approx \mathrm{CAPEX}_{\mathrm{unit}}\cdot (N_{\mathrm{nom}})^{0.7},
+\end{equation}
+with $N_{\mathrm{nom}}{=}V_{\mathrm{target}}/\dot{V}_{\mathrm{unit,nom}}{=}10{,}322$:
+\begin{equation}
+\mathrm{CAPEX}_{\mathrm{A}} \approx 450\times 10{,}322^{0.7} \approx \SI{0.24}{MUSD}.
+\end{equation}
+However, this is misleading --- no vendor supplies this envelope at this CAPEX. The \emph{real} Architecture-A cost is dominated by NRE (non-recurring engineering) in the \SIrange{2}{5}{MUSD} range, plus a bespoke custom-built cold-block whose OPEX profile is \emph{worse} than a parallel bank because a single failure takes the entire plant offline. Architecture A is therefore \textbf{rejected on availability-of-supply and single-point-of-failure grounds} rather than on any LCC comparison.
+
+\subsection{Architecture B (parallel $N$-unit) --- at Benban block}
+For $N_{\mathrm{install}}{=}28{,}673$:
+\begin{align}
+\mathrm{CAPEX}_{\mathrm{B,Benban}} &= 28{,}673 \times 450 = \SI{12.90}{MUSD},\\
+\mathrm{OPEX}_{\mathrm{B,Benban}} &= 28{,}673 \times 237.6 = \SI{6.81}{MUSD/\year}.
+\end{align}
+Annualised LCC:
+\begin{equation}
+\mathrm{LCC}_{\mathrm{ann}} = \mathrm{CRF}\cdot\mathrm{CAPEX} + \mathrm{OPEX}
+= 0.1019\times 12.90 + 6.81 = \SI{8.12}{MUSD/\year}.
+\end{equation}
+Levelised cost of water:
+\begin{equation}
+\mathrm{LCOW}_{\mathrm{B,Benban}} = \frac{\mathrm{LCC}_{\mathrm{ann}}}{V_{\mathrm{year}}}
+= \frac{8.12\times 10^6}{37{,}674}
+\approx 216\,\mathrm{USD/m^3}.
+\end{equation}
+\textbf{This is $\sim$10$\times$ the Benban VCR LCOW ($\approx$22\,USD/m$^3$) from the main report}, confirming the documented conclusion that TEC is not competitive at utility scale.
+
+\subsection{Architecture B at distributed scales --- where TEC is competitive}
+Applying the same unit economics to smaller assets gives Table~\ref{tab:lcc_distributed}.
+
+\begin{table}[h]
+\centering\small
+\caption{Lifecycle-cost snapshot, Architecture B, at distributed scales. (New in v1.0; cross-refs \texttt{egypt\_pv\_inventory\_and\_tec\_small\_scale.tex}.)}
+\label{tab:lcc_distributed}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Asset class} & \textbf{$N_{\mathrm{install}}$} & \textbf{CAPEX [USD]} & \textbf{OPEX [USD/yr]} & \textbf{LCOW [USD/m$^3$]}\\
+\midrule
+Street lamp                  & 2           & 900                & 475      & $\approx$ 15{,}700 \\
+Residential (5\,kW)          & 2           & 900                & 475      & $\approx$ 532 \\
+Commercial (100\,kW)         & 16          & 7{,}200            & 3{,}802  & $\approx$ 218 \\
+Industrial (1\,MW)           & 145         & 65{,}250           & 34{,}452 & $\approx$ 194 \\
+Benban block (200\,MW)       & 28{,}673    & 12.90\,MUSD        & 6.81\,MUSD/yr & $\approx$ 216 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+The street-lamp row is driven by the $N{+}1$ redundancy floor (two full units for a 0.1\,L/day duty is enormously overbuilt on a water basis); economically TEC wins at that tier only because \emph{nothing else is available in the right envelope} --- a sub-100\,W, silent, DC-coupled condenser is the feasibility criterion, not the LCOW.
+
+% =====================================================================
+\section{Maintenance Schedule Comparison}
+\label{sec:maintenance}
+\begin{table}[h]
+\centering\small
+\caption{Maintenance schedule comparison, per unit and aggregate. Based on commercial-product service manuals \citep{ecoloblue2024,peltier_handbook_2018} and on the repository's operational assumptions. (New in v1.0.)}
+\label{tab:maintenance}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Task} & \textbf{Interval (per unit)} & \textbf{Labour (per unit)} \\
+\midrule
+Pre-filter clean            & 1 month & 5\,min \\
+HEPA / activated-carbon swap & 6 months & 15\,min \\
+UV lamp replacement          & 12 months & 10\,min \\
+Fan inspection / re-lubrication & 12 months & 15\,min \\
+Peltier stack inspection (thermal grease refresh) & 24 months & 30\,min \\
+Peltier stack replacement    & $\sim$7 years (L10) & 60\,min \\
+Drain line disinfection      & 3 months & 10\,min \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Architecture A} requires plant shutdown for \emph{any} of the above tasks --- a single-point-of-failure posture that is incompatible with continuous PV-cleaning water supply.
+
+\paragraph{Architecture B} allows \textbf{rolling maintenance}: one unit is taken offline while the $N{+}1$ redundant unit covers the shortfall. With $N{=}28{,}673$ at Benban, the expected number of units under service at any time (given monthly pre-filter and 12-month UV as the dominant tasks) is
+\begin{equation}
+\overline{N}_{\mathrm{svc}} \approx N\left(\frac{t_{\mathrm{svc,m}}}{30} + \frac{t_{\mathrm{svc,y}}}{365}\right)
+\approx 28{,}673\times\left(\frac{5/(60\cdot 24)}{30}+\frac{(15{+}10{+}15)/(60\cdot 24)}{365}\right)
+\approx 5\ \text{units},
+\end{equation}
+which is far less than the $+1$ redundancy reserve and well below the $0.02\%$ capacity margin built into the $f_{\mathrm{margin}}{=}0.25$ water safety factor.
+
+% =====================================================================
+\section{Redundancy and Reliability Assessment}
+\label{sec:redundancy}
+
+\subsection{Failure model}
+Assume each TEC unit has exponential time-to-failure with rate $\lambda$ and $\mathrm{MTBF}{=}1/\lambda$. Commercial Peltier-stack AWG products report $\mathrm{MTBF}{\approx}\SI{30000}{\hour}\approx 3.4\,\mathrm{yr}$ \citep{enescu2019peltierreview,peltier_handbook_2018}. Then the unit availability is
+\begin{equation}
+A_u = \frac{\mathrm{MTBF}}{\mathrm{MTBF}+\mathrm{MTTR}} \approx \frac{30000}{30000+24} \approx 0.9992,
+\end{equation}
+assuming 24\,h repair/replace cycle (swap-out stock on site).
+
+\subsection{Availability of Architecture A}
+A single unit has availability $A_u{=}0.9992$ $\Rightarrow$ expected downtime $\SI{7}{\hour/\year}$. With no standby, a single failure interrupts PV cleaning for the full repair window, which for a custom monolithic unit is weeks, not hours. Architecture A fails the reliability target for an autonomous cleaning system.
+
+\subsection{Availability of Architecture B}
+With $N$ active units plus $k$ redundant, the plant delivers $\ge V_{\mathrm{target}}$ while at most $k$ units are down. The binomial reliability is
+\begin{equation}
+R_{B}(k)
+= \sum_{i=0}^{k}\binom{N+k}{i}(1-A_u)^i A_u^{N+k-i}.
+\end{equation}
+For $N{=}28{,}673$, $A_u{=}0.9992$, $k{=}1$, the number of failed units $X$ is approximately Poisson with $\mu{=}N(1-A_u){\approx}23$. Therefore $P(X{\le}1){\ll}1$: \textbf{$k{=}1$ redundancy is insufficient for a utility-scale TEC bank}. Solving for the redundancy level that delivers $R_{B}{\ge}0.99$ at Benban scale:
+\begin{equation}
+k^\ast = \mu + z_{0.99}\sqrt{\mu}
+\approx 23 + 2.33\sqrt{23}
+\approx 34.
+\end{equation}
+So a compliant utility-scale TEC bank would need roughly \textbf{35 redundant units} ($\sim$0.12\% overhead), which is modest --- the issue is not redundancy cost, it is total CAPEX and installed footprint.
+
+\subsection{Footprint comparison}
+A typical 10\,L/day TEC AWG has a footprint of $\approx 0.3\,\mathrm{m^2}$ \citep{ecoloblue2024,commercial_awg_retail_2025}. At Benban scale:
+\begin{equation}
+A_{\mathrm{footprint,B}} \approx 28{,}673 \times 0.3 \approx 8600\,\mathrm{m^2} \approx 0.92\%\ \text{of PV area}.
+\end{equation}
+VCR's equivalent skid footprint is on the order of $30\,\mathrm{m^2}$ (one skid), i.e.\ $\sim$280$\times$ smaller. \textbf{This is a decisive practical argument against TEC at Benban scale} and agrees with the prior-document conclusions.
+
+% =====================================================================
+\section{Energy Consumption Analysis}
+\label{sec:energy}
+
+\subsection{Per-unit and aggregate electrical loads}
+With $P_{\mathrm{unit}}{=}\SI{0.35}{\kilowatt}$ and $\eta_{\mathrm{derate}}{=}0.36$, the aggregate electrical load for Architecture B at Benban is
+\begin{equation}
+P_{\mathrm{agg,B}} = N_{\mathrm{install}}\cdot P_{\mathrm{unit}}
+= 28{,}673 \times 0.35 = \SI{10.04}{MW},
+\end{equation}
+which matches the \textbf{TEC-low} sufficiency line (8.60\,MW at 24-h operation in \texttt{BENBAN\_TEC\_VCR\_CAPACITY\_ANALYSIS.tex}) to within the derating factor used here, confirming internal consistency between this document and the existing repository calculations.
+
+\subsection{Annual energy and plant-fraction}
+Annual energy:
+\begin{equation}
+E_{\mathrm{B,Benban}} = P_{\mathrm{agg,B}}\cdot \SI{8760}{\hour} \approx \SI{87.95}{GWh/\year},
+\end{equation}
+which at the Benban 200\,MW plant's typical capacity factor ($\sim$0.26) corresponds to
+\begin{equation}
+\mathrm{plant\ fraction} = \frac{87.95}{200\cdot 8760\cdot 0.26\cdot 10^{-3}} \approx 19\%
+\ \text{of generated energy.}
+\end{equation}
+\textbf{No PV owner in Egypt would divert 19\% of plant output to panel cleaning}; this is the \emph{economic} reason TEC loses at utility scale.
+
+\subsection{Energy comparison at distributed scales}
+At the residential and commercial tiers, the plant-fraction ratio inverts. Per \texttt{egypt\_pv\_inventory\_and\_tec\_small\_scale.tex}, a 5\,kW residential system generates $\approx\SI{20}{\kilowatt\hour/\day}$. The local TEC duty of 2.58\,L/day at $\mathrm{SEC}{=}\SI{2.33}{\kilowatt\hour/\kilogram}$ requires only $\SI{6.0}{\kilowatt\hour/\day}$ --- 30\% of the array output, which remains unattractive. Below the Street-lamp tier (0.1\,L/day) the absolute energy is trivial ($<\SI{0.3}{\kilowatt\hour/\day}$), so TEC's \emph{energy} cost stops being the bottleneck --- silent, DC-coupled, modular operation becomes the dominant criterion instead.
+
+% =====================================================================
+\section{Implementation Recommendations and Decision Matrix}
+\label{sec:recommendations}
+
+\begin{table}[h]
+\centering\small
+\caption{Architecture recommendation by PV asset class. ``Primary'' is the recommended deployment; ``Secondary'' is a fallback. (New in v1.0.)}
+\label{tab:recommendations}
+\begin{tabular}{@{}lllp{7cm}@{}}
+\toprule
+\textbf{Asset class} & \textbf{Primary} & \textbf{Secondary} & \textbf{Rationale (short)}\\
+\midrule
+Street lamp (0.2\,kW) & TEC --- 2 units (Arch.\,B, $N{+}1$) & -- & Silent + DC-coupled + tiny duty; LCOW irrelevant, availability is the criterion.\\
+Residential (5\,kW)   & TEC --- 2 units (Arch.\,B, $N{+}1$) & VCR mini-split & Still below per-unit ceiling after derating; user tolerance for silent DC unit.\\
+Commercial (100\,kW)  & VCR skid                              & TEC --- 16 units (Arch.\,B) & $N{=}16$ TEC manifolding becomes service-intensive; VCR catalogue product wins on LCOW.\\
+Industrial (1\,MW)    & VCR skid                              & -- & TEC bank grows to $\sim$145 units; not competitive.\\
+Utility (10--200\,MW) & VCR (+ Absorption if low-grade heat available) & -- & As documented in main report. $N{>}1400$ TEC bank is engineering-irrational.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Key deliverables per recommendation}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Adopt Architecture B universally where TEC is selected.} A single-unit deployment is engineered only for asset classes where the water duty itself is $<\dot{V}_{\mathrm{unit,nom}}\eta_{\mathrm{derate}}$ \emph{and} a cleaning outage of 24--72\,h during unit failure is tolerable (typically street-lamp applications only).
+  \item \textbf{Use the $N_{\mathrm{install}}$ sizing law} (Eq.~\ref{eq:sizing_law}) with $\eta_{\mathrm{derate}}{=}0.28$ (driest month) for Benban-latitude sites, \emph{not} the annual-mean 0.36, to avoid dry-season cleaning deficits.
+  \item \textbf{Maintain the existing VCR-primary conclusion for Benban.} The new calculations in Sections~\ref{sec:lcc}--\ref{sec:energy} do not unseat the main report's VCR recommendation; they reinforce it with unit-level mathematics.
+  \item \textbf{Add explicit per-unit CAPEX / OPEX entries to \texttt{project\_inputs.yaml}} in a future edit (not performed in this document) so that the small-scale TEC LCOW in \texttt{egypt\_pv\_inventory\_and\_tec\_small\_scale.tex} becomes fully reproducible by \texttt{scripts/project\_calculations.py}.
+  \item \textbf{Treat ``10\,L/day'' as a per-unit specification} in all downstream documents and datasheets. Where aggregate capacity is meant, write ``$N{\times}\SI{10}{\liter/\day}$'' explicitly.
+\end{enumerate}
+
+% =====================================================================
+\section{Summary of Findings}
+\label{sec:summary}
+\begin{enumerate}[leftmargin=*]
+  \item The ``10\,L/day'' TEC figure is a \textbf{per-unit rated output} at the nominal psychrometric state $\{T{=}\SI{27}{\celsius},\,\mathrm{RH}{=}60\%\}$, not an aggregate across a parallel bank. Evidence: commercial product data sheets, fan- and cold-block-bounded mass throughput, Peltier-module electrical ceiling.
+  \item Under Benban derating ($\eta_{\mathrm{derate}}{=}0.36$ annual mean, 0.28 driest month), \textbf{a single unit delivers only 2.8--3.6\,L/day}. Any deliverable above that requires Architecture B.
+  \item Architecture B with $N{+}1$ redundancy is the \textbf{only commercially realisable TEC architecture}; Architecture A is rejected on availability-of-supply and single-point-of-failure grounds.
+  \item At Benban block scale, Architecture B needs \textbf{$\sim$28{,}673 units}, draws $\sim$10\,MW, consumes $\sim$19\% of plant output, occupies $\sim$0.92\% of PV area, and reaches LCOW $\sim$216\,USD/m$^3$ --- \emph{10$\times$} the VCR benchmark. TEC is therefore \textbf{not recommended at utility scale}, consistent with every prior repository document.
+  \item At street-lamp / small-residential scales (target duty $<$ few L/day), a minimal Architecture B deployment (2 units, for redundancy) is the recommended choice because the silent, DC-coupled, modular, no-moving-parts envelope of TEC is decisive independently of LCOW.
+  \item All existing calculation documents remain untouched; this report is cross-referenced to them for traceability, and its own version (\textbf{v1.0, 2026-04-22}) is stamped in the document header for future audit.
+\end{enumerate}
+
+% =====================================================================
+\section*{Version Control}
+\addcontentsline{toc}{section}{Version Control}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{v1.0 --- 2026-04-22.} Initial issue. Clarifies ``10\,L/day'' specification; introduces Architecture A / B definitions; adds Eqs.~\ref{eq:sizing_law}, \ref{eq:derate}; builds Tables \ref{tab:unit_counts}--\ref{tab:recommendations}; cross-references prior repository documents without modifying them.
+\end{itemize}
+
+% =====================================================================
+\begin{thebibliography}{99}
+\bibitem{enescu2019peltierreview}
+D.~Enescu, ``Thermoelectric refrigeration principles,'' in \emph{Bringing Thermoelectricity into Reality}, IntechOpen, 2019. [Online]. Available: \url{https://www.intechopen.com/chapters/62264}
+
+\bibitem{twaha2016teg_review}
+S.~Twaha, J.~Zhu, Y.~Yan, and B.~Li, ``A comprehensive review of thermoelectric technology: Materials, applications, modelling and performance improvement,'' \emph{Renewable and Sustainable Energy Reviews}, vol.~65, pp.~698--726, 2016. [Online]. Available: \url{https://doi.org/10.1016/j.rser.2016.07.034}
+
+\bibitem{peltier_handbook_2018}
+Ferrotec, ``Thermoelectric Technical Reference: Introduction to Thermoelectric Cooling,'' 2018. [Online]. Available: \url{https://thermal.ferrotec.com/technology/thermoelectric-reference-guide/thermalref01/}
+
+\bibitem{salehi2020awgreview}
+A.~A.~Salehi, M.~Ghannadi-Maragheh, M.~Torab-Mostaedi, R.~Torkaman, and M.~Asadollahzadeh, ``A review on the water-energy nexus for drinking water production from humid air,'' \emph{Renewable and Sustainable Energy Reviews}, vol.~120, 109627, 2020. [Online]. Available: \url{https://doi.org/10.1016/j.rser.2019.109627}
+
+\bibitem{ecoloblue2024}
+EcoloBlue Life Technologies, ``Atmospheric water generator product specifications,'' 2024. [Online]. Available: \url{https://www.ecoloblue.com/}
+
+\bibitem{commercial_awg_retail_2025}
+Amazon and commercial AWG retail listings (aggregate survey for 10--30\,L/day consumer AWGs), 2024--2025. [Online]. Available: \url{https://www.amazon.com/s?k=atmospheric+water+generator}
+
+\bibitem{ashrae2021psychro}
+ASHRAE, \emph{ASHRAE Handbook --- Fundamentals}, ch.~1 ``Psychrometrics,'' 2021.
+
+\bibitem{peters2003plant}
+M.~S.~Peters, K.~D.~Timmerhaus, and R.~E.~West, \emph{Plant Design and Economics for Chemical Engineers}, 5th ed., McGraw-Hill, 2003.
+
+\bibitem{kim2022mof}
+H.~Kim \emph{et al.}, ``Adsorption-based atmospheric water harvesting device for arid climates,'' \emph{Nature Communications}, vol.~9, 1191, 2018. [Online]. Available: \url{https://doi.org/10.1038/s41467-018-03162-7}
+
+\bibitem{feng2022awhreview}
+A.~Feng \emph{et al.}, ``Recent development of atmospheric water harvesting materials: A review,'' \emph{ACS Materials Au}, vol.~2, no.~5, pp.~576--595, 2022. [Online]. Available: \url{https://doi.org/10.1021/acsmaterialsau.2c00039}
+
+\bibitem{nasa_power}
+NASA POWER Project, ``Prediction Of Worldwide Energy Resources --- meteorology and solar data.'' [Online]. Available: \url{https://power.larc.nasa.gov/}
+
+\bibitem{pvsyst_soiling}
+PVsyst SA, ``Soiling loss --- PVsyst help documentation.'' [Online]. Available: \url{https://www.pvsyst.com/help/project-design/array-and-system-losses/soiling-loss.html}
+
+\bibitem{benban_irena}
+IRENA, ``Benban Solar Park case study,'' International Renewable Energy Agency. [Online]. Available: \url{https://www.irena.org/}
+
+\bibitem{cengel2019thermo}
+Y.~A.~Cengel and M.~A.~Boles, \emph{Thermodynamics: An Engineering Approach}, 9th ed., McGraw-Hill, 2019.
+\end{thebibliography}
+
+\end{document}

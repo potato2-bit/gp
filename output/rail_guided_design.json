@@ -1,0 +1,42 @@
+{
+  "panel": {
+    "width_m": 1.0,
+    "slope_len_m": 2.0,
+    "tilt_deg": 24.0,
+    "area_m2": 2.0
+  },
+  "carriage_mass_kg": 8.0,
+  "brush": {
+    "length_m": 0.96,
+    "dia_m": 0.05,
+    "rpm": 100.0,
+    "mass_kg": 1.0,
+    "drag_force_N": 1.73,
+    "roller_torque_Nm": 0.043,
+    "motor_torque_req_Nm": 0.065,
+    "mech_power_W": 0.5
+  },
+  "rail_drive": {
+    "F_gravity_N": 31.92,
+    "F_roll_N": 3.58,
+    "F_clean_drag_N": 1.73,
+    "F_drive_total_N": 37.23,
+    "pinion_dia_m": 0.03,
+    "motor_torque_req_Nm": 0.838,
+    "drive_rpm": 38.2,
+    "mech_power_W": 2.2,
+    "v_clean_mps": 0.06
+  },
+  "coverage": {
+    "t_down_s": 33.3,
+    "t_return_s": 33.3,
+    "t_per_panel_s": 66.7,
+    "water_per_event_L": 0.6,
+    "note": "full-width single sweep vs ~230 s boustrophedon for the 0.25 m crawler"
+  },
+  "rails": {
+    "rail_len_m": 2.4,
+    "n_rails": 2,
+    "rack_len_total_m": 4.8
+  }
+}

@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+<!--
+  pvbot_railed.urdf - the gantry driven by a real RACK-AND-PINION thrust.
+
+  The friction-wheel diff-drive could not climb 24 deg glass because wheel-glass
+  traction (mu*N) capped the usable force. A rack-and-pinion does not rely on
+  traction: the geared mesh delivers a positive linear thrust. Here the carriage
+  is a free body resting on its wheels (support) between the guide rails (lateral
+  guidance), and the drive is a FORCE applied along the chassis - the rack thrust
+  - capped at the motor ceiling from scripts/rack_pinion_drive.py:
+    two GA25-370 (1:71) -> Ø30 mm pinions -> 45 N rated (104 N stall) vs a
+    35.5 N climbing load -> climbs at 1.3x margin.
+  pvbot_motor_drive.py reads the chassis velocity (p3d odom) and applies the
+  thrust (libgazebo_ros_force) with a velocity loop, so it glides down AND up.
+
+  Spawn near the top:
+    ros2 run gazebo_ros spawn_entity.py -entity pvbot -file pvbot_railed.urdf \
+      -x 0.65 -y 0 -z 0.91 -P -0.41888
+-->
+<robot name="pvbot">
+
+  <material name="alu_grey">     <color rgba="0.62 0.64 0.68 1.0"/></material>
+  <material name="pom_black">    <color rgba="0.10 0.10 0.10 1.0"/></material>
+  <material name="tank_blue">    <color rgba="0.20 0.45 0.85 0.45"/></material>
+  <material name="brush_white">  <color rgba="0.92 0.92 0.86 1.0"/></material>
+  <material name="cold_cyan">    <color rgba="0.55 0.85 0.95 1.0"/></material>
+  <material name="tile_dark">    <color rgba="0.15 0.05 0.05 1.0"/></material>
+  <material name="sink_silver">  <color rgba="0.80 0.82 0.85 1.0"/></material>
+  <material name="fan_grey">     <color rgba="0.25 0.25 0.28 1.0"/></material>
+  <material name="spray_aqua">   <color rgba="0.35 0.70 1.00 0.40"/></material>
+  <material name="nozzle_brass"> <color rgba="0.80 0.65 0.25 1.0"/></material>
+
+  <!-- ===================== gantry beam ===================== -->
+  <link name="base_link">
+    <inertial><mass value="2.355"/><inertia ixx="0.16810" ixy="0" ixz="0" iyy="0.01963" iyz="0" izz="0.18380"/></inertial>
+    <visual><geometry><box size="0.30 0.92 0.10"/></geometry><material name="alu_grey"/></visual>
+    <collision><geometry><box size="0.30 0.92 0.10"/></geometry></collision>
+  </link>
+
+  <!-- ===================== TEC AWG module ===================== -->
+  <link name="tec_module">
+    <inertial><origin xyz="0 0 0.11"/><mass value="1.05"/><inertia ixx="0.00550" ixy="0" ixz="0" iyy="0.00340" iyz="0" izz="0.00716"/></inertial>
+    <visual><origin xyz="0 0 0.072"/><geometry><box size="0.17 0.23 0.012"/></geometry><material name="cold_cyan"/></visual>
+    <visual><origin xyz=" 0.043  0.055 0.083"/><geometry><box size="0.04 0.04 0.006"/></geometry><material name="tile_dark"/></visual>
+    <visual><origin xyz=" 0.043 -0.055 0.083"/><geometry><box size="0.04 0.04 0.006"/></geometry><material name="tile_dark"/></visual>
+    <visual><origin xyz="-0.043  0.055 0.083"/><geometry><box size="0.04 0.04 0.006"/></geometry><material name="tile_dark"/></visual>
+    <visual><origin xyz="-0.043 -0.055 0.083"/><geometry><box size="0.04 0.04 0.006"/></geometry><material name="tile_dark"/></visual>
+    <visual><origin xyz="0 0 0.100"/><geometry><box size="0.17 0.23 0.018"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz="-0.070 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz="-0.042 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz="-0.014 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz=" 0.014 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz=" 0.042 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz=" 0.070 0 0.135"/><geometry><box size="0.012 0.22 0.050"/></geometry><material name="sink_silver"/></visual>
+    <visual><origin xyz="0 0.058 0.168"/><geometry><cylinder length="0.012" radius="0.036"/></geometry><material name="fan_grey"/></visual>
+    <visual><origin xyz="0 -0.058 0.168"/><geometry><cylinder length="0.012" radius="0.036"/></geometry><material name="fan_grey"/></visual>
+  </link>
+  <joint name="tec_joint" type="fixed"><parent link="base_link"/><child link="tec_module"/><origin xyz="-0.075 0 0.060"/></joint>
+
+  <!-- ===================== water tank ===================== -->
+  <link name="tank_link">
+    <inertial><mass value="1.55"/><inertia ixx="0.00723" ixy="0" ixz="0" iyy="0.00420" iyz="0" izz="0.01017"/></inertial>
+    <visual><geometry><box size="0.166 0.226 0.070"/></geometry><material name="tank_blue"/></visual>
+  </link>
+  <joint name="tank_joint" type="fixed"><parent link="base_link"/><child link="tank_link"/><origin xyz="0.075 0 0.095"/></joint>
+
+  <!-- ===================== passive support wheels (rolling, not driven) ===================== -->
+  <link name="wheel_left"><inertial><mass value="0.15"/><inertia ixx="3.9e-5" ixy="0" ixz="0" iyy="3.9e-5" iyz="0" izz="6.8e-5"/></inertial>
+    <visual><geometry><cylinder length="0.02" radius="0.03"/></geometry><material name="pom_black"/></visual>
+    <collision><geometry><cylinder length="0.02" radius="0.03"/></geometry>
+      <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface></collision></link>
+  <joint name="wheel_left_joint" type="continuous"><parent link="base_link"/><child link="wheel_left"/>
+    <origin rpy="-1.5708 0 0" xyz="-0.10 0.45 -0.045"/><axis xyz="0 0 1"/></joint>
+  <link name="wheel_right"><inertial><mass value="0.15"/><inertia ixx="3.9e-5" ixy="0" ixz="0" iyy="3.9e-5" iyz="0" izz="6.8e-5"/></inertial>
+    <visual><geometry><cylinder length="0.02" radius="0.03"/></geometry><material name="pom_black"/></visual>
+    <collision><geometry><cylinder length="0.02" radius="0.03"/></geometry>
+      <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface></collision></link>
+  <joint name="wheel_right_joint" type="continuous"><parent link="base_link"/><child link="wheel_right"/>
+    <origin rpy="-1.5708 0 0" xyz="-0.10 -0.45 -0.045"/><axis xyz="0 0 1"/></joint>
+  <link name="caster_link"><inertial><mass value="0.09"/><inertia ixx="8.1e-6" ixy="0" ixz="0" iyy="8.1e-6" iyz="0" izz="8.1e-6"/></inertial>
+    <visual><geometry><sphere radius="0.015"/></geometry><material name="pom_black"/></visual>
+    <collision><geometry><sphere radius="0.015"/></geometry>
+      <surface><friction><ode><mu>0.20</mu><mu2>0.20</mu2></ode></friction></surface></collision></link>
+  <joint name="caster_joint" type="fixed"><parent link="base_link"/><child link="caster_link"/><origin xyz="0.18 0 -0.06"/></joint>
+
+  <!-- pinion (visual cue of the rack-and-pinion drive, at the +y rail) -->
+  <link name="pinion_link"><inertial><mass value="0.02"/><inertia ixx="2e-6" ixy="0" ixz="0" iyy="2e-6" iyz="0" izz="2e-6"/></inertial>
+    <visual><geometry><cylinder length="0.02" radius="0.015"/></geometry><material name="nozzle_brass"/></visual></link>
+  <joint name="pinion_joint" type="fixed"><parent link="base_link"/><child link="pinion_link"/><origin rpy="-1.5708 0 0" xyz="0.0 0.47 -0.03"/></joint>
+
+  <!-- ===================== full-width brush (visual) ===================== -->
+  <link name="brush_link"><inertial><mass value="0.60"/><inertia ixx="0.0407" ixy="0" ixz="0" iyy="0.0407" iyz="0" izz="4.8e-4"/></inertial>
+    <visual><geometry><cylinder length="0.90" radius="0.04"/></geometry><material name="brush_white"/></visual></link>
+  <joint name="brush_joint" type="fixed"><parent link="base_link"/><child link="brush_link"/><origin rpy="-1.5708 0 0" xyz="0.22 0 -0.03"/></joint>
+
+  <!-- ===================== spray bar + fan (visual) ===================== -->
+  <link name="spray_bar"><inertial><mass value="0.045"/><inertia ixx="3.5e-3" ixy="0" ixz="0" iyy="6e-6" iyz="0" izz="3.5e-3"/></inertial>
+    <visual><origin rpy="1.5708 0 0" xyz="0 0 0"/><geometry><cylinder length="0.88" radius="0.012"/></geometry><material name="nozzle_brass"/></visual>
+    <visual><origin rpy="0 0 0" xyz="0.03 0 -0.018"/><geometry><box size="0.05 0.86 0.025"/></geometry><material name="spray_aqua"/></visual></link>
+  <joint name="spray_joint" type="fixed"><parent link="base_link"/><child link="spray_bar"/><origin rpy="0 0 0" xyz="0.20 0 -0.04"/></joint>
+
+  <!-- ===================== Gazebo colours ===================== -->
+  <gazebo reference="base_link"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="tec_module"><material>Gazebo/SkyBlue</material></gazebo>
+  <gazebo reference="tank_link"><material>Gazebo/BlueTransparent</material></gazebo>
+  <gazebo reference="brush_link"><material>Gazebo/White</material></gazebo>
+  <gazebo reference="spray_bar"><material>Gazebo/BlueTransparent</material></gazebo>
+  <gazebo reference="pinion_link"><material>Gazebo/Gold</material></gazebo>
+  <gazebo reference="wheel_left"><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="wheel_right"><material>Gazebo/Black</material></gazebo>
+
+  <!-- ===================== drive: rack thrust in + odom out ===================== -->
+  <gazebo>
+    <plugin name="rail_force" filename="libgazebo_ros_force.so">
+      <ros><namespace>/pvbot</namespace></ros>
+      <link_name>base_link</link_name>
+      <force_frame>world</force_frame>
+    </plugin>
+  </gazebo>
+  <gazebo>
+    <plugin name="chassis_odom" filename="libgazebo_ros_p3d.so">
+      <ros><namespace>/pvbot</namespace><remapping>odom:=odom</remapping></ros>
+      <body_name>base_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>50</update_rate>
+    </plugin>
+  </gazebo>
+
+</robot>

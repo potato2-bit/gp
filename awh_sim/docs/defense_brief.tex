@@ -1,0 +1,122 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=1.4cm]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{zc}{RGB}{0,90,130}      % deep teal-blue (water)
+\definecolor{zclight}{RGB}{225,238,244}
+
+\titleformat{\section}{\large\bfseries\color{zc}}{}{0em}{}
+\titlespacing{\section}{0pt}{4pt}{2pt}
+\setlist[itemize]{leftmargin=1.2em,topsep=1pt,itemsep=1pt,parsep=0pt}
+\pagestyle{empty}
+\renewcommand{\arraystretch}{1.15}
+
+\newcommand{\hl}[1]{\textbf{\color{zc}#1}}
+
+\begin{document}
+\small
+
+% ---- header ----
+\noindent
+\begin{minipage}{0.16\textwidth}
+  \IfFileExists{../../logo.jpg}{\includegraphics[width=\linewidth]{../../logo.jpg}}{}
+\end{minipage}\hfill
+\begin{minipage}{0.82\textwidth}
+  {\bfseries Zewail City for Science and Technology}\,\textbar\, University of Science and Technology\\
+  Renewable Energy Engineering Program \,\textbar\, REE\,599 Senior Design Project~II\\
+  Rahma Hesham (ID 202000434) \,\textbar\, Supervisor: Dr.\ Osama Elsamni \,\textbar\, 2025/2026
+\end{minipage}
+
+\vspace{4pt}
+{\color{zc}\hrule height 1.2pt}
+\vspace{5pt}
+
+\begin{center}
+  {\LARGE\bfseries\color{zc} Solar Sorption Atmospheric Water Harvesting for Egypt}\\[2pt]
+  {\normalsize Project Brief \,--\, a salt-free, off-grid water unit for the new reclaimed lands}
+\end{center}
+\vspace{2pt}
+
+\begin{tcolorbox}[colback=zclight,colframe=zc,boxrule=0.6pt,arc=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]
+\textbf{Pitch.} A solar-regenerated desiccant unit that pulls drinking-quality, \hl{salt-free}
+water from night air for \hl{off-grid communities in Egypt's new reclaimed lands} --- where the
+grid is absent, groundwater is deep and brackish, and refrigeration water machines physically
+cannot work.
+\end{tcolorbox}
+
+\section{The problem}
+Agriculture is \hl{80--85\%} of Egypt's water; the new desert-reclamation settlements run on
+\hl{fossil groundwater (to 1{,}500\,m), brackish (300--800+ ppm), and depleting}. Their people
+need \emph{drinking} water --- today only trucked/bottled water (\hl{5--7 EGP/L}) or desalinating
+brackish wells. The incumbent air--water technology, vapour-compression \emph{condensation}
+(Watergen, GENAQ, Hydrologic), \hl{stops producing below $\sim$30--35\% RH} --- exactly the arid
+interior's night condition. \textbf{That market is unserved.}
+
+\section{Solution \& the right method}
+Solar-thermal-regenerated \emph{sorption}: night air adsorbs onto a desiccant; daytime sun
+regenerates it; vapour condenses to liquid. Three methods benchmarked on hourly NASA-POWER
+climate at \hl{six Egyptian sites}, in EGP:
+
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Method} & \textbf{Works arid?} & \textbf{Water (1 m$^3$ sorbent)} & \textbf{LCOW} \\
+\midrule
+PV condensation & \textcolor{red}{No} (fails at Benban) & humid-only & 0.5--1.6 EGP/L \\
+Silica gel (sorption) & Yes & 20{,}000--33{,}000 L/yr & 0.6--1.0 EGP/L \\
+\rowcolor{zclight}\textbf{CaCl$_2$/silica composite} & \textbf{Yes} & \textbf{51{,}000--94{,}000 L/yr} & \textbf{0.40--0.74 EGP/L} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The \hl{CaCl$_2$ composite is best at every site} --- most water \emph{and} lowest cost, and the
+only option that holds up in the arid new lands. Its \hl{2.76$\times$ advantage over plain silica
+gel is confirmed in our G1-validated CADET model}, not assumed.
+
+\section{Why it is credible --- the engineering is done}
+A gated multi-fidelity pipeline:
+\begin{itemize}
+  \item \textbf{Tier-0} isotherm + isosteric heat (Gate G0 pass; $\sim$43 kJ/mol cross-checked).
+  \item \textbf{Tier-1} CADET packed-bed breakthrough vs the LSBU dataset (\textbf{Gate G1 pass}).
+  \item \textbf{Tier-2} a \textbf{custom OpenFOAM adsorption solver} written and validated
+        (mass-balance V1; Ergun $\Delta p$ V2 to 0.29\%).
+  \item \textbf{Surrogate} (water $R^2{=}0.98$) $\rightarrow$ 6-site annual yield, EGP economics, 3D model.
+\end{itemize}
+
+\section{Market \& competition}
+AWG market \hl{\$4.2--7.9\,bn by 2030, $\sim$9--17\% CAGR}. Sorption peers: SOURCE Global,
+Uravu Labs (liquid desiccant --- \emph{dropped silica gel}), Water Harvesting Inc / Atoco
+(MOF, low-RH). Condensation peers own the humid/grid segment. In Egypt only \hl{IRSC (Cairo)}
+builds AWGs --- the \hl{off-grid arid-land sorption niche is open}.
+
+\section{Economics \& honest verdict}
+\begin{itemize}
+  \item \hl{$\sim$0.4--0.7 EGP/L} (composite) vs bottled 5--7 EGP/L $\Rightarrow$ \hl{payback $\sim$2--4 yr};
+        near-zero \emph{electrical} SEC (0.11--0.17 kWh/kg; regen is solar).
+  \item \textbf{Not} irrigation (one feddan needs $\sim$167\,t of sorbent) and \textbf{not} vs
+        subsidized Nile tap ($\sim$0.001 EGP/L). It is a \hl{decentralized, salt-free domestic-water}
+        product for places the grid and clean groundwater do not reach.
+\end{itemize}
+
+\section{The ask / roadmap}
+\begin{enumerate}[leftmargin=1.3em,topsep=1pt,itemsep=1pt]
+  \item Build the prototype on \textbf{cheap silica gel} (full pipeline already validated on it).
+  \item Upgrade to a \textbf{CaCl$_2$/silica composite} for the validated $\sim$2.8$\times$ low-RH
+        yield; engineer against salt leaching/corrosion. Local \textbf{rice-husk-ash silica} is the
+        cost/sustainability path.
+  \item \textbf{Pilot} one reclaimed-land settlement; sell the financed \emph{unit}, not the litre.
+\end{enumerate}
+
+\vspace{2pt}
+\begin{tcolorbox}[colback=zclight,colframe=zc,boxrule=0.6pt,arc=2pt,left=6pt,right=6pt,top=3pt,bottom=3pt]
+\textbf{Bottom line.} A defensible, solar, salt-free, off-grid water unit for Egypt's new lands
+--- strongest exactly where every competitor is weakest.
+\end{tcolorbox}
+
+\end{document}

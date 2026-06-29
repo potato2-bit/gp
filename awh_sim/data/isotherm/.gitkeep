@@ -1,0 +1,4 @@
+# Place validation isotherm CSVs here:
+#   hraiech2025.csv        (Sci. Rep. 15:29041 — ad/desorption isotherms)
+#   lsbu_yeboah2021.csv    (Data in Brief 35:106736 — packed-bed breakthrough)
+# fit_isotherm.py writes params.yaml here (Tier 0 output, Gate G0).

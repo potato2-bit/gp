@@ -1,0 +1,40 @@
+; ================================================================
+; scene_3d.scr
+; FULL SCENE = PANEL + RAILS + RAIL-GUIDED ROBOT, in one drawing.
+; REE598 GRADUATION PROJECT  -  DATE 2026-06-13   UNITS MM
+;
+; This script NESTS the two component scripts via the SCRIPT command,
+; so the carriage ends up sitting on the rails in a single drawing.
+; Order: infrastructure first (panel + rails), then the robot on top.
+;
+; HOW TO RUN (AutoCAD 2026):
+;   1. Put scene_3d.scr, rail_and_panel_3d.scr and pvbot_3d_assembly.scr
+;      in the SAME folder.
+;   2. New drawing from acadiso.dwt (metric, mm).
+;   3. SCRIPT -> pick scene_3d.scr.
+;   4. ZOOM E, then -VIEW SWISO for the isometric.
+;
+; If nested SCRIPT calls are blocked by your security settings, just run
+; the two component scripts in sequence by hand (rail_and_panel_3d.scr
+; first, then pvbot_3d_assembly.scr) - the result is identical.
+; ================================================================
+FILEDIA 0
+EXPERT 5
+
+; ---- infrastructure: PV panel, posts, rails, rack, end stops ----
+SCRIPT rail_and_panel_3d.scr
+
+; ---- the rail-guided carriage robot, dropped onto the rails ----
+SCRIPT pvbot_3d_assembly.scr
+
+; ---- final framing ----
+ZOOM
+E
+-VIEW SWISO
+VSCURRENT
+R
+ZOOM
+E
+EXPERT 0
+FILEDIA 1
+; ---------------- end scene_3d.scr ----------------

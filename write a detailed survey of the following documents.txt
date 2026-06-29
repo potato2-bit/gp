@@ -1,0 +1,108 @@
+﻿Methods of Atmospheric Water Harvesting
+The literature categorizes AWH into three primary methods: fog harvesting, dew harvesting (or passive condensation), and sorption-based AWH.
+1. Fog Harvesting
+Fog harvesting is the most straightforward method, physically collecting water droplets from the air using mesh nets. As discussed by Jarimi et al. (2020), this method is geographically limited to areas with frequent fog, such as coastal and mountainous regions. The efficiency of fog collectors depends on factors like mesh material, coating, and the geometry of the collection system. Feng et al. (2022) highlight innovations inspired by nature, such as the Namib desert beetle and spider silk, which have led to the development of surfaces with patterned wettability to enhance water collection.
+2. Dew Harvesting (Passive Condensation)
+Dew harvesting relies on cooling a surface below the dew point of the surrounding air, causing water vapor to condense. Jarimi et al. (2020) detail that this can be achieved through radiative cooling, where a surface naturally loses heat to the night sky. This method is more widely applicable than fog harvesting but yields lower water quantities. The development of specialized surfaces with high emissivity and low solar absorption is crucial for maximizing efficiency.
+3. Sorption-Based AWH
+Sorption-based AWH is the most technologically advanced and versatile method, capable of harvesting water even in arid regions with low relative humidity (RH). This process involves two steps: capturing water vapor from the air using a sorbent material and then releasing the captured water through a stimulus, typically heat. The documents by Zhou et al. (2020), Lu et al. (2022), and Feng et al. (2022) provide extensive reviews of the materials used in this method.
+Sorbent Materials
+The performance of sorption-based AWH systems is fundamentally dependent on the properties of the sorbent material. The ideal sorbent should have a high water uptake capacity, fast sorption/desorption kinetics, good stability, and low regeneration energy.
+* Solid Adsorbents:
+   * Metal-Organic Frameworks (MOFs): All three materials-focused papers identify MOFs as one of the most promising classes of materials for AWH. Their high porosity, tunable pore chemistry, and large surface area allow for significant water uptake, even at low RH. Zhou et al. (2020) and Lu et al. (2022) discuss how the hydrophilic-hydrophobic properties of MOFs can be tuned to optimize both water capture and release.
+   * Silica Gels and Zeolites: These are traditional desiccants, noted for their low cost and availability. However, they typically require high temperatures for regeneration and have lower water uptake compared to advanced materials like MOFs (Feng et al., 2022).
+   * Hygroscopic Salts: Salts like lithium chloride (LiCl) and calcium chloride (CaCl2) have excellent water-absorbing properties. The main challenge, as highlighted by Feng et al. (2022), is their tendency to deliquesce (dissolve in the absorbed water) and leak, which can be mitigated by impregnating them into a porous host matrix.
+* Liquid Absorbents:
+   * Hygroscopic Solutions: Solutions of hygroscopic salts can capture water vapor efficiently. Zhou et al. (2020) note that these systems can offer better kinetics but face challenges with potential leakage and corrosion.
+* Hydrogels:
+   * Polymer-Based Sorbents: Hydrogels are polymer networks capable of absorbing large amounts of water. Feng et al. (2022) and Lu et al. (2022) discuss the development of thermo-responsive hydrogels, such as those based on poly(N-isopropylacrylamide) (PNIPAM), which can release captured water upon gentle heating. This property can significantly reduce the energy required for the release step.
+System Design and Engineering
+Beyond materials, the overall system design is crucial for practical AWH devices.
+* Solar-Powered Systems: A major focus in the field is the development of systems that can operate off-grid, primarily using solar energy for the water release step. Lu et al. (2022) and Zhou et al. (2020) describe systems where sorbent materials are coated with photothermal materials (like carbon black or plasmonic nanoparticles) that efficiently convert sunlight into heat, driving the desorption process.
+* Device Architecture: The architecture of the AWH device must facilitate efficient vapor transport to the sorbent and effective collection of the released liquid water. This includes optimizing airflow, minimizing heat loss, and ensuring a good interface between the sorbent and the condenser.
+* Active vs. Passive Systems: Jarimi et al. (2020) distinguish between active and passive systems. Active systems use external energy sources (like electricity for thermoelectric coolers) to create a cold surface for condensation. While effective, they are more energy-intensive. Passive systems, which rely on natural processes like radiative cooling or solar heating for desorption, are more sustainable and suitable for remote applications.
+Challenges and Future Perspectives
+Despite significant progress, several challenges remain for the widespread adoption of AWH.
+* Water Production Rate and Cost: For AWH to be a viable solution, the daily water output must be increased, and the cost per liter must be reduced. This requires improvements in both material performance and system efficiency (Lu et al., 2022).
+* Long-Term Stability: The sorbent materials must maintain their performance over many cycles of absorption and desorption in real-world conditions, which include exposure to pollutants and UV radiation (Feng et al., 2022).
+* Scalability: Scaling up laboratory prototypes to large-scale systems that can provide water for communities is a significant engineering challenge. As noted by Jarimi et al. (2020), the feasibility of large-scale fog and dew harvesting is well-established in certain regions, but scalable and cost-effective sorption-based systems are still in development.
+* Kinetics: Lu et al. (2022) emphasize the importance of improving sorption and desorption kinetics. Faster rates are essential for increasing the number of harvesting cycles that can be performed in a single day, thereby boosting the total water yield.
+
+
+
+
+* Comparison of Methods
+Method
+	Water Uptake Capacity
+	Energy Requirement
+	Water Purity
+	Challenges
+	Fog Harvesting
+	High in foggy conditions
+	Zero (passive)
+	May contain airborne contaminants
+	Limited to high humidity regions
+	Dew Harvesting
+	Moderate
+	High (active cooling)
+	Pure if condenser is clean
+	Energy-intensive
+	MOFs
+	Moderate to high (depends on RH)
+	Low (solar thermal)
+	High
+	Cost, stability, scalability
+	Hygroscopic Salts
+	High (especially at high RH)
+	Moderate (solar thermal)
+	Risk of salt leakage
+	Corrosion, encapsulation
+	Hydrogels
+	High (especially at high RH)
+	Low (solar thermal)
+	High (if non-toxic)
+	Swelling, kinetics
+	
+
+
+
+
+
+
+
+
+
+
+
+* Sensors:
+
+
+   * Combined Temperature & Relative Humidity (RH)
+
+
+The entire system's operation depends on this sensor's reading. If it reads an RH that is too low, the system will not start, as it would be too energy-intensive to produce little to no water.
+
+
+   * Anemometer (Wind Sensor)
+It operates independently but its data is only useful for control logic when humidity is high enough for fog to be present.
+* 
+
+   * Pyranometer (Solar Radiation Sensor)
+
+
+Essential for sorbent-based systems (like MOFs and hydrogels). It determines if there is enough sunlight to effectively heat the sorbent and release the captured water. It can also be used to align the system for maximum solar gain.It measures sunlight, not humidity. However, its data is used in conjunction with humidity data to manage the desorption cycle.
+
+
+
+
+—
+   * Condenser Temperature Sensor
+
+
+   * Air Flow Sensor
+
+
+   * Water Level/Presence Sensor
+
+
+*

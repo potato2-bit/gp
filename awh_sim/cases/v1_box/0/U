@@ -1,0 +1,24 @@
+/*--------------------------------*- C++ -*----------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet       { type noSlip; }
+    outlet      { type noSlip; }
+    wall        { type noSlip; }
+    wedge_back  { type wedge; }
+    wedge_front { type wedge; }
+}
+
+// ************************************************************************* //

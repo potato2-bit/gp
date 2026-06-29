@@ -1,0 +1,16 @@
+# Generated OpenFOAM cases (regenerable from DoE seed)
+cases/run_*/
+# Large climate pulls and DoE/solver outputs
+data/climate/*.csv
+data/*_responses.csv
+results/
+# Serialized surrogates
+surrogate/models/*.pkl
+surrogate/models/*.npz
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+# Lockfile is kept; caches are not
+*.log

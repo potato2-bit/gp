@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="awh_pvbot_integrated">
+    <light name="sun" type="directional"><pose>0 0 10 0 0 0</pose>
+      <diffuse>0.95 0.95 0.92 1</diffuse><specular>0.3 0.3 0.3 1</specular>
+      <direction>-0.4 0.3 -0.9</direction></light>
+    <scene><ambient>0.55 0.55 0.55 1</ambient><background>0.86 0.91 0.97 1</background><shadows>true</shadows></scene>
+    <model name="ground_plane"><static>true</static><link name="l">
+      <visual name="v"><geometry><plane><normal>0 0 1</normal><size>60 60</size></plane></geometry>
+        <material><ambient>0.70 0.70 0.72 1</ambient><diffuse>0.76 0.76 0.78 1</diffuse></material></visual>
+    </link></model>
+    <model name="pv_panel"><static>true</static>
+      <link name="glass">
+      <visual name="glass_clean"><pose>-0.4568 0 0.2966 0 -0.41888 0</pose><geometry><box><size>1.0 1.0 0.02</size></box></geometry><transparency>0.0</transparency><material><ambient>0.06 0.1 0.28 1</ambient><diffuse>0.06 0.1 0.28 1</diffuse><specular>0.6 0.6 0.7 1</specular></material></visual>
+      <visual name="glass_soiled"><pose>0.4568 0 0.7034 0 -0.41888 0</pose><geometry><box><size>1.0 1.0 0.02</size></box></geometry><transparency>0.0</transparency><material><ambient>0.62 0.55 0.4 1</ambient><diffuse>0.62 0.55 0.4 1</diffuse></material></visual>
+      <visual name="rail_yp"><pose>0.0000 0.51 0.5450 0 -0.41888 0</pose><geometry><box><size>2.04 0.04 0.09</size></box></geometry><transparency>0.0</transparency><material><ambient>0.25 0.27 0.3 1</ambient><diffuse>0.25 0.27 0.3 1</diffuse></material></visual>
+      <visual name="rail_yn"><pose>0.0000 -0.51 0.5450 0 -0.41888 0</pose><geometry><box><size>2.04 0.04 0.09</size></box></geometry><transparency>0.0</transparency><material><ambient>0.25 0.27 0.3 1</ambient><diffuse>0.25 0.27 0.3 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="carriage"><static>true</static>
+      <link name="body">
+      <visual name="chassis"><pose>0.0749 0 0.6334 0 -0.41888 0</pose><geometry><box><size>0.3 0.92 0.12</size></box></geometry><transparency>0.0</transparency><material><ambient>0.85 0.86 0.88 1</ambient><diffuse>0.85 0.86 0.88 1</diffuse><specular>0.5 0.5 0.6 1</specular></material></visual>
+      <visual name="tec_tank"><pose>0.0749 0 0.7134 0 -0.41888 0</pose><geometry><box><size>0.18 0.4 0.1</size></box></geometry><transparency>0.0</transparency><material><ambient>0.2 0.45 0.75 1</ambient><diffuse>0.2 0.45 0.75 1</diffuse></material></visual>
+      <visual name="brush"><pose>-0.0895 0 0.5101 1.57080 0 0</pose><geometry><cylinder><radius>0.04</radius><length>0.90</length></cylinder></geometry><transparency>0.0</transparency><material><ambient>0.95 0.85 0.3 1</ambient><diffuse>0.95 0.85 0.3 1</diffuse></material></visual>
+      <visual name="spray_bar"><pose>-0.0895 0 0.5451 1.57080 0 0</pose><geometry><cylinder><radius>0.012</radius><length>0.90</length></cylinder></geometry><transparency>0.0</transparency><material><ambient>0.7 0.72 0.75 1</ambient><diffuse>0.7 0.72 0.75 1</diffuse></material></visual>
+      <visual name="spray_sheet"><pose>-0.1626 0 0.4476 0 -0.41888 0</pose><geometry><box><size>0.1 0.88 0.005</size></box></geometry><transparency>0.55</transparency><material><ambient>0.3 0.65 0.95 1</ambient><diffuse>0.3 0.65 0.95 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="awh_dock"><static>true</static>
+      <pose>-1.05 0 0 0 0 0</pose>
+      <link name="dock">
+        <visual name="plinth"><pose>0 0 0.03 0 0 0</pose><geometry><box><size>0.4 0.7 0.06</size></box></geometry><transparency>0.0</transparency><material><ambient>0.3 0.32 0.36 1</ambient><diffuse>0.3 0.32 0.36 1</diffuse></material></visual>
+        <visual name="tank_basin"><pose>0 0 0.09 0 0 0</pose><geometry><box><size>0.48 0.48 0.06</size></box></geometry><transparency>0.0</transparency><material><ambient>0.1 0.45 0.55 1</ambient><diffuse>0.1 0.45 0.55 1</diffuse></material></visual>
+        <visual name="water"><pose>0 0 0.1800 0 0 0</pose><geometry><box><size>0.44 0.44 0.12</size></box></geometry><transparency>0.2</transparency><material><ambient>0.1 0.55 0.95 1</ambient><diffuse>0.1 0.55 0.95 1</diffuse></material></visual>
+        <visual name="leg_lf"><pose>0.13 0.13 0.20 0 0 0</pose><geometry><box><size>0.025 0.025 0.16</size></box></geometry><transparency>0.0</transparency><material><ambient>0.2 0.2 0.22 1</ambient><diffuse>0.2 0.2 0.22 1</diffuse></material></visual>
+        <visual name="leg_lb"><pose>-0.13 0.13 0.20 0 0 0</pose><geometry><box><size>0.025 0.025 0.16</size></box></geometry><transparency>0.0</transparency><material><ambient>0.2 0.2 0.22 1</ambient><diffuse>0.2 0.2 0.22 1</diffuse></material></visual>
+        <visual name="leg_rf"><pose>0.13 -0.13 0.20 0 0 0</pose><geometry><box><size>0.025 0.025 0.16</size></box></geometry><transparency>0.0</transparency><material><ambient>0.2 0.2 0.22 1</ambient><diffuse>0.2 0.2 0.22 1</diffuse></material></visual>
+        <visual name="leg_rb"><pose>-0.13 -0.13 0.20 0 0 0</pose><geometry><box><size>0.025 0.025 0.16</size></box></geometry><transparency>0.0</transparency><material><ambient>0.2 0.2 0.22 1</ambient><diffuse>0.2 0.2 0.22 1</diffuse></material></visual>
+        <visual name="gel_cube"><pose>0 0 0.40 0 0 0</pose><geometry><box><size>0.4 0.4 0.4</size></box></geometry><transparency>0.0</transparency><material><ambient>0.12 0.4 0.85 1</ambient><diffuse>0.12 0.4 0.85 1</diffuse></material></visual>
+        <visual name="wall_front"><pose>0 -0.25 0.40 0 0 0</pose><geometry><box><size>0.5 0.02 0.52</size></box></geometry><transparency>0.68</transparency><material><ambient>0.55 0.7 0.85 1</ambient><diffuse>0.55 0.7 0.85 1</diffuse><specular>0.4 0.5 0.6 1</specular></material></visual>
+        <visual name="wall_back"><pose>0 0.25 0.40 0 0 0</pose><geometry><box><size>0.5 0.02 0.52</size></box></geometry><transparency>0.68</transparency><material><ambient>0.55 0.7 0.85 1</ambient><diffuse>0.55 0.7 0.85 1</diffuse><specular>0.4 0.5 0.6 1</specular></material></visual>
+        <visual name="wall_left"><pose>-0.25 0 0.40 0 0 0</pose><geometry><box><size>0.02 0.5 0.52</size></box></geometry><transparency>0.68</transparency><material><ambient>0.55 0.7 0.85 1</ambient><diffuse>0.55 0.7 0.85 1</diffuse><specular>0.4 0.5 0.6 1</specular></material></visual>
+        <visual name="wall_right"><pose>0.25 0 0.40 0 0 0</pose><geometry><box><size>0.02 0.5 0.52</size></box></geometry><transparency>0.68</transparency><material><ambient>0.55 0.7 0.85 1</ambient><diffuse>0.55 0.7 0.85 1</diffuse><specular>0.4 0.5 0.6 1</specular></material></visual>
+        <visual name="glass_top"><pose>0 0 0.66 0 0 0</pose><geometry><box><size>0.5 0.5 0.02</size></box></geometry><transparency>0.72</transparency><material><ambient>0.55 0.7 0.85 1</ambient><diffuse>0.55 0.7 0.85 1</diffuse><specular>0.4 0.5 0.6 1</specular></material></visual>
+        <visual name="chimney"><pose>0 0 0.80 0 0 0</pose><geometry><cylinder><radius>0.04</radius><length>0.26</length></cylinder></geometry><transparency>0.0</transparency><material><ambient>0.3 0.3 0.33 1</ambient><diffuse>0.3 0.3 0.33 1</diffuse></material></visual>
+        <visual name="chimney_cap"><pose>0 0 0.94 0 0 0</pose><geometry><cylinder><radius>0.06</radius><length>0.02</length></cylinder></geometry><transparency>0.0</transparency><material><ambient>0.22 0.22 0.24 1</ambient><diffuse>0.22 0.22 0.24 1</diffuse></material></visual>
+        <visual name="vent_f"><pose>0 -0.255 0.16 0 0 0</pose><geometry><box><size>0.18 0.015 0.06</size></box></geometry><transparency>0.0</transparency><material><ambient>0.12 0.12 0.14 1</ambient><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+        <visual name="vent_b"><pose>0 0.255 0.16 0 0 0</pose><geometry><box><size>0.18 0.015 0.06</size></box></geometry><transparency>0.0</transparency><material><ambient>0.12 0.12 0.14 1</ambient><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+        <visual name="vent_l"><pose>-0.255 0 0.16 0 0 0</pose><geometry><box><size>0.015 0.18 0.06</size></box></geometry><transparency>0.0</transparency><material><ambient>0.12 0.12 0.14 1</ambient><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+        <visual name="vent_r"><pose>0.255 0 0.16 0 0 0</pose><geometry><box><size>0.015 0.18 0.06</size></box></geometry><transparency>0.0</transparency><material><ambient>0.12 0.12 0.14 1</ambient><diffuse>0.12 0.12 0.14 1</diffuse></material></visual>
+        <visual name="feed_line"><pose>0.30 0 0.12 0 1.4 0</pose><geometry><cylinder><radius>0.008</radius><length>0.5</length></cylinder></geometry><transparency>0.0</transparency><material><ambient>0.15 0.55 0.85 1</ambient><diffuse>0.15 0.55 0.85 1</diffuse></material></visual>
+      </link>
+    </model>
+  </world>
+</sdf>

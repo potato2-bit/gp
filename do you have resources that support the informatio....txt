@@ -1,0 +1,56 @@
+﻿Yes, there is concrete public evidence that robots are used in Egypt's solar sector, specifically at the Benban Solar Park.1
+
+
+Here are the resources, proofs, and design details you requested.
+1. The Proof: Which robots are used?
+The most widely confirmed robotic system in Egypt is the Ecoppia T4, which was deployed at the Benban Solar Park (specifically for the developers using single-axis trackers).2
+
+
+Resources & Confirmation:
+* The Announcement: In 2021, Ecoppia (a world leader in robotic solar cleaning) officially announced their entry into Egypt with a contract for a project within the Benban complex.3
+
+   * Source: Ecoppia Press Release: First Project in Egypt (Benban) (Look for the 2021 announcements).
+   * News Coverage: PV Magazine: Ecoppia cleans up in Egypt (Search "Ecoppia Egypt" on their site).
+   * Scatec's Role: Scatec (a major developer in Benban) has also partnered with research institutes like SINTEF to test and develop robotic cleaning solutions for their desert projects.
+2. Are the designs available?
+It depends on what you mean by "design." The industrial designs (like Ecoppia) are proprietary trade secrets, meaning you cannot download the blueprints to build one. However, the technical specifications and academic designs from Egyptian universities are available.
+A. Industrial Designs (Proprietary)
+You cannot get the CAD files, but you can access the Data Sheets which tell you exactly how they are built and operate.
+   * Model: Ecoppia T4 (Used in Benban)4
+
+   * How it works: It is a lightweight robot attached to the solar tracker.5 It moves horizontally along the row of panels using soft microfiber buffers and airflow to push dust off.6 It uses no water.7
+
+   * Key Specs (from public datasheets):
+      * Weight: ~13–15 kg (Lightweight to avoid cracking panels).
+      * Speed: Cleans ~5–10 MW per hour (fleet average).
+      * Power: Self-powered (has its own small solar panel and battery).
+      * Resource: You can view the general specs on the Ecoppia T4 Product Page.
+B. Local & Open Designs (Available)
+There is a growing "Made in Egypt" movement for smaller solar robots, where the designs or at least the engineering concepts are more accessible.
+      1. Winsola (Egyptian Startup):
+      * This is a local Egyptian company that manufactures solar cleaning robots. While they don't give away their blueprints, they are much more accessible for local purchase and modification than foreign giants.
+      * Resource: Winsola Website & Demos
+      2. Academic Papers (Open Access):
+      * Egyptian engineering universities (like Ain Shams and Mansoura) have published papers on building low-cost solar robots. These often include circuit diagrams, Arduino codes, and mechanical drawings.
+      * Example Paper: "Design and Implementation of a Solar Panel Cleaning Robot" (Often found on IEEE Xplore or ResearchGate authored by Egyptian researchers).
+      * Search Term: Try searching Google Scholar for: Solar panel cleaning robot design Egypt University filetype:pdf.
+Summary of Resources
+
+
+Category
+	Resource Type
+	Link / Search Query
+	Proof of Use
+	Press Release
+	Ecoppia Egypt Announcement
+	The Robot Specs
+	Tech Datasheet
+	Search: Ecoppia T4 datasheet pdf
+	Local Designs
+	Egyptian Startup
+	Winsola
+	Open Designs
+	Research Paper
+	Search: Design of solar cleaning robot Mansoura University pdf
+	Next Step:
+If you are an engineer or developer looking to build or source these robots, I can help you list the key components (motors, sensors, microfiber types) referenced in those open academic papers?

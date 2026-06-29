@@ -1,0 +1,401 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+\title{\textbf{Benban Water Output Capacity Analysis}\\
+\large Comparative Engineering Assessment of TEC and VCR for PV Cleaning Water Supply}
+\author{Graduation Project}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This standalone engineering note calculates the cleaning-water capacity required for a representative Benban Solar Park block and tests whether the repository's two electrically driven condensation options --- vapor-compression refrigeration (VCR) and TEC --- can supply that demand. In this repository, \textbf{TEC is interpreted as a thermoelectric cooler / Peltier condensation system}, which is how the term is used throughout the project sources. The analysis separates \textbf{average atmospheric water harvesting production} from \textbf{peak cleaning-event discharge}, develops the governing equations, quantifies continuous and night-only operating requirements, and applies sensitivity checks on demand and seasonal moisture availability. The result is that \textbf{VCR is sufficient and engineering-practical for the Benban duty}, while \textbf{TEC is only conditionally sufficient in an optimistic low-SEC case and becomes impractical in the documented mid/high SEC bands}.
+\end{abstract}
+
+\section{Data Basis and Engineering Assumptions}
+\subsection{Repository inputs used directly}
+The calculations in this document use the same inputs already stored in \texttt{project\_inputs.yaml} and the same weather exports already stored in \texttt{output/}. The governing inputs are:
+\begin{itemize}[leftmargin=*]
+  \item Representative PV block size: $P_{\mathrm{dc}}=200$\,MW.
+  \item Module efficiency at STC: $\eta_{\mathrm{mod}}=0.215$.
+  \item Cleaning intensity: $w=1.8$\,L/m$^2$/event.
+  \item Cleaning frequency: $N_{\mathrm{clean}}=18$ events/year.
+  \item Water-demand safety margin: $f_{\mathrm{margin}}=0.25$.
+  \item Water density: $\rho=1000$\,kg/m$^3$.
+  \item SEC assumptions from the repository:
+  \begin{itemize}[nosep]
+    \item VCR: $0.42$\,kWh/kg.
+    \item TEC low: $2.0$\,kWh/kg.
+    \item TEC mid: $6.0$\,kWh/kg.
+    \item TEC high: $12.0$\,kWh/kg.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Weather and operational assumptions}
+\begin{itemize}[leftmargin=*]
+  \item Hourly meteorological statistics use the repository's NASA POWER file for 2020 at Benban coordinates (24.45$^\circ$N, 32.75$^\circ$E).
+  \item Because the plant is cleaned intermittently but AWH can operate continuously, the design must satisfy \textbf{both}:
+  \begin{itemize}[nosep]
+    \item average daily water production, and
+    \item peak tank discharge during a cleaning event.
+  \end{itemize}
+  \item A reference night-cleaning window of 8\,h is used for peak discharge; 6, 10, and 12\,h windows are also reported as sensitivity cases.
+  \item No dedicated TEC drawings are present in the folder; VCR does have a documented drawing package and prototype BOM in the repository outputs.
+\end{itemize}
+
+\section{Benban Water Demand Derivation}
+\subsection{PV area}
+Using the standard STC area relation,
+\begin{equation}
+A_{\mathrm{pv}}=\frac{P_{\mathrm{dc}}}{\eta_{\mathrm{mod}}\,G_{\mathrm{STC}}},
+\end{equation}
+with $P_{\mathrm{dc}}=200\times 10^6$\,W, $\eta_{\mathrm{mod}}=0.215$, and $G_{\mathrm{STC}}=1000$\,W/m$^2$:
+\begin{equation}
+A_{\mathrm{pv}}=\frac{200\times 10^6}{0.215\times 1000}=930{,}232.56\ \mathrm{m^2}.
+\end{equation}
+
+\subsection{Annual, event, and daily water demand}
+The annual cleaning-water demand is
+\begin{equation}
+V_{\mathrm{year}} = w\,A_{\mathrm{pv}}\,N_{\mathrm{clean}}\,(1+f_{\mathrm{margin}}),
+\end{equation}
+where $w=1.8$\,L/m$^2$/event $=0.0018$\,m$^3$/m$^2$/event. Substituting:
+\begin{equation}
+V_{\mathrm{year}} = 0.0018\times 930{,}232.56\times 18\times 1.25
+=37{,}674.42\ \mathrm{m^3/yr}.
+\end{equation}
+
+The water demand per cleaning event is
+\begin{equation}
+V_{\mathrm{event}}=\frac{V_{\mathrm{year}}}{N_{\mathrm{clean}}}
+=\frac{37{,}674.42}{18}
+=2{,}093.02\ \mathrm{m^3/event}.
+\end{equation}
+
+The average daily demand is
+\begin{equation}
+V_{\mathrm{day,avg}}=\frac{V_{\mathrm{year}}}{365}
+=103.22\ \mathrm{m^3/day},
+\end{equation}
+and the corresponding average mass demand is
+\begin{equation}
+m_{\mathrm{day,avg}}=\rho\,V_{\mathrm{day,avg}}
+=103{,}217.59\ \mathrm{kg/day}.
+\end{equation}
+
+The average continuous production rate required from the AWH plant is
+\begin{equation}
+\dot{m}_{\mathrm{avg}}=\frac{m_{\mathrm{day,avg}}}{86400}
+=1.195\ \mathrm{kg/s},
+\end{equation}
+or equivalently
+\begin{equation}
+Q_{\mathrm{avg}}=\frac{V_{\mathrm{year}}}{8760}
+=4.30\ \mathrm{m^3/h}.
+\end{equation}
+
+\subsection{Cleaning-event interval and storage implication}
+The mean interval between cleaning events is
+\begin{equation}
+\Delta t_{\mathrm{event}}=\frac{365}{18}=20.28\ \mathrm{days}.
+\end{equation}
+Therefore, if AWH runs continuously and cleaning is batch-dispatched, the active storage inventory must be at least
+\begin{equation}
+S_{\mathrm{active,min}}\ge V_{\mathrm{event}} \approx 2{,}093\ \mathrm{m^3}.
+\end{equation}
+
+\section{Peak Delivery Flow Rate for the Cleaning System}
+The AWH unit does not need to produce the full event flow instantaneously if storage is present; however, the tank, pump, manifold, and cleaning interface \textbf{must} handle the event discharge. For a cleaning window $t_{\mathrm{clean}}$,
+\begin{equation}
+Q_{\mathrm{peak}}=\frac{V_{\mathrm{event}}}{t_{\mathrm{clean}}}.
+\end{equation}
+
+\begin{table}[h]
+\centering
+\caption{Cleaning-event discharge requirement for different cleaning-window assumptions.}
+\begin{tabular}{@{}cccc@{}}
+\toprule
+\textbf{Cleaning window} & \textbf{$Q_{\mathrm{peak}}$ [m$^3$/h]} & \textbf{$Q_{\mathrm{peak}}$ [L/s]} & \textbf{Comment} \\
+\midrule
+6 h  & 348.84 & 96.90 & Very aggressive dispatch \\
+8 h  & 261.63 & 72.67 & Recommended night-shift reference \\
+10 h & 209.30 & 58.14 & Moderate dispatch \\
+12 h & 174.42 & 48.45 & Lowest stress case in this note \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+This is a critical engineering distinction: \textbf{the AWH plant only needs to produce 4.30\,m$^3$/h on average, but the cleaning network may need to discharge 175--349\,m$^3$/h during an event}. Therefore, production sufficiency and peak hydraulic sufficiency are different design problems.
+
+\section{Weather-Based Statistical Validation}
+The repository's hourly NASA POWER data show why Benban must be treated as a low-moisture, storage-dependent AWH design case.
+
+\begin{table}[h]
+\centering
+\caption{Hourly climate statistics from \texttt{output/nasa\_power\_hourly.csv} (2020 file already in the repository).}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Statistic} & \textbf{All hours} & \textbf{Night hours} & \textbf{Day hours} \\
+\midrule
+Mean dry-bulb temperature [\,$^\circ$C] & 24.93 & 20.97 & 29.61 \\
+Mean RH [\%] & 28.52 & 34.69 & 21.24 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Selected humidity statistics used as operational validation checks.}
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+RH 5th percentile & 9.34\% \\
+RH median & 24.16\% \\
+RH 95th percentile & 64.62\% \\
+Hours with RH $\ge 40\%$ & 20.84\% of year \\
+Hours with RH $\ge 50\%$ & 12.83\% of year \\
+Hours with RH $\ge 60\%$ & 7.08\% of year \\
+Hours with measurable precipitation & 1.66\% of year \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+The monthly mean humidity ratio in \texttt{output/psychrometrics\_monthly.csv} ranges from
+\begin{equation}
+\omega_{\min}=0.003719\ \mathrm{kg/kg}
+\quad\text{to}\quad
+\omega_{\max}=0.006097\ \mathrm{kg/kg},
+\end{equation}
+while the annual mean humidity ratio from the hourly file is
+\begin{equation}
+\bar{\omega}=0.004844\ \mathrm{kg/kg}.
+\end{equation}
+Thus, the driest-month moisture availability is about
+\begin{equation}
+\frac{\omega_{\min}}{\bar{\omega}}=0.768,
+\end{equation}
+which implies that a constant-output AWH system may need about
+\begin{equation}
+\frac{\bar{\omega}}{\omega_{\min}}=1.30
+\end{equation}
+times its annual-average capacity in the driest season unless storage or flexible scheduling absorbs the deficit.
+
+\section{Capacity Equations for VCR and TEC}
+\subsection{Daily production from installed electrical power}
+For an electrically driven AWH unit with specific energy consumption $\mathrm{SEC}$ [kWh/kg], operating electrical power $P_{\mathrm{el}}$ [kW], and operating time $H_{\mathrm{op}}$ [h/day], the daily water production is
+\begin{equation}
+m_{\mathrm{day}}=\frac{P_{\mathrm{el}}\,H_{\mathrm{op}}}{\mathrm{SEC}},
+\end{equation}
+and
+\begin{equation}
+V_{\mathrm{day}}=\frac{m_{\mathrm{day}}}{\rho}
+=\frac{P_{\mathrm{el}}\,H_{\mathrm{op}}}{\rho\,\mathrm{SEC}}.
+\end{equation}
+
+Rearranging, the required installed power to satisfy the Benban average daily demand is
+\begin{equation}
+P_{\mathrm{req}}=\frac{\rho\,V_{\mathrm{day,avg}}\,\mathrm{SEC}}{H_{\mathrm{op}}}.
+\end{equation}
+
+\subsection{Production capacity per installed MW}
+For one installed MW and water density $\rho\approx1000$\,kg/m$^3$,
+\begin{equation}
+V_{\mathrm{day,per\,MW}} \approx \frac{1000\,H_{\mathrm{op}}}{1000\,\mathrm{SEC}}
+=\frac{H_{\mathrm{op}}}{\mathrm{SEC}}\quad[\mathrm{m^3/day/MW}].
+\end{equation}
+This gives an intuitive comparison of how much water each technology can produce per installed MW of electrical capacity.
+
+\section{Numerical Comparison: VCR versus TEC}
+\subsection{Base case: 24-hour operation}
+\begin{table}[h]
+\centering
+\caption{Required electrical capacity to meet the Benban average daily water demand under 24-hour operation.}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Technology} & \textbf{SEC [kWh/kg]} & \textbf{$V_{\mathrm{day,per\,MW}}$ [m$^3$/day/MW]} & \textbf{$P_{\mathrm{req,24h}}$ [MW]} & \textbf{Plant-fraction of 200 MW} \\
+\midrule
+VCR & 0.42 & 57.14 & 1.81 & 0.90\% \\
+TEC low & 2.00 & 12.00 & 8.60 & 4.30\% \\
+TEC mid & 6.00 & 4.00 & 25.80 & 12.90\% \\
+TEC high & 12.00 & 2.00 & 51.61 & 25.80\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Night-dominant operation: 12-hour window}
+\begin{table}[h]
+\centering
+\caption{Required electrical capacity if water harvesting is constrained to a 12-hour high-RH night window.}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Technology} & \textbf{$V_{\mathrm{day,per\,MW}}$ [m$^3$/day/MW]} & \textbf{$P_{\mathrm{req,12h}}$ [MW]} & \textbf{Plant-fraction of 200 MW} \\
+\midrule
+VCR & 28.57 & 3.61 & 1.81\% \\
+TEC low & 6.00 & 17.20 & 8.60\% \\
+TEC mid & 2.00 & 51.61 & 25.80\% \\
+TEC high & 1.00 & 103.22 & 51.61\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Annual energy consumption at the required output}
+Using
+\begin{equation}
+E_{\mathrm{year}}=\mathrm{SEC}\times m_{\mathrm{year}},
+\end{equation}
+with $m_{\mathrm{year}}=\rho V_{\mathrm{year}}=37.674\times 10^6$\,kg/yr, the repository values are:
+\begin{table}[h]
+\centering
+\caption{Annual electrical energy at the Benban duty.}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Technology} & \textbf{$E_{\mathrm{day}}$ [MWh/day]} & \textbf{$E_{\mathrm{year}}$ [GWh/yr]} \\
+\midrule
+VCR & 43.35 & 15.82 \\
+TEC low & 206.44 & 75.35 \\
+TEC mid & 619.31 & 226.05 \\
+TEC high & 1238.61 & 452.09 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Sufficiency Test}
+\subsection{Definition of sufficiency used here}
+Two different sufficiency definitions are needed:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Mass-balance sufficiency:} the technology can produce at least $V_{\mathrm{day,avg}}=103.22$\,m$^3$/day when sized with enough electrical power.
+  \item \textbf{Project-level engineering sufficiency:} the technology can do so while remaining in an auxiliary-scale power range that is realistic for a 200\,MW PV block and while preserving the economic logic already documented in the repository.
+\end{enumerate}
+
+\subsection{Interpretation}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{VCR: sufficient.} At 24-hour operation it requires only 1.81\,MW average input, or 3.61\,MW if limited to a 12-hour night window. This remains a small fraction of the 200\,MW plant and matches the repository's selected build path.
+  \item \textbf{TEC low: conditionally sufficient only in an optimistic case.} It can meet the mass balance if the system achieves 2.0\,kWh/kg, but it still requires 8.60\,MW continuous or 17.20\,MW in a 12-hour night window.
+  \item \textbf{TEC mid and TEC high: not engineering-sufficient for this project scope.} Their required power becomes so large that the AWH subsystem ceases to behave like an auxiliary utility and instead becomes a major plant-scale electrical load.
+\end{itemize}
+
+\subsection{Mathematical break-even condition}
+At equal operating hours and equal installed power, TEC can only outperform VCR if
+\begin{equation}
+\mathrm{SEC}_{\mathrm{TEC}} \le \mathrm{SEC}_{\mathrm{VCR}}.
+\end{equation}
+Using the repository values,
+\begin{equation}
+\mathrm{SEC}_{\mathrm{VCR}}=0.42\ \mathrm{kWh/kg}.
+\end{equation}
+Therefore, the required improvement factors for TEC to match VCR are:
+\begin{align}
+\text{TEC low improvement factor} &= \frac{2.0}{0.42}=4.76,\\
+\text{TEC mid improvement factor} &= \frac{6.0}{0.42}=14.29,\\
+\text{TEC high improvement factor} &= \frac{12.0}{0.42}=28.57.
+\end{align}
+This is the central mathematical reason the repository ranks TEC below VCR.
+
+\section{Sensitivity Analysis}
+\subsection{Demand uncertainty: +/-20\% around the base case}
+Because cleaning intensity, event frequency, and margin may change, a first-order sensitivity is applied to the average daily demand:
+\begin{table}[h]
+\centering
+\caption{Required average power versus demand uncertainty.}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Demand case} & \textbf{$V_{\mathrm{day}}$ [m$^3$/day]} & \textbf{VCR $P_{\mathrm{req,24h}}$ [MW]} & \textbf{TEC mid $P_{\mathrm{req,24h}}$ [MW]} \\
+\midrule
+Low (-20\%) & 82.57 & 1.45 & 20.64 \\
+Base & 103.22 & 1.81 & 25.80 \\
+High (+20\%) & 123.86 & 2.17 & 30.97 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Seasonal moisture availability}
+Using the humidity-ratio factor
+\begin{equation}
+F_{\omega}=\frac{\bar{\omega}}{\omega_m},
+\end{equation}
+the driest-month scaling factor is about $1.30$. Applying that factor to the 24-hour required power:
+\begin{table}[h]
+\centering
+\caption{Dry-month scaling using the repository humidity-ratio data.}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Technology} & \textbf{Base $P_{\mathrm{req,24h}}$ [MW]} & \textbf{Dry-month scaled power [MW]} \\
+\midrule
+VCR & 1.81 & 2.35 \\
+TEC low & 8.60 & 11.21 \\
+TEC mid & 25.80 & 33.62 \\
+TEC high & 51.61 & 67.25 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Documented Technical Specifications Present in the Folder}
+The repository includes a VCR-oriented prototype package that supports practical implementation:
+\begin{itemize}[leftmargin=*]
+  \item Drawing register: D-101 process flow, D-102 skid GA, D-103 tank and drains, D-104 treatment manifold, D-105 electrical one-line, D-106 instrumentation, D-107 cleaning interface.
+  \item Prototype envelope: 2200\,mm $\times$ 1400\,mm $\times$ 2100\,mm.
+  \item Prototype target output: 200\,L/day.
+  \item Water train: raw tank, 5\,$\mu$m sediment filtration, activated carbon, UV, polished-water tank, and delivery pump.
+  \item Pump target: 2.0\,m$^3$/h at 3.0\,bar for the prototype test rig.
+\end{itemize}
+
+\noindent
+No equivalent dedicated TEC drawing package is documented in the current folder contents, which further strengthens the implementation case for VCR.
+
+\section{Engineering Conclusion}
+\begin{enumerate}[leftmargin=*]
+  \item The required Benban average cleaning-water production capacity is
+  \begin{equation*}
+  V_{\mathrm{day,avg}}=103.22\ \mathrm{m^3/day},
+  \end{equation*}
+  with an average continuous AWH production rate of
+  \begin{equation*}
+  Q_{\mathrm{avg}}=4.30\ \mathrm{m^3/h}.
+  \end{equation*}
+  \item The required peak cleaning-event discharge is much larger:
+  \begin{equation*}
+  Q_{\mathrm{peak}}=174.4\text{ to }348.8\ \mathrm{m^3/h}
+  \end{equation*}
+  depending on the cleaning-window assumption, so large storage is mandatory.
+  \item VCR is the only option in this comparison that is both \textbf{mathematically sufficient} and \textbf{engineering-practical} for the Benban duty using the repository's SEC data.
+  \item TEC can only be considered conditionally sufficient in an optimistic low-SEC case; in the documented mid and high ranges it becomes an impractically large electrical load for a PV-cleaning auxiliary subsystem.
+  \item The mathematical break-even requirement for TEC is
+  \begin{equation*}
+  \mathrm{SEC}_{\mathrm{TEC}} \le 0.42\ \mathrm{kWh/kg},
+  \end{equation*}
+  which is far below the repository's TEC low/mid/high assumptions.
+\end{enumerate}
+
+\section{Reference Pointers}
+\begin{itemize}[leftmargin=*]
+  \item Repository input deck: \texttt{project\_inputs.yaml}.
+  \item Repository outputs: \texttt{output/calculation\_summary.txt}, \texttt{output/nasa\_power\_hourly.csv}, \texttt{output/psychrometrics\_monthly.csv}.
+  \item NASA POWER API: \url{https://power.larc.nasa.gov/}
+  \item ERA5 climate archive: \url{https://cds.climate.copernicus.eu/}
+  \item AWH metrics comparability paper: \url{https://pubs.rsc.org/en/content/articlelanding/2022/ee/d2ee03079a}
+  \item Cross-family SEC synthesis used by the repository: \url{https://link.springer.com/article/10.1007/s42452-024-05746-z}
+\end{itemize}
+
+\end{document}

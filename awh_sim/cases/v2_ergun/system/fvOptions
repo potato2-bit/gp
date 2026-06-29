@@ -1,0 +1,37 @@
+/*--------------------------------*- C++ -*----------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// Darcy-Forchheimer porous resistance mapped from the Ergun equation
+// (Appendix A 2.2).  Baseline d_p = 2 mm, eps = 0.38:
+//   d = 150 (1-eps)^2 / (eps^3 d_p^2) = 2.627e8  [1/m2]
+//   f = 3.5 (1-eps)   / (eps^3 d_p)   = 1.977e4  [1/m]
+// The 3.5 already absorbs OpenFOAM's explicit 1/2 on the Forchheimer term.
+
+porosityBed
+{
+    type            explicitPorositySource;
+
+    explicitPorositySourceCoeffs
+    {
+        selectionMode   cellZone;      // whole mesh zoned as 'bed' via topoSet
+        cellZone        bed;
+        type            DarcyForchheimer;
+
+        d   (2.6269e8 2.6269e8 2.6269e8);
+        f   (1.9773e4 1.9773e4 1.9773e4);
+
+        coordinateSystem
+        {
+            origin   (0 0 0);
+            rotation none;
+        }
+    }
+}
+
+// ************************************************************************* //

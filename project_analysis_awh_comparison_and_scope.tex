@@ -1,0 +1,284 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\title{\textbf{Case Study, AWH Comparison, and Project Scope}\\
+\large Atmospheric Water Harvesting for Autonomous PV Panels Cleaning ---\\
+Kom Ombo/Benban-Class Utility PV in Upper Egypt}
+\author{Graduation Project --- Supporting Notes}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This note supports \textit{Atmospheric Water Harvesting for Autonomous PV Panels Cleaning} and answers four questions: (1)~Is a $\sim$200--500\,MW Egyptian PV site ``large''? (2)~Which AWH approach fits Aswan/Upper Egypt weather, desert dust, and cleaning-water duty for \textbf{autonomous} cleaning? (3)~How can you compare thermoelectric cooling (TEC) against other AWH families using the same numbers? (4)~Must you design the full robot if the focus is AWH? Worked comparisons use \textbf{illustrative} literature ranges for specific energy consumption (SEC); replace them with your own measured or simulated SEC for the final defense.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Quick answers (read this first)}
+\begin{description}[style=nextline]
+  \item[Is $\sim$200--500\,MW ``large''?] \textbf{Yes.} In industry terms, \textbf{utility-scale} often starts around tens of MW; \textbf{large utility} commonly means $\geq 50$\,MW single-site or a GW-cluster sub-block. A $\sim$200\,MW or $\sim$500\,MW plant is unambiguously large.
+  \item[Best harvest method here?] For \textbf{Upper Egypt (hot, often low daytime RH, seasonal dust)}, the most \textbf{scalable} options are usually \textbf{active dehumidification / vapor-compression-style condensation} (possibly hybridized with storage) or \textbf{sorption/nighttime cycling} if you can integrate heat properly. \textbf{Fog nets} are a poor primary match (fog is rare). \textbf{Passive dew} is usually \textbf{water-thin} per square meter. \textbf{TEC can work as a lab/demo} but is often \textbf{energy-weak} at the same water output vs compressor systems; treat professor preference as a \textbf{benchmark}, not an automatic optimum, unless you prove it with \textbf{your} boundary conditions.
+  \item[Do you have to design robots?] \textbf{Not automatically.} \textbf{Autonomous cleaning} can use commercial robots or automated skids; many theses \textbf{define the cleaning interface} (flow rate, pressure, water quality, schedule) and treat the cleaner as a \textbf{black box}. You \textbf{do} need a clear \textbf{water balance} and \textbf{delivery concept}. Full mechatronics design is only required if \textbf{your advisor-approved scope} says so.
+\end{description}
+
+\section{Pick a big Egyptian PV anchor (case study)}
+\subsection{Recommended primary anchor}
+\textbf{Kom Ombo PV complex (Aswan Governorate)} is a strong thesis anchor because it is clearly \textbf{utility-scale}, well publicized, and located in the same broad \textbf{arid soiling} regime as Benban.
+
+\subsection{Useful public links}
+\begin{itemize}[leftmargin=*]
+  \item ACWA Power project page: \url{https://acwapower.com/en/projects/kom-ombo-pv/}
+  \item Benban cluster context (statistics vary by year; verify before quoting exact MW): \url{https://en.wikipedia.org/wiki/Benban_Solar_Park}
+  \item Weather / solar resource (site coordinates): \url{https://power.larc.nasa.gov/}
+  \item Hourly humidity, wind, rain (grid cell): \url{https://cds.climate.copernicus.eu/}
+  \item Quick PV resource benchmarks: \url{https://globalsolaratlas.info}
+\end{itemize}
+
+\subsection{What ``dirt'' means here (so you size the right water)}
+Upper Egypt PV soiling is dominated by \textbf{mineral dust}, often with \textbf{small particle sizes} that adhere after dew/transient moisture events. Bird droppings and agricultural drift can appear locally. Implications:
+\begin{itemize}[nosep]
+  \item \textbf{Wet cleaning} is common for full recovery, but \textbf{water chemistry} matters (TDS/hardness $\rightarrow$ spotting).
+  \item \textbf{Rain} is infrequent compared to Europe; do not assume rain washes modules clean monthly without evidence.
+\end{itemize}
+
+\section{How much water do you need? (repeatable calculation)}
+\subsection{Core formulas}
+Let $A_{\mathrm{pv}}$ be the total module glass area you clean [m$^2$] (approximate from plant DC power if needed):
+\begin{equation}
+A_{\mathrm{pv}} \approx \frac{P_{\mathrm{dc,STC}}}{\eta_{\mathrm{mod}}\,1000}
+\quad\text{with }P_{\mathrm{dc,STC}}\text{ in W and }\eta_{\mathrm{mod}}\text{ as a fraction.}
+\end{equation}
+Let $w$ be process water intensity in \textbf{liters per square meter per cleaning event}, and $N_{\mathrm{clean}}$ the number of such events per year. With safety margin $f_{\mathrm{margin}}$:
+\begin{equation}
+V_{\mathrm{year}} = w\,A_{\mathrm{pv}}\,N_{\mathrm{clean}}\,(1+f_{\mathrm{margin}}),
+\qquad
+\dot m_{\mathrm{avg}} = \frac{\rho\,V_{\mathrm{year}}}{86400\times 365}
+\end{equation}
+where $\rho\approx 1000$\,kg/m$^3$ for fresh water and $\dot m_{\mathrm{avg}}$ is a \textbf{calendar-averaged} mass flow [kg/s] (useful for comparing AWH averages).
+
+\textbf{Literature anchor for $w$ (read before quoting):}\\
+\url{https://www.sciencedirect.com/science/article/abs/pii/S0038092X20302450}
+
+\subsection{Illustrative numbers (replace with your plant + O\&M interview)}
+Assume a \textbf{representative block}: $P_{\mathrm{dc,STC}}=200$\,MW and $\eta_{\mathrm{mod}}=0.215$:
+\begin{equation}
+A_{\mathrm{pv}}\approx \frac{200\times 10^6}{0.215\times 1000}
+\approx 9.30\times 10^5\ \mathrm{m^2}.
+\end{equation}
+Take \textbf{example} $w=1.8$\,L/m$^2$ per full wet pass, $N_{\mathrm{clean}}=18$/yr, $f_{\mathrm{margin}}=0.25$:
+\begin{equation}
+V_{\mathrm{year}} = 0.0018 \times (9.30\times 10^5)\times 18 \times 1.25
+\approx 3.77\times 10^4\ \mathrm{m^3/yr}.
+\end{equation}
+Average daily volume: $V_{\mathrm{year}}/365 \approx 103.2$\,m$^3$/day ($\approx 103{,}200$\,kg/day).
+
+\textbf{Important thesis logic:} real plants may use \textbf{partial wetting}, \textbf{brush assist}, or \textbf{recycle loops}, which can cut $w$. Your job is to \textbf{justify} $w$ and $N_{\mathrm{clean}}$ using Egypt dust literature + (ideally) operator data.
+
+\section{Compare AWH methods fairly (same water mass, same SEC definition)}
+\subsection{Definition (electric SEC)}
+For any electric AWH subsystem producing distilled-like water mass $m_w$ over a period using electricity $E_{\mathrm{el}}$:
+\begin{equation}
+\mathrm{SEC}_{\mathrm{el}}=\frac{E_{\mathrm{el}}}{m_w}\quad[\mathrm{kWh/kg}]
+\quad\Bigl(=\mathrm{kWh/L}\text{ when }\rho=1000\,\mathrm{kg/m^3}\Bigr).
+\end{equation}
+
+\subsection{Literature ``typical band'' anchors (use as starting hypotheses)}
+A recent synthesis comparing averages across reported studies (your library PDF may differ slightly from these rounded figures) gives \textbf{order-of-magnitude} central tendencies:
+\begin{center}
+\small
+\begin{tabular}{@{}p{4.6cm}cp{4.8cm}@{}}
+\toprule
+\textbf{Family (active)} & \textbf{SEC$_{\mathrm{el}}$} & \textbf{Source entry point} \\
+\midrule
+Absorption-style (reported average) & $\approx 0.38$\,kWh/kg &
+\href{https://link.springer.com/article/10.1007/s42452-024-05746-z}{Springer (2024)}\\
+Cooling condensation / dehumidification (avg.) & $\approx 0.42$\,kWh/kg & same \\
+Adsorption-style (avg.) & $\approx 1.16$\,kWh/kg & same \\
+\bottomrule
+\end{tabular}
+\end{center}
+\normalsize
+\noindent
+\textbf{Critical comparability paper (read their metrics before claiming ``best''):}\\
+\url{https://pubs.rsc.org/en/content/articlelanding/2022/ee/d2ee03079a}
+
+\subsection{Thermoelectric cooler (TEC) benchmark (professor's option)}
+TEC systems can produce condensate by cooling a surface below the dew point, but their \textbf{coefficient of performance} for large $\Delta T$ across stages is typically modest compared to vapor-compression chillers. In student projects, it is acceptable to treat TEC as a \textbf{device family} whose SEC$_{\mathrm{el}}$ you will measure in the prototype band \textbf{0.5--15\,kWh/kg} depending on inlet air state, heat sink design, and whether you count \textbf{only TEC input} vs \textbf{TEC + fans + pumps}. \textbf{Do not invent a single universal SEC for TEC}; pick a conservative design-band, then replace with measurement.
+
+\subsection{Worked comparison using \textbf{one} average daily water target}
+Use the illustrative average from Section~3.2: $\dot m_{\mathrm{avg}}\approx 103{,}200$\,kg/day.
+
+Daily electric energy if the AWH block must supply that day's average entirely by electricity at a fixed SEC:
+\begin{equation}
+E_{\mathrm{day}} = \mathrm{SEC}_{\mathrm{el}}\times m_{\mathrm{day}},
+\qquad m_{\mathrm{day}}=\rho\,(V_{\mathrm{year}}/365).
+\end{equation}
+
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Option} & \textbf{SEC$_{\mathrm{el}}$} & \textbf{$m_{\mathrm{day}}$} & \textbf{$E_{\mathrm{day}}$} \\
+ & \textbf{[kWh/kg]} & \textbf{[kg]} & \textbf{[MWh]} \\
+\midrule
+Cooling condensation (illustr.) & 0.42 & 103{,}200 & 43.4 \\
+Absorption (illustr.) & 0.38 & 103{,}200 & 39.2 \\
+Adsorption (illustr.) & 1.16 & 103{,}200 & 119.7 \\
+TEC (conservative band example) & 6.0 & 103{,}200 & 619.2 \\
+TEC (pessimistic band example) & 12.0 & 103{,}200 & 1238.4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\normalsize
+
+\noindent\textbf{Interpretation (what to say in your report):} With the \textbf{same} water obligation, TEC often loses on \textbf{kWh per kg} unless your measured prototype (with excellent heat rejection and night-time operation) pushes SEC$_{\mathrm{el}}$ down dramatically. Even then, compare \textbf{peak power} and \textbf{capex} (modules per liter) honestly.
+
+\subsection{Methods that are \textbf{not} mainly ``SEC$_{\mathrm{el}}$'' stories}
+\begin{description}[style=nextline,leftmargin=0pt,labelwidth=!]
+  \item[Passive dew / radiative collectors] Often reported in small daily yields per m$^2$ of collector (high area footprint). Compare using $Y_w$ [kg/m$^2$/day] from experiments matched to your night RH/temperature.
+  \item[Fog collection] Generally \textbf{not} a primary Upper Egypt strategy (fog frequency low). Useful mostly as a ``wrong-tool'' baseline with citation from climatology for your coordinates.
+  \item[Sorption with heat integration] If you have excess \textbf{thermal} energy (not only electricity), add a \textbf{thermal SEC} term or a \textbf{primary-energy} metric; otherwise you mis-rank the system.
+\end{description}
+
+\section{PV simulation reminder (what PVsyst does / does not do)}
+PVsyst models soiling as \textbf{monthly loss factors} you justify; it does not replace an AWH model. Official help:\\
+\url{https://www.pvsyst.com/help/project-design/array-and-system-losses/soiling-loss.html}
+
+\section{Project scope: do you design robots?}
+\subsection{A clean scope split (recommended)}
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}p{4.2cm}p{10.5cm}@{}}
+\toprule
+\textbf{In-scope (AWH-centric)} & Water demand model; storage; treatment (filtration/RO/demineralization as needed); energy scheduling; techno-economic comparison; prototype of \textbf{AWH core}. \\
+\midrule
+\textbf{Optional (only if advisor agrees)} & End-effector robotics, fleet routing, autonomous navigation, structured mechatronics thesis. \\
+\midrule
+\textbf{Minimum viable interface} & Specify \textbf{peak flow}, \textbf{pressure}, \textbf{water quality limits}, and \textbf{connection point} (tank $\rightarrow$ existing cleaning skid). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Suggested sentence for your proposal}
+\textit{``This work sizes and prototypes atmospheric water harvesting and water treatment to meet a defined PV cleaning water specification; the mechanical cleaning implement is treated as an existing O\&M process unless explicitly expanded in Phase~2.''}
+
+\section{Design Translation and Prototype Package}
+\subsection{Why the calculations are not the end goal}
+The analytical results in this note exist to identify the \textbf{best candidate configuration} and define a \textbf{traceable engineering basis} for simulation, prototyping, and delivery. The project deliverable is therefore the \textbf{selected buildable system} and its validation workflow, not the comparison table by itself.
+
+\subsection{Calculated best-option parameters and selected build path}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Lowest numerical LCOW route:} \textbf{Absorption} using the literature-average SEC band of about 0.38\,kWh/kg.
+  \item \textbf{Prototype-selected route:} \textbf{modular vapor-compression condensation with polishing treatment} because it stays close to the best LCOW result while being easier to source, assemble, instrument, and test.
+  \item \textbf{Full-scale reference basis:} $P_{\mathrm{dc}}=200$\,MW, $\eta_{\mathrm{mod}}=0.215$, $A_{\mathrm{pv}}\approx 9.30\times 10^5$\,m$^2$, $w=1.8$\,L/m$^2$/event, $N_{\mathrm{clean}}=18$/yr, $f_{\mathrm{margin}}=0.25$, and $V_{\mathrm{year}}\approx 3.77\times 10^4$\,m$^3$/yr.
+  \item \textbf{Scaled prototype target:} 200\,L/day condensate, treatment polishing, 500\,L raw tank, 500\,L polished-water tank, and a 2.0\,m$^3$/h delivery pump at 3.0\,bar for interface validation.
+\end{itemize}
+
+\subsection{Traceability matrix}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{4.0cm}p{4.0cm}p{6.8cm}@{}}
+\toprule
+\textbf{Calculation} & \textbf{Decision} & \textbf{Traceable design outcome} \\
+\midrule
+$V_{\mathrm{year}}\approx 3.77\times 10^4$\,m$^3$/yr & Use modular generation plus storage & Requires buffered production instead of direct one-pass supply only. \\
+$m_{\mathrm{day,avg}}\approx 103.2$\,m$^3$/day & Define prototype scaling ratio & Sets the 200\,L/day prototype validation target. \\
+Absorption SEC/LCOW minimum & Keep as benchmark & Serves as the analytic performance floor for later design improvements. \\
+VCR remains close to optimum & Choose build route & Supports an immediately buildable prototype with standard components. \\
+Condensate quality trend is favorable & Add polishing, not full desalination by default & Fixes the treatment train to sediment + carbon + UV with optional RO bypass. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Simulation plan}
+\begin{enumerate}[leftmargin=*]
+  \item Assemble an hourly weather dataset for Benban from NASA POWER and ERA5.
+  \item Validate the cleaning schedule in PVsyst using the same soiling assumptions used to derive the water duty.
+  \item Simulate the VCR prototype with compressor cycling, fan power, condensate collection, storage-tank level, and polishing pressure drop.
+  \item Run summer peak, low-RH night, filter-fouling, and missed-cleaning-cycle recovery scenarios.
+  \item Approve the design only if 95\% of simulated days meet the condensate target and final-water TDS remains within the rinse specification.
+\end{enumerate}
+
+\subsection{Engineering drawings, bill of materials, and component specifications}
+\textbf{Drawing set required for prototype release:}
+\begin{itemize}[leftmargin=*]
+  \item D-101 process flow diagram.
+  \item D-102 skid general arrangement (2200\,mm $\times$ 1400\,mm $\times$ 2100\,mm).
+  \item D-103 condensate tank and drain routing.
+  \item D-104 treatment manifold and sampling-point layout.
+  \item D-105 electrical one-line and control panel layout.
+  \item D-106 instrumentation loop diagram.
+  \item D-107 cleaning-water interface manifold for the autonomous cleaning test rig.
+\end{itemize}
+
+\textbf{BOM and specification targets:}
+\begin{itemize}[leftmargin=*]
+  \item Hermetic compressor package sized for about 200\,L/day condensate.
+  \item Hydrophilic evaporator coil, air-cooled condenser, and two EC axial fans.
+  \item 500\,L raw-water tank, 500\,L polished-water tank, and stainless or food-safe wetted materials.
+  \item 5\,$\mu$m sediment filter, activated-carbon cartridge, UV disinfection unit, and optional RO bypass spool.
+  \item Delivery pump rated 2.0\,m$^3$/h at 3.0\,bar, with flow meter, pressure gauge, inline TDS, T/RH sensors, level switches, and PLC or datalogger.
+\end{itemize}
+
+\subsection{Build manual, safety, and quality control}
+\begin{enumerate}[leftmargin=*]
+  \item Assemble and leak-test the refrigeration loop before electrical energization.
+  \item Install treatment, storage, and pump hardware in the sequence defined on D-101.
+  \item Calibrate sensors and execute dry commissioning, wet commissioning, and a 24-hour condensate trial.
+  \item Enforce lockout-tagout, refrigerant handling, electrical earthing, splash protection, and water-tank sanitation protocols.
+  \item Hold mandatory QC checkpoints at leak test, airflow verification, condensate-rate verification, TDS verification, and discharge-pressure verification.
+\end{enumerate}
+
+\subsection{Updated master project plan}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{2.0cm}p{4.2cm}p{3.1cm}p{2.0cm}p{3.4cm}@{}}
+\toprule
+\textbf{Milestone} & \textbf{Deliverable} & \textbf{Resources} & \textbf{Date} & \textbf{Success criteria} \\
+\midrule
+M1 & Freeze inputs, route ranking, and traceability matrix & PI + analyst & T0+2d & Design basis approved \\
+M2 & Complete PVsyst and hourly AWH simulations & PV analyst + controls student & T0+7d & Weather-linked model closed \\
+M3 & Release drawing package D-101 to D-107 & CAD lead + mechanical lead & T0+10d & Interfaces fully dimensioned \\
+M4 & Procure BOM and fabricate prototype skid & Procurement + workshop technician & T0+17d & Long-lead items inspected \\
+M5 & Build and commission prototype & Mechanical + electrical + safety officer & T0+24d & Stable 24-hour safe run \\
+M6 & Validate against calculated targets & Test engineer + QA lead & T0+28d & Production, TDS, and pressure targets achieved \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Bibliography pointers (export properly in Bib\TeX)}
+\begin{itemize}[leftmargin=*]
+  \item PV soiling / cleaning optimization entry point: \url{https://www.sciencedirect.com/science/article/abs/pii/S0306261921000039}
+  \item AWH metrics: \url{https://pubs.rsc.org/en/content/articlelanding/2022/ee/d2ee03079a}
+  \item SEC averages (absorption/condensation/adsorption): \url{https://link.springer.com/article/10.1007/s42452-024-05746-z}
+  \item Psychrometrics: ASHRAE Fundamentals Handbook (Chapter~1).
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,402 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\title{\textbf{Atmospheric Water Harvesting for Autonomous PV Panels Cleaning}\\
+\large Benban Case Study: Numerical Comparison, Water Quality, Efficiency, and Cost}
+\author{Graduation Project --- Quantitative Appendix}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This document provides \textbf{worked numbers} for \textit{Atmospheric Water Harvesting for Autonomous PV Panels Cleaning}, comparing thermoelectric cooler (TEC) atmospheric water harvesting against other practical routes (vapor-compression condensation, silica-gel and broader desiccant sorption, metal--organic frameworks (MOFs), and passive dew/fog). The site context is \textbf{Benban Solar Park} (Aswan Governorate, arid soiling, water demand for autonomous panel cleaning). All monetary and SEC figures combine \textbf{peer-reviewed anchors} with \textbf{explicit illustrative assumptions} (electricity tariff, plant block size, cleaning intensity); replace assumptions with your measured TMY, operator interviews, and quotes before treating results as contractual.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Scope, coordinates, and disclaimers}
+
+\subsection{Representative Benban coordinates}
+Benban lies in the western desert of Aswan Governorate. For weather downloads, use coordinates near the park (verify on map before final thesis submission), for example:
+\begin{center}
+\textbf{Latitude $24.45^\circ$N, Longitude $32.75^\circ$E} (order-of-magnitude centroid).
+\end{center}
+\textbf{Data portals:} NASA POWER (\url{https://power.larc.nasa.gov/}), ERA5 via CDS (\url{https://cds.climate.copernicus.eu/}), Global Solar Atlas (\url{https://globalsolaratlas.info}).
+
+\subsection{Why ``average RH'' misleads AWH sizing}
+Desert AWH is dominated by \textbf{diurnal cycles}: midday may be hot/dry (lower absolute humidity at a given RH), while \textbf{night} and \textbf{morning} can offer better sorption/condensation windows. Always use \textbf{hourly} psychrometrics for design, not monthly RH means alone.
+
+\section{Cleaning water demand at Benban (worked example)}
+
+\subsection{Formulas}
+Module area from DC nameplate $P_{\mathrm{dc,STC}}$ [W] and module STC efficiency $\eta_{\mathrm{mod}}$:
+\begin{equation}
+A_{\mathrm{pv}} \approx \frac{P_{\mathrm{dc,STC}}}{\eta_{\mathrm{mod}}\cdot 1000}\quad[\mathrm{m^2}].
+\end{equation}
+Annual cleaning volume with intensity $w$ [L/m$^2$/event], $N_{\mathrm{clean}}$ events/yr, margin $f_{\mathrm{margin}}$:
+\begin{equation}
+V_{\mathrm{year}} = w\,A_{\mathrm{pv}}\,N_{\mathrm{clean}}\,(1+f_{\mathrm{margin}})\quad[\mathrm{m^3/yr}].
+\end{equation}
+Average daily mass demand ($\rho\approx 1000$\,kg/m$^3$):
+\begin{equation}
+m_{\mathrm{day,avg}}=\rho\,\frac{V_{\mathrm{year}}}{365}\quad[\mathrm{kg/day}].
+\end{equation}
+\textbf{Literature for $w$:} experimental PV cleaning study (read methods before quoting):\\
+\url{https://www.sciencedirect.com/science/article/abs/pii/S0038092X20302450}
+
+\subsection{Two Benban-relevant scales (numbers you can defend as ``illustrative'')}
+Assume $\eta_{\mathrm{mod}}=0.215$, $w=1.8$\,L/m$^2$/event, $N_{\mathrm{clean}}=18$/yr, $f_{\mathrm{margin}}=0.25$ (justify from dust + O\&M interviews).
+
+\begin{table}[h]
+\centering
+\caption{Illustrative annual cleaning-water demand (Benban-class assumptions, consistent with \texttt{project\_inputs.yaml}).}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Block} & $P_{\mathrm{dc,STC}}$ & $A_{\mathrm{pv}}$ & $V_{\mathrm{year}}$ \\
+ & \textbf{[MW]} & \textbf{[m$^2$]} & \textbf{[m$^3$/yr]} \\
+\midrule
+Single large plot (example) & 50  & $2.33\times 10^5$ & $9.42\times 10^3$ \\
+Major sub-block (example)   & 200 & $9.30\times 10^5$ & $3.77\times 10^4$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Checks:}
+\begin{align*}
+A_{\mathrm{pv},50}  &= \frac{50\times 10^6}{0.215\times 1000}=232\,558\ \mathrm{m^2},\\
+V_{\mathrm{year},50}&=0.0018\times 232\,558\times 18\times 1.25 = 9.42\times 10^3\ \mathrm{m^3/yr},\\
+m_{\mathrm{day,avg},50}&=1000\times 9420/365 \approx 25\,800\ \mathrm{kg/day}.
+\end{align*}
+For the 200\,MW block: $m_{\mathrm{day,avg}}\approx 103\,200$\,kg/day ($\approx 103.2$\,m$^3$/day).
+
+\section{Water cleanliness for PV glass (what ``good'' means here)}
+PV wet cleaning is sensitive to \textbf{spotting}: dissolved salts leave residues after evaporation. A defensible thesis target (unless a module OEM gives you a stricter limit) is:
+\begin{itemize}[nosep]
+  \item \textbf{TDS (total dissolved solids):} aim for \textbf{low hundreds of mg/L or lower} for final rinse water; stricter sites use RO/demineralization toward \textbf{$\lesssim 50$--$100$\,mg/L} for spot minimization.
+  \item \textbf{Hardness (Ca/Mg):} lower is better; tie to spotting risk in your literature review.
+  \item \textbf{pH:} near-neutral operation is typical for O\&M compatibility with aluminum frames/seals (avoid aggressive extremes).
+  \item \textbf{Particles:} filtration to low turbidity prevents scratching; sorbent fines are a real risk for silica/MOF routes.
+\end{itemize}
+\textbf{Water-quality comparison study (desiccant vs compressor AWG, seasonal chemistry):}\\
+\url{https://www.sciencedirect.com/science/article/abs/pii/S0048969722010580}
+
+\section{Technology comparison (mechanism + Benban fit)}
+
+\subsection{Families compared}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{TEC (Peltier) dehumidification:} solid-state cold surface; simple control; generally \textbf{lower thermodynamic COP} than vapor compression for the same $\Delta T$.
+  \item \textbf{Vapor-compression refrigeration (VCR) / heat-pump dehumidifier:} mature AWG products; usually best \textbf{kWh per kg} among electrically driven condensers in many climates.
+  \item \textbf{Silica gel / conventional desiccant sorption:} cyclic adsorption at night (RH permitting) + regeneration heat to release vapor/condensate; performance depends on wheel/bed design and regeneration energy.
+  \item \textbf{MOF sorption (advanced sorbents):} engineered isotherms for low RH; often reported with \textbf{active thermal management} (heat pumps, solar heat); watch \textbf{capex} and \textbf{material stability/leachables}.
+  \item \textbf{Passive dew / radiative cooling collectors:} very low energy, but \textbf{low areal productivity} in many deserts unless conditions are unusually favorable.
+  \item \textbf{Fog nets:} generally \textbf{poor primary match} for Benban (fog is not a dependable resource vs coastal fog belts).
+\end{enumerate}
+
+\subsection{Literature anchors for SEC (electric)}
+Use the same definition for every technology:
+\begin{equation}
+\mathrm{SEC}_{\mathrm{el}}=\frac{E_{\mathrm{el}}}{m_w}\quad[\mathrm{kWh/kg}]\quad(\approx \mathrm{kWh/L}).
+\end{equation}
+\textbf{Cross-technology averages (useful starting band, not a substitute for your TMY model):}\\
+Springer synthesis (absorption / cooling condensation / adsorption reported averages):\\
+\url{https://link.springer.com/article/10.1007/s42452-024-05746-z}\\
+Rounded central values used below: \textbf{0.38 / 0.42 / 1.16}\,kWh/kg respectively.
+
+\textbf{MOF active device (field-relevant headline number):} cooling-enhanced MOF harvester reported $\approx$\,2.96\,kWh/L in a low-RH field context (read SI for boundaries):\\
+\url{https://pubs.rsc.org/en/content/articlelanding/2024/ee/d3ee03134a}
+
+\textbf{Critical metrics paper (prevents unfair comparisons):}\\
+\url{https://pubs.rsc.org/en/content/articlelanding/2022/ee/d2ee03079a}
+
+\subsection{TEC SEC band used in calculations}
+TEC systems vary widely with heat sink design, airflow, and whether SEC counts \textbf{TEC only} vs \textbf{TEC+fans}. For calculations below, use three explicit tiers:
+\begin{equation}
+\mathrm{SEC}_{\mathrm{TEC,low}}=2.0,\quad
+\mathrm{SEC}_{\mathrm{TEC,mid}}=6.0,\quad
+\mathrm{SEC}_{\mathrm{TEC,high}}=12.0\quad[\mathrm{kWh/kg}],
+\end{equation}
+and replace these with \textbf{your measured prototype SEC}.
+
+\section{Efficiency calculations (annual electricity for the same water duty)}
+
+\subsection{Annual electric energy from SEC}
+For any electric-dominated AWH supplying the long-run average daily water requirement (tank accumulation strategy):
+\begin{equation}
+E_{\mathrm{year}}=\mathrm{SEC}_{\mathrm{el}}\cdot m_{\mathrm{year}}
+=\mathrm{SEC}_{\mathrm{el}}\cdot \rho\,V_{\mathrm{year}}
+\quad[\mathrm{kWh/yr}].
+\end{equation}
+
+\subsection{Worked results for the 200\,MW illustrative block}
+Here $V_{\mathrm{year}}=3.77\times 10^4$\,m$^3$/yr $\Rightarrow$ $m_{\mathrm{year}}=3.77\times 10^7$\,kg/yr.
+
+\begin{table}[h]
+\centering
+\caption{Annual electric energy to produce \textbf{all} cleaning water electrically (illustrative SEC rows).}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Route} & \textbf{SEC$_{\mathrm{el}}$ [kWh/kg]} & \textbf{$E_{\mathrm{year}}$ [GWh/yr]} \\
+\midrule
+VCR / dehumidifier (liter.\ avg.) & 0.42 & 15.82 \\
+Absorption (liter.\ avg.)        & 0.38 & 14.32 \\
+Silica/desiccant adsorption (liter.\ avg.) & 1.16 & 43.70 \\
+MOF active (liter.\ headline)    & 2.96 & 111.52 \\
+TEC (low tier)                   & 2.0  & 75.35 \\
+TEC (mid tier)                   & 6.0  & 226.05 \\
+TEC (high tier)                  & 12.0 & 452.09 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Interpretation:} If your cleaning water must be produced \textbf{entirely} by on-site AWH at Benban-class demand, \textbf{VCR/condensation} and \textbf{absorption-style} headline averages imply the smallest grid import. \textbf{TEC can be competitive only if your realized SEC approaches the low tier}; otherwise it becomes an electricity-heavy option unless the thesis scope is a \textbf{small supplementary} water module (not full-fleet supply).
+
+\subsection{Second check: 50\,MW plot ($m_{\mathrm{year}}=9.42\times 10^6$\,kg)}
+From Section~3.2, $V_{\mathrm{year},50}=9.42\times 10^3$\,m$^3$/yr, so $m_{\mathrm{year},50}=\rho V_{\mathrm{year},50}=9.42\times 10^6$\,kg. To scale the 200\,MW energy table to the 50\,MW plot, multiply the 200\,MW $E_{\mathrm{year}}$ column by the water-duty ratio $9.42/37.7\approx 0.250$.
+
+\section{Water quality vs technology (PV suitability)}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Qualitative ranking for \textbf{PV rinse cleanliness} after sensible O\&M treatment (filtration/UV/carbon/RO as needed).}
+\begin{tabular}{@{}p{3.4cm}p{4.6cm}p{6.4cm}@{}}
+\toprule
+\textbf{Route} & \textbf{Typical dissolved mineral risk} & \textbf{Notes for Benban} \\
+\midrule
+VCR/AWG condensate & Low TDS potential; acidic CO$_2$ uptake possible &
+Polish with carbon + UV; optional light remineralization only if O\&M demands (usually not for rinse). \\
+TEC condensate & Similar to VCR condensate (airborne salts can still enter if mist/droplet carryover) &
+Same polish path; performance penalty is energy, not inherently ``dirtier water''. \\
+Silica gel / desiccants & Medium: dust/fines + desiccant carryover; chemistry depends on regeneration/condenser &
+\textbf{Mandatory} fine filtration; inspect sorbent attrition; validate effluent TDS after condenser wash cycle. \\
+MOFs & Medium--variable: framework ions/organics possible depending on MOF + binders &
+Use peer-reviewed effluent tests for your exact MOF + resin; plan \textbf{polishing RO} if spotting is observed. \\
+Passive dew & Variable: surface contaminants/nucleants &
+Often higher biological/aerosol load; filtration + disinfection; productivity may be too low for full wet-clean duty. \\
+Fog nets & Low mineral if clean mesh; high biological/dust load &
+Poor resource availability at Benban; not a primary supply. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Practical conclusion for ``right cleanliness'':} \textbf{Condensation routes (VCR/TEC)} naturally trend toward low-mineral water but still need \textbf{filtration + disinfection + monitoring}. \textbf{Sorbent routes (silica/MOF)} can meet the same final TDS targets but should assume a \textbf{polishing train} until you have effluent chemistry data.
+
+\section{Cost analysis (transparent, simplified LCOW-style model)}
+
+\subsection{Energy OPEX}
+Let $\pi$ be the all-in marginal electricity price [USD/kWh] for the AWH load (industrial tariff band, time-of-use if applicable):
+\begin{equation}
+C_{\mathrm{el,yr}} = \pi\,E_{\mathrm{yr}}.
+\end{equation}
+\textbf{Official Egyptian tariff pages (update with your year/tier):}\\
+\url{https://www.egyptera.org/en/TarrifAug2024.aspx}
+
+\subsection{Illustrative tariff conversion}
+Industrial tariffs are published in EGP/kWh tiers. For \textbf{illustration only}, take $\pi=\$0.04$/kWh (you must replace using EGP/kWh $\div$ exchange rate at your analysis date).
+
+\subsection{Annualized CAPEX (capital recovery factor)}
+\begin{equation}
+\mathrm{CRF}(i,n)=\frac{i(1+i)^n}{(1+i)^n-1},
+\end{equation}
+annualized capital:
+\begin{equation}
+C_{\mathrm{capex,yr}}=\mathrm{CRF}(i,n)\cdot \mathrm{CAPEX}_{\mathrm{total}}.
+\end{equation}
+Use $i=0.08$, $n=15$\,yr $\Rightarrow$ $\mathrm{CRF}\approx 0.1168$.
+
+\subsection{Levelized cost of water (very simplified)}
+Neglecting chemicals, maintenance labor, and spare parts (add them in your final thesis):
+\begin{equation}
+\mathrm{LCOW}\approx \frac{C_{\mathrm{capex,yr}}+C_{\mathrm{el,yr}}}{V_{\mathrm{year}}}\quad[\mathrm{\$/m^3}].
+\end{equation}
+
+\subsection{Illustrative CAPEX assumptions (ORDER OF MAGNITUDE)}
+These are \textbf{not quotes}. They exist only to show how LCOW shifts when CAPEX differs at the same water duty.
+
+\begin{table}[h]
+\centering
+\caption{Illustrative installed CAPEX for a skid sized to cover the \textbf{200\,MW} water duty average ($\approx 10.3$\,m$^3$/day design average).}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Route} & \textbf{Illustr.\ CAPEX [MUSD]} & \textbf{Comment} \\
+\midrule
+VCR AWG (modular AWG stacks + tanks + polish) & 1.2--2.5 & Mature market; vendor quotes vary strongly. \\
+Silica gel / desiccant system + regen + polish & 1.5--3.0 & Heat integration hardware adds cost. \\
+MOF pilot / demonstration scale & 3.0--8.0+ & Material cost + engineering uncertainty dominates. \\
+TEC farm (many modules, HX, controls)        & 1.0--2.5 & Can be ``cheap per module'' but \textbf{many kW} if SEC is high. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{LCOW numeric example (200\,MW block, $\pi=\$0.04$/kWh)}
+Pick one CAPEX midpoint each: VCR \$1.8\,M, silica \$2.2\,M, MOF \$5.0\,M, TEC \$1.6\,M.
+
+\begin{table}[h]
+\centering
+\caption{Illustrative LCOW ($\$/\mathrm{m^3}$) using $V_{\mathrm{year}}=37674$\,m$^3$, $\pi=0.04$\,USD/kWh, CRF$=0.1168$. Absorption is modelled with the same skid CAPEX as VCR (compressor-class hardware envelope).}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Route} & $E_{\mathrm{year}}$ [GWh] & $C_{\mathrm{el,yr}}$ [MUSD] & CAPEX [MUSD] & LCOW [$\$/\mathrm{m^3}$] \\
+\midrule
+Absorption (SEC 0.38) & 14.32 & 0.5727 & 1.8 & $\approx 20.8$ \\
+VCR (SEC 0.42)   & 15.82 & 0.6329 & 1.8 & $\approx 22.4$ \\
+Silica (SEC 1.16)& 43.70 & 1.7481 & 2.2 & $\approx 53.2$ \\
+TEC low (SEC 2.0)& 75.35 & 3.0140 & 1.6 & $\approx 85.0$ \\
+MOF (SEC 2.96)   & 111.52 & 4.4607 & 5.0 & $\approx 133.9$ \\
+TEC mid (SEC 6)  & 226.05 & 9.0419 & 1.6 & $\approx 245.0$ \\
+TEC high (SEC 12)& 452.09 & 18.0837 & 1.6 & $\approx 485.0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{How each LCOW was computed (example row: VCR):}
+\begin{align*}
+C_{\mathrm{capex,yr}} &= \mathrm{CRF}\times \mathrm{CAPEX}
+=0.1168\times 1.8\times 10^6\ \mathrm{USD}\approx 2.10\times 10^5\ \mathrm{USD/yr},\\
+C_{\mathrm{el,yr}} &= \pi\,E_{\mathrm{year}}
+=0.04\times (15.82\times 10^6\ \mathrm{kWh})\approx 6.33\times 10^5\ \mathrm{USD/yr},\\
+\mathrm{LCOW} &\approx \frac{C_{\mathrm{capex,yr}}+C_{\mathrm{el,yr}}}{V_{\mathrm{year}}}
+=\frac{2.10\times 10^5+6.33\times 10^5}{37674}\approx 22.4\ \mathrm{\$/m^3}.
+\end{align*}
+
+\section{Integrated recommendation (Benban weather + dust + cleaning duty)}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Best default engineering path for ``enough water + controlled minerals'':} \textbf{Vapor-compression AWG + polishing filtration + optional light RO/demineralization} to hit your TDS target for spot-free rinsing.
+  \item \textbf{MOFs} are scientifically strong for \textbf{low RH} regimes, but at Benban you must still prove \textbf{annual kg} at acceptable \textbf{SEC} and validate \textbf{effluent chemistry}; expect higher \textbf{LCOW} at pilot scale unless tightly integrated with waste heat.
+  \item \textbf{Silica gel / classical desiccants} are credible if you exploit \textbf{nighttime RH} and a clear regeneration strategy; expect higher electric SEC than a good VCR unless solar heat displaces electricity.
+  \item \textbf{TEC} is a valid \textbf{benchmark/demo} platform, but full-fleet water supply at mid/high SEC tiers is usually \textbf{electricity-dominated} and becomes expensive in LCOW unless SEC is proven low.
+  \item \textbf{Passive dew / fog} should not be relied on as the primary supply for Benban-scale wet cleaning volumes.
+\end{enumerate}
+
+\section{What you should download next (to replace illustrations)}
+\begin{itemize}[leftmargin=*]
+  \item Hourly ERA5 or NASA POWER for Benban coordinates: $T$, RH, wind, $G_{\mathrm{HI}}$, precip.
+  \item Vendor quotes for: (i) AWG capacity curve vs inlet air state, (ii) power draw, (iii) water treatment skid.
+  \item If sorption: isotherms + regeneration temperature/time (from supplier or paper SI).
+\end{itemize}
+
+\section{From Calculations to a Buildable System}
+\subsection{Design intent}
+The calculations in this document are a \textbf{screening and sizing foundation}, not the project end goal. They narrow the candidate space to a small set of feasible AWH routes, then the design package converts the preferred route into a prototype-ready system with simulation, hardware, and execution requirements.
+
+\subsection{Calculated best-option parameters and prototype selection}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Numerical minimum-LCOW route:} \textbf{Absorption} at SEC $\approx 0.38$\,kWh/kg and LCOW $\approx 20.8$\,USD/m$^3$.
+  \item \textbf{Prototype-selected route:} \textbf{VCR condensation with polishing treatment} at SEC $\approx 0.42$\,kWh/kg and LCOW $\approx 22.4$\,USD/m$^3$.
+  \item \textbf{Why VCR is selected for build:} the economic penalty relative to the numerical minimum is small, while the hardware is more directly procurable, easier to instrument, and lower risk for a student prototype.
+  \item \textbf{Full-scale design basis:} 200\,MW DC block, $\eta_{\mathrm{mod}}=0.215$, $A_{\mathrm{pv}}\approx 9.30\times 10^5$\,m$^2$, $w=1.8$\,L/m$^2$/event, $N_{\mathrm{clean}}=18$/yr, $f_{\mathrm{margin}}=0.25$, and $V_{\mathrm{year}}\approx 3.77\times 10^4$\,m$^3$/yr.
+  \item \textbf{Prototype scale target:} a modular skid sized for about 200\,L/day condensate so the same psychrometric logic, treatment chain, storage logic, and cleaning-interface controls can be validated at manageable laboratory scale.
+\end{itemize}
+
+\subsection{Traceability matrix}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{3.9cm}p{3.8cm}p{7.1cm}@{}}
+\toprule
+\textbf{Calculation / result} & \textbf{Design choice} & \textbf{Traceable implication} \\
+\midrule
+$V_{\mathrm{year}}\approx 3.77\times 10^4$\,m$^3$/yr & Modular production plus storage & Fixes the full-scale average supply target and requires tank buffering rather than direct on-demand generation only. \\
+Absorption LCOW $\approx 20.8$\,USD/m$^3$ & Keep as economic benchmark & Remains the analytic best case to beat during later optimization. \\
+VCR LCOW $\approx 22.4$\,USD/m$^3$ & Select for prototype hardware & Shows that the build route stays near the economic optimum while remaining technically accessible. \\
+Condensation routes yield low-mineral water & Add polishing train instead of heavy desalination & Supports final treatment sequence of sediment filter, carbon, UV, and optional RO bypass. \\
+Daily average duty $\approx 103.2$\,m$^3$/day & Scale prototype to 200\,L/day & Preserves control and verification logic without forcing full plant throughput in the lab. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Simulation plan under realistic operating conditions}
+\begin{enumerate}[leftmargin=*]
+  \item Build an hourly Benban weather year from NASA POWER and ERA5 using dry-bulb temperature, RH, precipitation, and wind.
+  \item Re-run PVsyst soiling cases with the same cleaning interval that produced the water-duty calculation.
+  \item Simulate the VCR skid in Python using compressor cycling, fan power, condensate accumulation, raw-tank level, and treatment-stage pressure loss.
+  \item Test summer peak heat, low-humidity nights, filter fouling, one missed cleaning cycle, and one pump outage recovery case.
+  \item Accept the selected parameters only if the simulated skid can satisfy at least 95\% of daily condensate targets and maintain rinse-water quality at the polishing outlet.
+\end{enumerate}
+
+\subsection{Engineering drawings, bill of materials, and component specifications}
+\textbf{Drawing package release:}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{D-101}: process flow diagram from air intake through condensation, treatment, storage, and cleaning-water discharge.
+  \item \textbf{D-102}: skid general arrangement, footprint 2200\,mm $\times$ 1400\,mm $\times$ 2100\,mm, maintenance clearances, and lifting points.
+  \item \textbf{D-103}: condensate tank, drains, overflow, and sampling-point layout.
+  \item \textbf{D-104}: treatment manifold with 5\,$\mu$m sediment filter, activated-carbon stage, UV reactor, bypass line, and pressure gauges.
+  \item \textbf{D-105}: electrical one-line diagram, panel layout, safety interlocks, and emergency stop.
+  \item \textbf{D-106}: instrumentation and control loop diagram for T/RH sensors, TDS meter, flow meter, level switches, and pump permissives.
+  \item \textbf{D-107}: prototype cleaning-water discharge manifold for the autonomous-cleaning interface test rig.
+\end{itemize}
+
+\textbf{Prototype BOM and specifications:}
+\begin{itemize}[leftmargin=*]
+  \item Hermetic compressor / condensing package sized for about 200\,L/day condensate.
+  \item Hydrophilic evaporator coil with stainless drain tray and insulated enclosure.
+  \item Air-cooled condenser with service valves and two EC axial fans.
+  \item 500\,L raw condensate tank and 500\,L polished-water tank in HDPE or food-safe equivalent.
+  \item 5\,$\mu$m sediment filter, activated-carbon cartridge, UV disinfection unit, and optional RO bypass spool for sensitivity testing.
+  \item Delivery pump rated 2.0\,m$^3$/h at 3.0\,bar, plus inline flow and pressure measurement.
+  \item TDS meter, two temperature sensors, two RH sensors, level switches, PLC or datalogger, relief valves, and stainless tubing.
+\end{itemize}
+
+\subsection{Build manual, safety protocols, and quality-control checkpoints}
+\begin{enumerate}[leftmargin=*]
+  \item Assemble and pressure-test the refrigeration loop before energizing the electrical panel.
+  \item Install condensate capture, treatment, UV, storage, and pump hardware in the same order shown on D-101.
+  \item Complete dry commissioning, wet commissioning, and a 24-hour condensate run after sensor calibration.
+  \item Apply lockout-tagout, refrigerant handling procedures, earthing checks, splash protection, and tank sanitation before every test campaign.
+  \item Hold mandatory QC checkpoints at leak test, airflow verification, condensate-rate verification, TDS verification, and discharge-pressure verification.
+\end{enumerate}
+
+\subsection{Updated master project plan}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{2.1cm}p{4.2cm}p{3.1cm}p{2.1cm}p{3.2cm}@{}}
+\toprule
+\textbf{Milestone} & \textbf{Deliverable} & \textbf{Resources} & \textbf{Date} & \textbf{Success criteria} \\
+\midrule
+M1 & Freeze design basis, route ranking, and traceability matrix & PI + analyst & T0+2d & Inputs and calculation logic approved \\
+M2 & Complete PVsyst and hourly AWH simulations & PV analyst + controls student & T0+7d & Weather-linked performance model closed \\
+M3 & Release drawing package D-101 to D-107 & CAD lead + mechanical lead & T0+10d & All prototype interfaces dimensioned \\
+M4 & Procure BOM and fabricate skid & Procurement + workshop technician & T0+17d & Long-lead components received and inspected \\
+M5 & Build and commission prototype & Mechanical + electrical + safety officer & T0+24d & Stable 24-hour safe run achieved \\
+M6 & Validate prototype vs design basis & Test engineer + QA lead & T0+28d & Condensate rate, TDS, and pump duty meet targets \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Bibliography / link list (export to Bib\TeX in final thesis)}
+\begin{itemize}[leftmargin=*]
+  \item PV cleaning water intensity anchor: \url{https://www.sciencedirect.com/science/article/abs/pii/S0038092X20302450}
+  \item SEC cross-family averages: \url{https://link.springer.com/article/10.1007/s42452-024-05746-z}
+  \item MOF active harvester (kWh/L headline): \url{https://pubs.rsc.org/en/content/articlelanding/2024/ee/d3ee03134a}
+  \item AWH metrics comparability: \url{https://pubs.rsc.org/en/content/articlelanding/2022/ee/d2ee03079a}
+  \item Seasonal water quality (desiccant vs electric AWG): \url{https://www.sciencedirect.com/science/article/abs/pii/S0048969722010580}
+  \item Egypt electricity tariffs (update): \url{https://www.egyptera.org/en/TarrifAug2024.aspx}
+  \item Benban context: \url{https://en.wikipedia.org/wiki/Benban_Solar_Park}
+\end{itemize}
+
+\end{document}

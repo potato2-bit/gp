@@ -1,0 +1,1181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.3 20210610//EN" "JATS-journalpublishing1-3.dtd">
+<article xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article" dtd-version="1.3" xml:lang="en">
+  <front>
+    <journal-meta>
+      <journal-id journal-id-type="publisher-id">sustainability</journal-id>
+      <journal-title-group>
+        <journal-title>Sustainability</journal-title>
+        <abbrev-journal-title abbrev-type="publisher">Sustainability</abbrev-journal-title>
+        <abbrev-journal-title abbrev-type="pubmed">Sustainability</abbrev-journal-title>
+      </journal-title-group>
+      <issn pub-type="epub">2071-1050</issn>
+      <publisher>
+        <publisher-name>MDPI</publisher-name>
+      </publisher>
+    </journal-meta>
+    <article-meta>
+      <article-id pub-id-type="doi">10.3390/su152115431</article-id>
+      <article-id pub-id-type="publisher-id">sustainability-15-15431</article-id>
+      <article-categories>
+        <subj-group>
+          <subject>Article</subject>
+        </subj-group>
+      </article-categories>
+      <title-group>
+        <article-title>A Novel Photovoltaic Panel Cleaning and Cooling Approach through Air Conditioner Condensate Water</article-title>
+      </title-group>
+      <contrib-group>
+        <contrib contrib-type="author">
+          <contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0002-4398-5028</contrib-id>
+          <name>
+            <surname>Shah</surname>
+            <given-names>Ali Hasan</given-names>
+          </name>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Formal analysis" vocab-term-identifier="https://credit.niso.org/contributor-roles/formal-analysis/">Formal analysis</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Investigation" vocab-term-identifier="https://credit.niso.org/contributor-roles/investigation/">Investigation</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Data curation" vocab-term-identifier="https://credit.niso.org/contributor-roles/data-curation/">Data curation</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Writing &#x2013; original draft" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-original-draft/">Writing &#x2013; original draft</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Writing &#x2013; review &amp; editing" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-review-editing/">Writing &#x2013; review &amp; editing</role>
+          <xref rid="af1-sustainability-15-15431" ref-type="aff">1</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0003-0756-5525</contrib-id>
+          <name>
+            <surname>Alraeesi</surname>
+            <given-names>Abdulrahman</given-names>
+          </name>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Formal analysis" vocab-term-identifier="https://credit.niso.org/contributor-roles/formal-analysis/">Formal analysis</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Data curation" vocab-term-identifier="https://credit.niso.org/contributor-roles/data-curation/">Data curation</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Writing &#x2013; review &amp; editing" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-review-editing/">Writing &#x2013; review &amp; editing</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Project administration" vocab-term-identifier="https://credit.niso.org/contributor-roles/project-administration/">Project administration</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Funding acquisition" vocab-term-identifier="https://credit.niso.org/contributor-roles/funding-acquisition/">Funding acquisition</role>
+          <xref rid="af2-sustainability-15-15431" ref-type="aff">2</xref>
+          <xref rid="af3-sustainability-15-15431" ref-type="aff">3</xref>
+          <xref rid="c1-sustainability-15-15431" ref-type="corresp">*</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0002-7513-0243</contrib-id>
+          <name>
+            <surname>Hassan</surname>
+            <given-names>Ahmed</given-names>
+          </name>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Conceptualization" vocab-term-identifier="https://credit.niso.org/contributor-roles/conceptualization/">Conceptualization</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Methodology" vocab-term-identifier="https://credit.niso.org/contributor-roles/methodology/">Methodology</role>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Writing &#x2013; review &amp; editing" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-review-editing/">Writing &#x2013; review &amp; editing</role>
+          <xref rid="af4-sustainability-15-15431" ref-type="aff">4</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0002-4738-1571</contrib-id>
+          <name>
+            <surname>Laghari</surname>
+            <given-names>Mohammad Shakeel</given-names>
+          </name>
+          <role vocab="credit" vocab-identifier="https://credit.niso.org/" vocab-term="Writing &#x2013; review &amp; editing" vocab-term-identifier="https://credit.niso.org/contributor-roles/writing-review-editing/">Writing &#x2013; review &amp; editing</role>
+          <xref rid="af1-sustainability-15-15431" ref-type="aff">1</xref>
+        </contrib>
+      </contrib-group>
+      <contrib-group>
+        <contrib contrib-type="editor">
+          <name>
+            <surname>Notton</surname>
+            <given-names>Gilles</given-names>
+          </name>
+          <role>Academic Editor</role>
+        </contrib>
+      </contrib-group>
+      <aff id="af1-sustainability-15-15431"><label>1</label>Department of Electrical Engineering, United Arab Emirates University, Al Ain P.O. Box 15551, United Arab Emirates</aff>
+      <aff id="af2-sustainability-15-15431"><label>2</label>Department of Chemical and Petroleum Engineering, United Arab Emirates University, Al Ain P.O. Box 15551, United Arab Emirates</aff>
+      <aff id="af3-sustainability-15-15431"><label>3</label>National Water and Energy Research Center, United Arab Emirates University, Al Ain P.O. Box 15551, United Arab Emirates</aff>
+      <aff id="af4-sustainability-15-15431"><label>4</label>Department of Architectural Engineering, United Arab Emirates University, Al Ain P.O. Box 15551, United Arab Emirates</aff>
+      <author-notes>
+        <corresp id="c1-sustainability-15-15431"><label>*</label>Correspondence: <email>a.alraeesi@uaeu.ac.ae</email></corresp>
+      </author-notes>
+      <pub-date pub-type="epub">
+        <day>30</day>
+        <month>10</month>
+        <year>2023</year>
+      </pub-date>
+      <pub-date pub-type="collection">
+        <month>11</month>
+        <year>2023</year>
+      </pub-date>
+      <volume>15</volume>
+      <issue>21</issue>
+      <elocation-id>15431</elocation-id>
+      <history>
+        <date date-type="received">
+          <day>31</day>
+          <month>07</month>
+          <year>2023</year>
+        </date>
+        <date date-type="rev-recd">
+          <day>29</day>
+          <month>09</month>
+          <year>2023</year>
+        </date>
+        <date date-type="accepted">
+          <day>24</day>
+          <month>10</month>
+          <year>2023</year>
+        </date>
+      </history>
+      <permissions>
+        <copyright-statement>&#xA9; 2023 by the authors.</copyright-statement>
+        <copyright-year>2023</copyright-year>
+        <license license-type="open-access">
+          <license-p>Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (<ext-link ext-link-type="uri" xlink:href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</ext-link>).</license-p>
+        </license>
+      </permissions>
+      <abstract>
+        <p>The elevated temperature and dust accumulation over the photovoltaic (PV) surface are the main causes of power loss in hot and desert climates. Traditionally, PV cleaning and cooling are addressed separately, and accordingly, solutions have been developed that require extensive energy and/or manpower to cool and clean the PV panels. However, these solutions are less effective due to a lack of synergy in the devised solution, affecting both energy use and the economics of the system. A highly synergic method to cool and clean PV panels in a singular embodiment is developed, involving flowing air conditioning condensate water over the PV front surface. The current article assesses the performance of the proposed system to cool and clean the panels efficiently. The experimental results showed an up to 14% increase in the power output of the PV panels through the proposed condensate water-based cooling and cleaning method.</p>
+      </abstract>
+      <kwd-group>
+        <kwd>photovoltaic</kwd>
+        <kwd>dust accumulation</kwd>
+        <kwd>cleaning</kwd>
+        <kwd>cooling</kwd>
+        <kwd>air conditioner condensate water</kwd>
+      </kwd-group>
+      <funding-group>
+        <award-group>
+          <funding-source>National Water and Energy Research Center (NWERC) at the United Arab Emirates University (UAEU)</funding-source>
+          <award-id>12R161</award-id>
+        </award-group>
+        <funding-statement>This research was funded by the National Water and Energy Research Center (NWERC) at the United Arab Emirates University (UAEU). Grant # 12R161.</funding-statement>
+      </funding-group>
+    </article-meta>
+  </front>
+  <body>
+    <sec id="sec1-sustainability-15-15431" sec-type="intro">
+      <title>1. Introduction</title>
+      <p>The energy produced by the photovoltaic modules is directly proportional to the available radiation to the PV cell passing through the glazed cover and inversely proportional to the panel temperature [<xref ref-type="bibr" rid="B1-sustainability-15-15431">1</xref>]. The increased radiation increases PV current output while, paradoxically, the increased temperature decreases open circuit voltage, with the magnitude depending upon the type of PV cells [<xref ref-type="bibr" rid="B2-sustainability-15-15431">2</xref>,<xref ref-type="bibr" rid="B3-sustainability-15-15431">3</xref>]. </p>
+      <p>Beside loss in power production, the structural stability of a PV panel also deteriorates with increased temperature and dust accumulation over time [<xref ref-type="bibr" rid="B4-sustainability-15-15431">4</xref>], which warrants frequent cooling and cleaning of the PV panels. The problem aggravates to the extent of PV plant failures in hot and desert climates due to the occurrence of frequent sandstorm spells and prolonged extreme temperatures in summer [<xref ref-type="bibr" rid="B5-sustainability-15-15431">5</xref>]. The conventional techniques address PV cleaning and PV cooling as separate issues, and accordingly, solutions were developed, thus requiring a tremendous amount of water and/or human resources to clean and cool the panels [<xref ref-type="bibr" rid="B6-sustainability-15-15431">6</xref>,<xref ref-type="bibr" rid="B7-sustainability-15-15431">7</xref>]. Pradhan et al. tested flowing water over the PV front surface, which reduced the temperature by 5 &#xB0;C and increased maximum power and efficiency by 2% [<xref ref-type="bibr" rid="B6-sustainability-15-15431">6</xref>]. </p>
+      <p>Conventional PV cleaning methods include manual as well as automated cleaning using robotic systems with water or air jets [<xref ref-type="bibr" rid="B8-sustainability-15-15431">8</xref>]. Both manual and automated cleaning methods can effectively remove dust, dirt, and other debris from PV panels but require heavy investments in equipment and human resources. Alternatively, some emerging systems involving chemical cleaning, electrostatic precipitator cleaning, nano-film-based self-cleaning, and dry cleaning are being investigated but have several technical and economic limitations in their widespread adaptation [<xref ref-type="bibr" rid="B9-sustainability-15-15431">9</xref>]. Eventually, water-based cleaning will remain the most effective method, although it is less sustainable due to higher water consumption [<xref ref-type="bibr" rid="B10-sustainability-15-15431">10</xref>]. Novel methods to secure and apply water in an efficient and sustainable manner are being tested, including atmospheric water generation [<xref ref-type="bibr" rid="B11-sustainability-15-15431">11</xref>]. Several passive and active systems have been developed to collect water from the air, such as fog harvesting, mechanically cooling air to condense it, pressurizing the air, or exposing it to desiccants. Passive means involving hygroscopic materials are low-cost and easy to use, but their water generation capacity is often lower [<xref ref-type="bibr" rid="B12-sustainability-15-15431">12</xref>,<xref ref-type="bibr" rid="B13-sustainability-15-15431">13</xref>], making them less reliable for applications demanding large amounts of water, such as PV cleaning. Active systems, in contrast, can produce the desired large amount of water on demand but are highly energy inefficient due to a series of compacted processes, including cooling coils, adsorbent materials, and membrane filtration [<xref ref-type="bibr" rid="B14-sustainability-15-15431">14</xref>,<xref ref-type="bibr" rid="B15-sustainability-15-15431">15</xref>]. Electrically powered atmospheric water generation systems (AWG) are relatively simpler and highly effective in producing on-demand water requiring external power sources, but they are expensive at larger scales [<xref ref-type="bibr" rid="B16-sustainability-15-15431">16</xref>]. The research is underway to improve the efficiency of the systems through the application of nanotechnology [<xref ref-type="bibr" rid="B17-sustainability-15-15431">17</xref>] to render them feasible at larger scales. As an alternative means of securing water, research is underway to exploit less energy-intensive water recycling systems from air conditioning condensate. A study [<xref ref-type="bibr" rid="B18-sustainability-15-15431">18</xref>] presents an integrated HVAC system that combines air conditioning and water extraction from air to enhance water sustainability. Preliminary findings show that the system can meet almost half of the water needs of a modern hotel through condensation. A study [<xref ref-type="bibr" rid="B19-sustainability-15-15431">19</xref>] explores the treatment of condensate water from air conditioning units in hot and humid regions to produce high-quality drinking water. A membrane-based hybrid system effectively reduces contaminants, achieving a recovery rate of over 97%. The study [<xref ref-type="bibr" rid="B20-sustainability-15-15431">20</xref>] finds that Atmospheric Water Generators (AWGs) perform significantly better during warm seasons than colder ones, with summers showing the highest water production and winters being the least efficient. However, this study acknowledges limitations due to limited data, assumptions, and environmental factors, making accurate short-term predictions challenging. Future work could focus on improving production models, energy consumption models, and analyzing AWG performance in different regions with varying environmental and economic factors. The study [<xref ref-type="bibr" rid="B21-sustainability-15-15431">21</xref>] investigates condensate water generation from air conditioning systems under different weather and operational conditions. The most influential factors are time, the temperature difference between outdoor and indoor environments, and the humidity difference. This study proposes an empirical equation to estimate condensate water generation and suggests recycling this water to reduce demand from city water supply systems during hot and humid months, alleviating pressure on precious ground and surface water resources. However, this study acknowledges limitations such as limited types of air conditioning systems and the absence of condensate water quality analysis, which can be a focus of future research. </p>
+      <p>The current article assesses the feasibility of utilizing air conditioning condensate water to cool and clean the PV panels in the extremely hot and desert climates of the UAE. The approach is particularly designed for building integrated PV panels, where both problems of cleaning and cooling exist, in close proximity to the air conditioning system in the built environment. The concurrence of air conditioning in the hot and desert climates of the UAE, coupled with a high relative humidity that produces a tremendous amount of condensate water along with extremely expensive clean water, renders the proposed approach very promising. A simplified mathematical model is used to validate the produced water from the Air Conditioner (A/C), while a machine learning technique to predict the generation of A/C condensate water has been presented in this study as a future approach. </p>
+    </sec>
+    <sec id="sec2-sustainability-15-15431">
+      <title>2. Materials and Methods</title>
+      <sec id="sec2dot1-sustainability-15-15431" sec-type="methods">
+        <title>2.1. Methodology and Setup</title>
+        <p>The experiment has been carried out at the &#x2018;&#x2018;Renewable Energy Laboratory&#x2019;&#x2019; of Falaj Hazza Campus, United Arab Emirates University, Al Ain City, United Arab Emirates. The site is situated at a latitude and longitude of 24.9&#xB0; N-55.5&#xB0; E, respectively. The campus is located between a residential and an industrial area, surrounded by some date palm trees and a nearby road to simulate air movement and airborne particle deposition typical of UAE residential building settings. The experiment was conducted for three days with consistent PV system configurations, in similar weather, and at constant water flow parameters. The results are presented from a single day because the ambient conditions were almost identical for all three days and yielded nearly matching results. This approach was taken to streamline the presentation and ensure a clear and concise understanding of the data. </p>
+        <p>The site weather data, including ambient temperature, solar radiation intensity, wind speed, and air humidity, were measured through the &#x201C;Davis Vantage Pro2&#x201D; weather station to understand their impact on PV performance. One array containing six monocrystalline photovoltaic modules with dimensions of 99 cm &#xD7; 165 cm and a rated capacity of 255 W each was installed at the site. The module&#x2019;s electrical performance was confirmed by measuring open-circuit voltage (V<sub>oc</sub>) and short-circuit current (I<sub>sc</sub>) prior to the experiment. The performance of the PV panels was measured through the National Instruments data acquisition system (DAQ) interfaced with LabView software 2014 version 14.0, which recorded the voltage, current, and temperature of the PV panels. An air-conditioned (AC) system with a rated power of 2 kW was installed and kept running for 24 h to produce the condensate water that was stored in an insulated water tank to be used for PV cleaning and cooling. The water storage tank was kept under shade to avoid heat transfer from the ambient temperature and to preserve the cooling of the condensate water. A pump was installed with a system to circulate water from a storage tank to a copper water pipe installed atop the photovoltaic (PV) system to facilitate water flow. </p>
+        <p>Several equally spaced water jets, measuring 1.5 mm in diameter, were integrated into the copper pipe of 0.65 cm diameter meant to carry and flow the water stream over PV panels. The pipe was mounted on top of the PV frame to assure uniform water flow through water jets under low pressure. The cooled water was released gently from equally spaced water jets over the PV panel&#x2019;s front surface to create a laminar water layer intended to cool and clean the panel. The flowing water under gravity from the leading edge to the trailing edge of the PV panel helped sweep away the dust along with cooling the PV panel, as shown in <xref ref-type="fig" rid="sustainability-15-15431-f001">Figure 1</xref>. </p>
+      </sec>
+      <sec id="sec2dot2-sustainability-15-15431">
+        <title>2.2. Experimental Design</title>
+        <p>The experiment was designed with the following objectives: <list list-type="simple"><list-item><label>&#x25AA;</label><p>To determine the appropriate time to flow water in a single run on one panel for effective cleaning. </p></list-item><list-item><label>&#x25AA;</label><p>To determine the time required for one cooling run to ensure keeping the temperature below the reference temperature.</p></list-item><list-item><label>&#x25AA;</label><p>To evaluate the effectiveness of cooling and cleaning one panel compared to cooling four panels (to represent array design) while flowing the same amount of water over panels.</p></list-item><list-item><label>&#x25AA;</label><p>To assess the added benefit from the proposed configuration of cooling and cleaning setups compared to cleaning only.</p></list-item></list></p>
+        <p>In order to achieve the above-stated objectives, two configurations were tested involving six PV panels, as shown in <xref ref-type="fig" rid="sustainability-15-15431-f001">Figure 1</xref>. </p>
+        <sec id="sec2dot2dot1-sustainability-15-15431">
+          <title>2.2.1. Configuration 1 (Single Panel Cooling and Cleaning)</title>
+          <p>In this particular setup, three panels underwent testing, as shown in <xref ref-type="fig" rid="sustainability-15-15431-f002">Figure 2</xref>a. Panel 6 was kept uncleaned and uncooled as a reference; Panel 4 was cleaned with a microfiber cloth wiper representing traditional household cleaning but not cooled; and Panel 1 was cooled and cleaned with condensate water flown over its front surface. </p>
+          <list list-type="simple">
+            <list-item>
+              <label>&#x25AA;</label>
+              <p>In the first run, water was flown over panel 1&#x2019;s front surface for five minutes to cool and clean the panel. The temperature as well as the electrical performance were recorded during water flow and afterwards until the cooled panel got back to (or was near) the original steady-state temperature before cooling. This measure provided the minimum temperature achieved by the panel when cooled with water and the duration for which the cooled panel got back to the initial temperature after stopping the flow. </p>
+            </list-item>
+            <list-item>
+              <label>&#x25AA;</label>
+              <p>In the second experimental run, the water flow duration was reduced to one minute in order to compare the cleaning achieved in the 1 min run to that in the 5 min run, as represented by the panel&#x2019;s electrical performance. The objective was to determine whether comparable panels&#x2019; performance could be maintained while reducing water consumption by a factor of five by reducing the flow duration while keeping the constant flow rate. </p>
+            </list-item>
+          </list>
+        </sec>
+        <sec id="sec2dot2dot2-sustainability-15-15431">
+          <title>2.2.2. Configuration 2 (4 PV Panels Array Cooling and Cleaning)</title>
+          <p>In Configuration 2, all six panels depicted in <xref ref-type="fig" rid="sustainability-15-15431-f002">Figure 2</xref>b were subjected to testing. Panel 6 was kept uncooled and uncleaned to serve as a reference; Panel 1 was dry cleaned without cooling using a microfiber cloth wiper; and Panels 2, 3, 4, and 5 were cooled and cleaned with condensate water. This configuration aimed to compare the cleaning and cooling of four panels and the cleaning and cooling of one panel while utilizing the same quantity of water in both cases.</p>
+          <list list-type="simple">
+            <list-item>
+              <label>&#x25AA;</label>
+              <p>Water was flushed over the four PV panels for one minute and stopped. The temperature and electrical performance, measured by open circuit voltage and short circuit current, of these panels were recorded to quantify the cooling and cleaning achieved by the proposed system.</p>
+            </list-item>
+          </list>
+        </sec>
+      </sec>
+      <sec id="sec2dot3-sustainability-15-15431">
+        <title>2.3. Air Conditioner Condensate Water Prediction</title>
+        <p>To create a mathematical model for predicting air conditioner water generation, there is an immense need to understand the underlying principles and variables involved. Ambient temperature and relative humidity are the two most important parameters influencing water generation in an air conditioner. Here is a simple mathematical model that takes these parameters into account:<disp-formula id="FD1-sustainability-15-15431"><label>(1)</label><mml:math id="mm1" display="block"><mml:semantics><mml:mrow><mml:mi>W</mml:mi><mml:mo>=</mml:mo><mml:mi>k</mml:mi><mml:mo>&#xD7;</mml:mo><mml:mfenced separators="|"><mml:mrow><mml:mi>T</mml:mi><mml:mo>&#x2212;</mml:mo><mml:msub><mml:mrow><mml:mi>T</mml:mi></mml:mrow><mml:mrow><mml:mi>d</mml:mi></mml:mrow></mml:msub></mml:mrow></mml:mfenced><mml:mo>&#xD7;</mml:mo><mml:mi>A</mml:mi></mml:mrow></mml:semantics></mml:math></disp-formula></p>
+        <p>Let us denote:<list list-type="bullet"><list-item><p><italic>W</italic>: The rate of water generation is in liters per hour.</p></list-item><list-item><p><italic>k</italic>: The coefficient represents the efficiency and cooling capacity of the air conditioner.</p></list-item><list-item><p><italic>T</italic>: The ambient temperature is measured in degrees Celsius.</p></list-item><list-item><p><italic>T<sub>d</sub></italic>: Dew point temperature in Degree Celsius.</p></list-item><list-item><p><italic>A</italic>: Surface area of the air conditioner&#x2019;s evaporator coil in meters squared.</p></list-item></list></p>
+        <p>Assumptions:<list list-type="bullet"><list-item><p>A constant cooling capacity and efficiency for the air conditioner.</p></list-item><list-item><p>Neglect other factors, such as the air conditioner&#x2019;s insulation and specific design.</p></list-item></list></p>
+        <p>The &#x201C;<italic>k</italic>&#x201D; coefficient, representing the efficiency and cooling capacity of the air conditioner, can be calculated using the equation:<disp-formula id="FD2-sustainability-15-15431"><label>(2)</label><mml:math id="mm2" display="block"><mml:semantics><mml:mrow><mml:mi>k</mml:mi><mml:mo>=</mml:mo><mml:mfrac><mml:mrow><mml:mi>C</mml:mi><mml:mi>o</mml:mi><mml:mi>o</mml:mi><mml:mi>l</mml:mi><mml:mi>i</mml:mi><mml:mi>n</mml:mi><mml:mi>g</mml:mi><mml:mtext>&#xA0;</mml:mtext><mml:mi>c</mml:mi><mml:mi>a</mml:mi><mml:mi>p</mml:mi><mml:mi>a</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mi>t</mml:mi><mml:mi>y</mml:mi></mml:mrow><mml:mrow><mml:mi>S</mml:mi><mml:mi>e</mml:mi><mml:mi>a</mml:mi><mml:mi>s</mml:mi><mml:mi>o</mml:mi><mml:mi>n</mml:mi><mml:mi>a</mml:mi><mml:mi>l</mml:mi><mml:mtext>&#xA0;</mml:mtext><mml:mi>e</mml:mi><mml:mi>n</mml:mi><mml:mi>e</mml:mi><mml:mi>r</mml:mi><mml:mi>g</mml:mi><mml:mi>y</mml:mi><mml:mtext>&#xA0;</mml:mtext><mml:mi>e</mml:mi><mml:mi>f</mml:mi><mml:mi>f</mml:mi><mml:mi>i</mml:mi><mml:mi>c</mml:mi><mml:mi>i</mml:mi><mml:mi>e</mml:mi><mml:mi>n</mml:mi><mml:mi>c</mml:mi><mml:mi>y</mml:mi><mml:mtext>&#xA0;</mml:mtext><mml:mi>r</mml:mi><mml:mi>a</mml:mi><mml:mi>t</mml:mi><mml:mi>i</mml:mi><mml:mi>o</mml:mi></mml:mrow></mml:mfrac><mml:mo>=</mml:mo><mml:mfrac><mml:mrow><mml:mi>C</mml:mi><mml:mi>C</mml:mi></mml:mrow><mml:mrow><mml:mi>S</mml:mi><mml:mi>E</mml:mi><mml:mi>E</mml:mi><mml:mi>R</mml:mi></mml:mrow></mml:mfrac></mml:mrow></mml:semantics></mml:math></disp-formula></p>
+        <p>The formula for calculating the dew point temperature, known as the Magnus-Tetens formula [<xref ref-type="bibr" rid="B22-sustainability-15-15431">22</xref>], is presented below:<disp-formula id="FD3-sustainability-15-15431"><label>(3)</label><mml:math id="mm3" display="block"><mml:semantics><mml:mrow><mml:msub><mml:mrow><mml:mi>T</mml:mi></mml:mrow><mml:mrow><mml:mi>d</mml:mi></mml:mrow></mml:msub><mml:mo>=</mml:mo><mml:mfrac><mml:mrow><mml:mn>237.3</mml:mn><mml:mo>&#xD7;</mml:mo><mml:mfenced open="[" close="]" separators="|"><mml:mrow><mml:mfenced separators="|"><mml:mrow><mml:mfrac><mml:mrow><mml:mn>17.27</mml:mn><mml:mo>&#xD7;</mml:mo><mml:mi>T</mml:mi></mml:mrow><mml:mrow><mml:mn>237.3</mml:mn><mml:mo>+</mml:mo><mml:mi>T</mml:mi></mml:mrow></mml:mfrac></mml:mrow></mml:mfenced><mml:mo>+</mml:mo><mml:mi mathvariant="normal">l</mml:mi><mml:mi mathvariant="normal">n</mml:mi><mml:mo>&#x2061;</mml:mo><mml:mo>(</mml:mo><mml:mi>R</mml:mi><mml:mi>H</mml:mi><mml:mo>)</mml:mo></mml:mrow></mml:mfenced></mml:mrow><mml:mrow><mml:mn>17.27</mml:mn><mml:mo>&#x2212;</mml:mo><mml:mfenced open="[" close="]" separators="|"><mml:mrow><mml:mfenced separators="|"><mml:mrow><mml:mfrac><mml:mrow><mml:mn>17.27</mml:mn><mml:mo>&#xD7;</mml:mo><mml:mi>T</mml:mi></mml:mrow><mml:mrow><mml:mn>237.3</mml:mn><mml:mo>+</mml:mo><mml:mi>T</mml:mi></mml:mrow></mml:mfrac></mml:mrow></mml:mfenced><mml:mo>+</mml:mo><mml:mi mathvariant="normal">l</mml:mi><mml:mi mathvariant="normal">n</mml:mi><mml:mo>&#x2061;</mml:mo><mml:mo>(</mml:mo><mml:mi>R</mml:mi><mml:mi>H</mml:mi><mml:mo>)</mml:mo></mml:mrow></mml:mfenced></mml:mrow></mml:mfrac></mml:mrow></mml:semantics></mml:math></disp-formula>
+        where <italic>RH</italic> represents the relative humidity expressed as a decimal value (for example, 0.85 for 85% humidity).</p>
+        <p>The above formula considers the temperature, relative humidity, and dew point temperature relationships. It computes the dew point temperature using the Magnus-Tetens approach, which is frequently used for calculating atmospheric moisture.</p>
+        <p>Experiments or measurements employing a specific air conditioning system might be considered to determine the value of <italic>k</italic>. Alternatively, study the manufacturer&#x2019;s system specifications or review current data or research studies relating to your air conditioner model. The value of <italic>k</italic> is not a universal constant and will vary depending on the air conditioning system.</p>
+        <p>The proportional relationship between the rate of water generation and the temperature difference is a simplification designed to convey the overall tendency that as the temperature difference increases, so does the possibility for condensation and water creation. This assumption is based on the fact that the dew point temperature reflects the temperature at which air gets saturated, and condensation happens when the ambient temperature falls below the dew point temperature.</p>
+        <p>A more complex link between the variables may exist, but a simplified model has been introduced in this study to validate the water generation. Experimentation or data analysis would also be required to determine the coefficient <italic>k</italic> and the surface area A for a particular air conditioning system.</p>
+        <p>The above model is based on the concept of steady-state operation. Additional considerations may be needed in a comprehensive model for transient effects and other factors, including airflow, system design, and maintenance practices that affect water generation.</p>
+      </sec>
+    </sec>
+    <sec id="sec3-sustainability-15-15431" sec-type="results">
+      <title>3. Results</title>
+      <p>The experiment was conducted for three days with consistent PV system configurations, in similar weather, and at constant water flow parameters. The experiment maintained consistent PV system configurations, similar weather conditions, and constant water flow parameters over a three-day period. However, we chose to present the results from a single day since the ambient conditions remained nearly identical across all three days, leading to nearly identical outcomes. This decision was made to simplify the presentation and facilitate a clear and concise comprehension of the data. The air conditioning produced 20 L of condensed water in a day with an average temperature of 20 &#xB0;C, which was stored in the insulated tank.</p>
+      <sec id="sec3dot1-sustainability-15-15431">
+        <title>3.1. Configuration 1</title>
+        <p>As indicated in <xref ref-type="fig" rid="sustainability-15-15431-f003">Figure 3</xref>, after the first flushing of water for 5 min, the Panel 1 temperature dropped by 22 &#xB0;C (from 64 &#xB0;C to 42 &#xB0;C), indicating the lowest possible temperature at this flow rate. Once the water flushing stopped, the panel temperature started to rise again, and in approximately 25 min, it got back to the initial high temperature of 64 &#xB0;C. In the subsequent two runs, based on learning from the previous run, water was flushed for only 1 min, i.e., less water was used. After stopping the water flush, the temperature of Panel 1 started to rise again and reached back to the initial temperature after only 20 min, i.e., faster, mainly due to changes in the radiation intensity and the ambient temperature around the panel throughout the day. It indicates that the time taken by the PV panel to reach the initial hot side temperature varies with the ambient conditions. Since the ambient temperature and radiation intensity keep changing all day and across different days, an automation setup would be required to trigger water release to cool and clean the panel once it reaches a set hot side temperature.</p>
+        <p><xref ref-type="fig" rid="sustainability-15-15431-f004">Figure 4</xref>a&#x2013;c shows the short circuit current, open circuit voltage, and electrical power for uncooled and uncleaned reference, traditional wiper-cleaned, and proposed water-cooled and cleaned PV panels in configuration 1. The power produced is calculated from the open-circuit voltage and short-circuit current multiplied by a temperature-dependent fill factor. The temperature-dependent FF is calculated by subtracting the drop in FF due to temperature from the reference FF of 0.75 taken at standard test conditions (STC) from the PV panel catalog FF. The drop in FF was calculated by multiplying the temperature-based FF drop coefficient of 0.0013/&#xB0;C [<xref ref-type="bibr" rid="B23-sustainability-15-15431">23</xref>] by the rise in temperature beyond the STC panel temperature of 25 &#xB0;C. Before flowing water over Panel 1, the voltage and current for all three panels were almost the same, with a minimal difference since the panels were equally uncleaned. <xref ref-type="fig" rid="sustainability-15-15431-f004">Figure 4</xref>a shows that the current was slightly improved in both the dry-clean and water-clean PV panels (Panel 4 and Panel 1). Since the short-circuit current is in direct relation to the solar radiation intensity passing through the glazed layer to the cell, which represents panel clarity, it indicates that both dry-cleaned and water-cleaned panels were equally clear, proving the efficacy of the proposed water-cleaning method. In addition, it indicates that the presence of a water layer over the panel glazing had no negative impact on the radiation transmission to the cell.</p>
+        <p>On the other hand, <xref ref-type="fig" rid="sustainability-15-15431-f004">Figure 4</xref>b shows that both the reference dusty panel and dry clean panel produced a consistently lower voltage compared to water-cleaned panels, with a peak difference of 4.4 V. Since the voltage is a direct function of panel temperature, it can be concluded that, besides cleaning, the condensate water layer significantly cooled the panel.</p>
+        <p><xref ref-type="fig" rid="sustainability-15-15431-f004">Figure 4</xref>c shows the Power-Curve of the three panels. It can be seen that the water-cooled and cleaned panel produced the highest power, followed by the dry-clean panel, while the reference uncleaned panel produced the lowest power. Statistically, the cooled and cleaned panel produced 8.13% higher power than the cleaned-only panel and 13.7% higher than the uncleaned panel.</p>
+      </sec>
+      <sec id="sec3dot2-sustainability-15-15431">
+        <title>3.2. Configuration 2</title>
+        <p><xref ref-type="fig" rid="sustainability-15-15431-f005">Figure 5</xref> shows the temperature profile of the panels for configuration 2. The temperature trend shows that after water flushing, the peak temperature of panels 2, 3, 4, and 5 decreased from 71 &#xB1; 1 to 42 &#xB1; 2, a peak drop of 30 &#xB0;C. Slight variations across the different panel temperatures are noticed, which can be attributed to the time delay in the flow from the top to the bottom panel. After stopping the water flush, the temperature started to rise again and reached back to the initial-highest value in almost 30 min, with slight variation in this behavior across the four panels due to different start point temperatures. For all the remaining runs, the same trend was observed with minimal variations (see <xref ref-type="fig" rid="sustainability-15-15431-f005">Figure 5</xref>). For the whole duration of the experiments in all runs (during flow and without flow), the water-cleaned and cooled panels maintained, on average, a temperature 12 &#xB0;C lower compared to dry cleaning and uncleaned panels.</p>
+        <p>The short-circuit current, open-circuit voltage, and power produced for water-cleaned, wiper-cleaned, and uncleaned PV panels in the second configuration are shown in <xref ref-type="fig" rid="sustainability-15-15431-f006">Figure 6</xref>, <xref ref-type="fig" rid="sustainability-15-15431-f007">Figure 7</xref> and <xref ref-type="fig" rid="sustainability-15-15431-f008">Figure 8</xref>, respectively. Before flushing water, the voltages and currents for all these panels were almost the same, with minimal difference. After flushing water, the water cooled and cleaned the panel and maintained a consistently higher voltage with a peak difference of 3.7 V and 3.3 V compared to the uncleaned and wiper-cleaned panels, respectively (see <xref ref-type="fig" rid="sustainability-15-15431-f007">Figure 7</xref>). The current in wiper-cleaned PV panels also improved by 6.5% when compared to the uncleaned panel, as indicated in <xref ref-type="fig" rid="sustainability-15-15431-f006">Figure 6</xref>. The water-cleaned panels produced, on average, 8% more power than the dry-cleaned panels and 14% more power compared to the uncleaned panels (refer to <xref ref-type="fig" rid="sustainability-15-15431-f008">Figure 8</xref>).</p>
+      </sec>
+      <sec id="sec3dot3-sustainability-15-15431">
+        <title>3.3. Prediction of Generated A/C Condensate Water</title>
+        <p>The model was used to predict the volume of water from the air conditioner system under local conditions, as illustrated in <xref ref-type="fig" rid="sustainability-15-15431-f009">Figure 9</xref>.</p>
+        <p>The dewpoint temperature was determined using Equation (1), the <italic>k</italic> coefficient using Equation (2), and the water generation was forecasted using Equation (3). The surface area &#x201C;A&#x201D; of the 1 ton air conditioner&#x2019;s evaporator coils, used in Equation (1) to calculate the water generation, is around 0.41 m<sup>2</sup>.</p>
+        <p>The results indicate that the peak water generation of 2.24 L occurred at noontime (12:00 p.m.), when the ambient temperature was at its highest and the dewpoint temperature was at its lowest. If the system operates continuously throughout the day, it is projected to produce approximately 30 L of water.</p>
+      </sec>
+    </sec>
+    <sec id="sec4-sustainability-15-15431" sec-type="discussion">
+      <title>4. Discussion</title>
+      <p>As previously discussed, the air conditioner unit with a power rating of 3.5 kW and installed in the experimental setup has produced 2 L of condensed water in 1 h operation at UAE climate conditions. A typical 3 BHK (bedroom, hall, and kitchen) house utilizes an 18 W air conditioning system and is hence capable of collectively producing 150 L of condensed water per day (i.e., in 15 h). The initial studies and results indicated that the sprinklers consumed approximately 20 L of water to cool and clean the 1 kW PV array for 2 peak hours. In comparison, the 150 L of water generated by an 18 kW air conditioning system can cool and clean a 7&#x2013;8 kW PV array. Based on the earlier findings of the experiments, it is expected that by applying the most optimized flow rates, achieving a critically thin water layer over PV panels, and triggering the right time of flow, the water consumption can be dropped to one-half when compared to the reported results. By achieving this target, the house producing 150 L of water on average can independently keep a 15&#x2013;18 kW PV array cooled and cleaned daily during the 2 peak hours without additional water and labor demand, which is a significant step to achieve water and energy efficient integration in a sustainable system. The current preliminary results represent the way forward pillar to achieve the stated objective with more in-depth research on the following key challenges: (i) optimizing the water flow time by water release automation; (ii) optimizing the thickness of the water layer by optimizing the water jet orifice size.</p>
+      <p>The generation prediction of condensate water from air conditioning systems using the mathematical model for a peak hour is 2.24 L, which is close to the experimental value. The water generation from air conditioners can also be accurately predicted through the utilization of machine learning techniques. The subsequent content presents a comprehensive framework for a machine learning (ML) model designed to forecast the generation of water by air conditioners. It is important to note that the specific implementation of this model may differ based on the unique characteristics and requirements of the particular system. The following is a proposed general approach [<xref ref-type="bibr" rid="B24-sustainability-15-15431">24</xref>,<xref ref-type="bibr" rid="B25-sustainability-15-15431">25</xref>] that can be taken into consideration:<list list-type="order"><list-item><p>Data acquisition: Proceed with the acquisition of relevant information from the air conditioning system. This includes the collection of various inputs, such as ambient temperature, humidity levels, and cooling capacity, alongside the corresponding measurements of water generation.</p></list-item><list-item><p>Preprocess the data: The second step in the research process involves the preprocessing of the data. This includes the rigorous cleaning and preprocessing of the data set to eliminate any potential outliers or missing values that may adversely impact the accuracy and reliability of the subsequent analyses. To ensure consistency and comparability among the numerical features, it may be necessary to normalize them to a common scale.</p></list-item><list-item><p>Feature engineering: The relevant characteristics within the data set that could potentially impact water generation shall be identified and extracted. The dew point temperature, also known as the temperature of saturation, refers to the specific temperature at which the air becomes fully saturated with water vapor, leading to the onset of condensation.</p></list-item><list-item><p>Split the data: The data set should be divided into two distinct subsets, namely a training set and a test set. The training set will be utilized for the purpose of training the model, whereas the test set will be employed to assess and evaluate the performance of the model.</p></list-item><list-item><p>Select a regression model: To accurately capture the relationship between the input features and the target variable, it is important to select an appropriate regression model. Linear regression, decision trees, and random forests are widely employed methodologies for addressing prediction tasks of this kind.</p></list-item><list-item><p>Train the model: The chosen regression model should be applied to the training data in order to assess its performance and predictive capabilities. The proposed model aims to acquire the ability to establish a functional relationship between the input features and the target variable.</p></list-item><list-item><p>Evaluate the model: The evaluation of the trained model&#x2019;s performance can be conducted using the test set. In order to assess the accuracy of predictions, it is common practice to employ metrics such as mean squared error (MSE) or root mean squared error (RMSE). These metrics provide quantitative measures that allow researchers to evaluate the quality of predictions made by a given model. By calculating the MSE or RMSE, one can gain insights into the average squared difference between predicted values and actual values. This information aids in determining the level of accuracy achieved by the predictive model under consideration.</p></list-item><list-item><p>Fine-tune the model: In case the performance of the model does not meet expectations, researchers may explore alternative models, fine-tune hyperparameters, or consider including additional features as possible approaches to enhance the accuracy of predictions.</p></list-item><list-item><p>Predict water generation: Upon successfully training and validating a model, it becomes feasible to employ an addressed model for the purpose of predicting water generation based on novel input data. To estimate water generation, the model requires input features such as ambient temperature, humidity levels, and other relevant factors.</p></list-item></list></p>
+      <p>It is important to clarify that flow rate optimization requires quite extensive and detailed studies involving orifice size, orifice geometry, pumping arrangement, water release mechanisms, PV panel surface structure, PV panel integration schemes, environmental conditions (i.e., humidity and wind conditions around the panel), and nature of dust, to say the least. Since the current study is proposing a concept with validated performance data, the optimization study will be the way forward scope of the project.</p>
+      <p>Furthermore, the above discussion provides a comprehensive summary, while the specific details of its execution may differ based upon particular requirements and the characteristics of the data. To optimize the results, it is important to engage in a process of experimentation and iteration within the model.</p>
+    </sec>
+    <sec id="sec5-sustainability-15-15431" sec-type="conclusions">
+      <title>5. Conclusions</title>
+      <p>The temperature elevation of the Photovoltaic panels and the dust accumulation at their surfaces are the main causes of the overall power output drop. The conventional techniques address PV cleaning and PV cooling as separate issues, and accordingly, existing solutions are developed. The traditional solution seems to work less effectively due to a lack of synergy in both economic and energy terms. A combined approach is proposed in the current research, in which both cleaning and cooling issues are integrated into one solution or in a single setup to solve the problem more effectively and make it economically more feasible. Two configurations were tested to evaluate the cleaning and cooling effects on the output power of PV panels where the cooled water is obtained from the air conditioning condensate. Under the climatic conditions of the UAE, the air conditioning unit, which has a power rating of 3.5 kW, generated 2 L of condensed water during one hour of operation. The findings demonstrate that the proposed combined approach results in a significant improvement in power output compared to traditional cleaning methods. In Configuration 1, a notable enhancement in maximum power output was observed for the cooled and cleaned panel when compared to both the fiber-cleaned and the dusty PV panels. Specifically, the maximum power improvement was observed to be 8.13% and 13.7% for the cooled and cleaned panels, respectively, in comparison to the fiber-cleaned and dusty PV panels. In the second configuration, the maximum power output was observed to increase by 14% for water-cooled and cleaned PV panels as compared to the dusty panel and by 8% as compared to fiber-cleaned PV panels. These findings suggest that the application of water over the PV front surface not only cleans the panel but also reduces its temperature, in contrast to the use of microfiber cleaning methods. Therefore, it can be inferred that the utilization of water as a cleaning agent for PV panels, even for a brief duration, can have a dual effect of enhancing the panel&#x2019;s power output and reducing its operating temperature.</p>
+    </sec>
+  </body>
+  <back>
+    <notes>
+      <title>Author Contributions</title>
+      <p>A.H.S.: data curation and validation, formal analysis, investigation, writing review, and editing. A.A.: funding acquisition, project administration, data analysis and results interpretation and validation, and writing review and editing. A.H.: conceptualization, methodology, and writing review and editing. M.S.L.: Writing review and editing. All authors have read and agreed to the published version of the manuscript.</p>
+    </notes>
+    <notes>
+      <title>Institutional Review Board Statement</title>
+      <p>Not applicable.</p>
+    </notes>
+    <notes>
+      <title>Informed Consent Statement</title>
+      <p>Not applicable.</p>
+    </notes>
+    <notes>
+      <title>Data Availability Statement</title>
+      <p>Not applicable.</p>
+    </notes>
+    <ack>
+      <title>Acknowledgments</title>
+      <p>The authors would like to thank the United Arab Emirates University and the National Water and Energy Research Center for the facilities and the administrative support to execute the project and conduct the experiments.</p>
+    </ack>
+    <notes notes-type="COI-statement">
+      <title>Conflicts of Interest</title>
+      <p>The authors declare no conflict of interest.</p>
+    </notes>
+    <glossary>
+      <title>Abbreviations</title>
+      <array>
+        <tbody>
+          <tr>
+            <td align="left" valign="middle">A</td>
+            <td align="left" valign="middle">Area</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">AWG</td>
+            <td align="left" valign="middle">Atmospheric water generation</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">BHK</td>
+            <td align="left" valign="middle">Bedroom, hall kitchen</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">CC</td>
+            <td align="left" valign="middle">Cooling capacity</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">DAQ</td>
+            <td align="left" valign="middle">Data acquisition system</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">HWAC</td>
+            <td align="left" valign="middle">Heating ventilation air conditioning</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">I<sub>sc</sub></td>
+            <td align="left" valign="middle">Short circuit current</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">k</td>
+            <td align="left" valign="middle">The coefficient represents the efficiency and cooling capacity of an air conditioner</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">ML</td>
+            <td align="left" valign="middle">Machine Learning</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">MSE</td>
+            <td align="left" valign="middle">Mean square error</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">P</td>
+            <td align="left" valign="middle">Power</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">PV</td>
+            <td align="left" valign="middle">Photovoltaic</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">RH</td>
+            <td align="left" valign="middle">Relative humidity</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">RMSE</td>
+            <td align="left" valign="middle">Route mean square error</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">T</td>
+            <td align="left" valign="middle">The ambient temperature in Degrees Celsius</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">T<sub>d</sub></td>
+            <td align="left" valign="middle">Dew point temperature in Degree Celsius</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">V<sub>oc</sub></td>
+            <td align="left" valign="middle">Open circuit voltage</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">W</td>
+            <td align="left" valign="middle">Water</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle">A/C</td>
+            <td align="left" valign="middle">Air Conditioner</td>
+          </tr>
+        </tbody>
+      </array>
+    </glossary>
+    <ref-list>
+      <title>References</title>
+      <ref id="B1-sustainability-15-15431">
+        <label>1.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Skoplaki</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Palyvos</surname>
+              <given-names>J.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>On the temperature dependence of photovoltaic module electrical performance: A review of efficiency/power correlations</article-title>
+          <source>Sol. Energy</source>
+          <year>2009</year>
+          <volume>83</volume>
+          <fpage>614</fpage>
+          <lpage>624</lpage>
+          <pub-id pub-id-type="doi">10.1016/j.solener.2008.10.008</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B2-sustainability-15-15431">
+        <label>2.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Radziemska</surname>
+              <given-names>E.</given-names>
+            </name>
+          </person-group>
+          <article-title>The effect of temperature on the power drop in crystalline silicon solar cells</article-title>
+          <source>Renew. Energy</source>
+          <year>2003</year>
+          <volume>28</volume>
+          <fpage>1</fpage>
+          <lpage>12</lpage>
+          <pub-id pub-id-type="doi">10.1016/S0960-1481(02)00015-0</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B3-sustainability-15-15431">
+        <label>3.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Moharram</surname>
+              <given-names>K.A.</given-names>
+            </name>
+            <name>
+              <surname>Abd-Elhady</surname>
+              <given-names>M.S.</given-names>
+            </name>
+            <name>
+              <surname>Kandil</surname>
+              <given-names>H.A.</given-names>
+            </name>
+            <name>
+              <surname>El-Sherif</surname>
+              <given-names>H.</given-names>
+            </name>
+          </person-group>
+          <article-title>Enhancing the performance of photovoltaic panels by water cooling</article-title>
+          <source>Ain Shams Eng. J.</source>
+          <year>2013</year>
+          <volume>4</volume>
+          <fpage>869</fpage>
+          <lpage>877</lpage>
+          <pub-id pub-id-type="doi">10.1016/j.asej.2013.03.005</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B4-sustainability-15-15431">
+        <label>4.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Liu</surname>
+              <given-names>X.</given-names>
+            </name>
+            <name>
+              <surname>Yue</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Lu</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Li</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Investigation of the dust scaling behaviour on solar photovoltaic panels</article-title>
+          <source>J. Clean. Prod.</source>
+          <year>2021</year>
+          <volume>295</volume>
+          <fpage>126391</fpage>
+          <pub-id pub-id-type="doi">10.1016/j.jclepro.2021.126391</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B5-sustainability-15-15431">
+        <label>5.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Shenouda</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Abd-Elhady</surname>
+              <given-names>M.S.</given-names>
+            </name>
+            <name>
+              <surname>Kandil</surname>
+              <given-names>H.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>A review of dust accumulation on PV panels in the MENA and the Far East regions</article-title>
+          <source>J. Eng. Appl. Sci.</source>
+          <year>2022</year>
+          <volume>69</volume>
+          <fpage>8</fpage>
+          <pub-id pub-id-type="doi">10.1186/s44147-021-00052-6</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B6-sustainability-15-15431">
+        <label>6.</label>
+        <element-citation publication-type="confproc">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Pradhan</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Parashar</surname>
+              <given-names>S.K.S.</given-names>
+            </name>
+            <name>
+              <surname>Ali</surname>
+              <given-names>S.M.</given-names>
+            </name>
+            <name>
+              <surname>Paikray</surname>
+              <given-names>P.</given-names>
+            </name>
+          </person-group>
+          <article-title>Water cooling method to improve efficiency of photovoltaic module</article-title>
+          <source>Proceedings of the 2016 International Conference on Signal Processing, Communication, Power and Embedded System (SCOPES)</source>
+          <conf-loc>Paralakhemundi, India</conf-loc>
+          <conf-date>3&#x2013;5 October 2016</conf-date>
+          <publisher-name>IEEE</publisher-name>
+          <publisher-loc>Piscataway, NJ, USA</publisher-loc>
+          <year>2016</year>
+          <fpage>1044</fpage>
+          <lpage>1047</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B7-sustainability-15-15431">
+        <label>7.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Younis</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Onsa</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>A brief summary of cleaning operations and their effect on the photovoltaic performance in Africa and the Middle East</article-title>
+          <source>Energy Rep.</source>
+          <year>2022</year>
+          <volume>8</volume>
+          <fpage>2334</fpage>
+          <lpage>2347</lpage>
+          <pub-id pub-id-type="doi">10.1016/j.egyr.2022.01.155</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B8-sustainability-15-15431">
+        <label>8.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>AlMallahi</surname>
+              <given-names>M.N.</given-names>
+            </name>
+            <name>
+              <surname>El Haj Assad</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>AlShihabi</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Alayi</surname>
+              <given-names>R.</given-names>
+            </name>
+          </person-group>
+          <article-title>Multi-criteria decision-making approach for the selection of cleaning method of solar PV panels in United Arab Emirates based on sustainability perspective</article-title>
+          <source>Int. J. Low-Carbon Technol.</source>
+          <year>2022</year>
+          <volume>17</volume>
+          <fpage>380</fpage>
+          <lpage>393</lpage>
+          <pub-id pub-id-type="doi">10.1093/ijlct/ctac010</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B9-sustainability-15-15431">
+        <label>9.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Salamah</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Ramahi</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Alamara</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Juaidi</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Abdallah</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Abdelkareem</surname>
+              <given-names>M.A.</given-names>
+            </name>
+            <name>
+              <surname>Amer</surname>
+              <given-names>E.-C.</given-names>
+            </name>
+            <name>
+              <surname>Olabi</surname>
+              <given-names>A.G.</given-names>
+            </name>
+          </person-group>
+          <article-title>Effect of dust and methods of cleaning on the performance of solar PV module for different climate regions: Comprehensive review</article-title>
+          <source>Sci. Total Environ.</source>
+          <year>2022</year>
+          <volume>827</volume>
+          <fpage>154050</fpage>
+          <pub-id pub-id-type="doi">10.1016/j.scitotenv.2022.154050</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B10-sustainability-15-15431">
+        <label>10.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Zhou</surname>
+              <given-names>X.</given-names>
+            </name>
+            <name>
+              <surname>Lu</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Zhao</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>Yu</surname>
+              <given-names>G.</given-names>
+            </name>
+          </person-group>
+          <article-title>Atmospheric water harvesting: A review of material and structural designs</article-title>
+          <source>ACS Mater. Lett.</source>
+          <year>2020</year>
+          <volume>2</volume>
+          <fpage>671</fpage>
+          <lpage>684</lpage>
+          <pub-id pub-id-type="doi">10.1021/acsmaterialslett.0c00130</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B11-sustainability-15-15431">
+        <label>11.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Chen</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Tao</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Shi</surname>
+              <given-names>W.</given-names>
+            </name>
+          </person-group>
+          <article-title>Recent Advances in Water Harvesting: A Review of Materials, Devices and Applications</article-title>
+          <source>Sustainability</source>
+          <year>2022</year>
+          <volume>14</volume>
+          <elocation-id>6244</elocation-id>
+          <pub-id pub-id-type="doi">10.3390/su14106244</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B12-sustainability-15-15431">
+        <label>12.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Ahmad</surname>
+              <given-names>F.F.</given-names>
+            </name>
+            <name>
+              <surname>Ghenai</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Al Bardan</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Bourgon</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Shanableh</surname>
+              <given-names>A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Performance analysis of atmospheric water generator under hot and humid climate conditions: Drinkable water production and system energy consumption</article-title>
+          <source>Case Stud. Chem. Environ. Eng.</source>
+          <year>2022</year>
+          <volume>6</volume>
+          <fpage>100270</fpage>
+          <pub-id pub-id-type="doi">10.1016/j.cscee.2022.100270</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B13-sustainability-15-15431">
+        <label>13.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Meng</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Dang</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Suib</surname>
+              <given-names>S.L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Materials and devices for atmospheric water harvesting</article-title>
+          <source>Cell Rep. Phys. Sci.</source>
+          <year>2022</year>
+          <volume>3</volume>
+          <fpage>100976</fpage>
+          <pub-id pub-id-type="doi">10.1016/j.xcrp.2022.100976</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B14-sustainability-15-15431">
+        <label>14.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Liu</surname>
+              <given-names>X.</given-names>
+            </name>
+            <name>
+              <surname>Beysens</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>Bourouina</surname>
+              <given-names>T.</given-names>
+            </name>
+          </person-group>
+          <article-title>Water harvesting from air: Current passive approaches and outlook</article-title>
+          <source>ACS Mater. Lett.</source>
+          <year>2022</year>
+          <volume>4</volume>
+          <fpage>1003</fpage>
+          <lpage>1024</lpage>
+          <pub-id pub-id-type="doi">10.1021/acsmaterialslett.1c00850</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B15-sustainability-15-15431">
+        <label>15.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Inbar</surname>
+              <given-names>O.</given-names>
+            </name>
+            <name>
+              <surname>Gozlan</surname>
+              <given-names>I.</given-names>
+            </name>
+            <name>
+              <surname>Ratner</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Aviv</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Sirota</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Avisar</surname>
+              <given-names>D.</given-names>
+            </name>
+          </person-group>
+          <article-title>Producing safe drinking water using an atmospheric water generator (AWG) in an urban environment</article-title>
+          <source>Water</source>
+          <year>2020</year>
+          <volume>12</volume>
+          <elocation-id>2940</elocation-id>
+          <pub-id pub-id-type="doi">10.3390/w12102940</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B16-sustainability-15-15431">
+        <label>16.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Mendoza-Escamilla</surname>
+              <given-names>J.A.</given-names>
+            </name>
+            <name>
+              <surname>Hernandez-Rangel</surname>
+              <given-names>F.J.</given-names>
+            </name>
+            <name>
+              <surname>Cruz-Alc&#xE1;ntar</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Saavedra-Leos</surname>
+              <given-names>M.Z.</given-names>
+            </name>
+            <name>
+              <surname>Morales-Morales</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Figueroa-Diaz</surname>
+              <given-names>R.A.</given-names>
+            </name>
+            <name>
+              <surname>Valencia-Castillo</surname>
+              <given-names>C.M.</given-names>
+            </name>
+            <name>
+              <surname>Martinez-Lopez</surname>
+              <given-names>F.J.</given-names>
+            </name>
+          </person-group>
+          <article-title>A feasibility study on the use of an atmospheric water generator (AWG) for the harvesting of fresh water in a semi-arid region affected by mining pollution</article-title>
+          <source>Appl. Sci.</source>
+          <year>2019</year>
+          <volume>9</volume>
+          <elocation-id>3278</elocation-id>
+          <pub-id pub-id-type="doi">10.3390/app9163278</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B17-sustainability-15-15431">
+        <label>17.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Feng</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Akther</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>Duan</surname>
+              <given-names>X.</given-names>
+            </name>
+            <name>
+              <surname>Peng</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Onggowarsito</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Mao</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Fu</surname>
+              <given-names>Q.</given-names>
+            </name>
+            <name>
+              <surname>Kolev</surname>
+              <given-names>S.D.</given-names>
+            </name>
+          </person-group>
+          <article-title>Recent Development of Atmospheric Water Harvesting Materials: A Review</article-title>
+          <source>ACS Mater. Au</source>
+          <year>2022</year>
+          <volume>2</volume>
+          <fpage>576</fpage>
+          <lpage>595</lpage>
+          <pub-id pub-id-type="doi">10.1021/acsmaterialsau.2c00027</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B18-sustainability-15-15431">
+        <label>18.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Magrini</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Cattani</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Cartesegna</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Magnani</surname>
+              <given-names>L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Water production from air conditioning systems: Some evaluations about a sustainable use of resources</article-title>
+          <source>Sustainability</source>
+          <year>2017</year>
+          <volume>9</volume>
+          <elocation-id>1309</elocation-id>
+          <pub-id pub-id-type="doi">10.3390/su9081309</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B19-sustainability-15-15431">
+        <label>19.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Hosseinkhani</surname>
+              <given-names>O.</given-names>
+            </name>
+            <name>
+              <surname>Kargari</surname>
+              <given-names>A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Production of high-quality drinking water from chillers and air conditioning units&#x2019; condensates using UV/GAC/MF/NF hybrid system</article-title>
+          <source>J. Clean. Prod.</source>
+          <year>2022</year>
+          <volume>368</volume>
+          <fpage>133177</fpage>
+          <pub-id pub-id-type="doi">10.1016/j.jclepro.2022.133177</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B20-sustainability-15-15431">
+        <label>20.</label>
+        <element-citation publication-type="book">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Moghimi</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>Ghoddusi</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Asiabanpour</surname>
+              <given-names>B.</given-names>
+            </name>
+            <name>
+              <surname>Behroozikhah</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Atmospheric water generation (AWG): Performance model and economic analysis</article-title>
+          <source>Advances in Production Management Systems. Towards Smart Production Management Systems: IFIP WG 5.7 International Conference, APMS 2019, Austin, TX, USA, 1&#x2013;5 September 2019, Proceedings, Part II</source>
+          <publisher-name>Springer International Publishing</publisher-name>
+          <publisher-loc>New York, NY, USA</publisher-loc>
+          <year>2019</year>
+          <fpage>151</fpage>
+          <lpage>158</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B21-sustainability-15-15431">
+        <label>21.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Ali</surname>
+              <given-names>M.A.</given-names>
+            </name>
+            <name>
+              <surname>Saifur</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Ali</surname>
+              <given-names>M.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Quantification of condensate water generated from air conditioning system</article-title>
+          <source>Glob. Sci. Technol. J.</source>
+          <year>2018</year>
+          <volume>6</volume>
+          <fpage>44</fpage>
+          <lpage>56</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B22-sustainability-15-15431">
+        <label>22.</label>
+        <element-citation publication-type="book">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Snyder</surname>
+              <given-names>R.L.</given-names>
+            </name>
+            <name>
+              <surname>Shaw</surname>
+              <given-names>R.H.</given-names>
+            </name>
+          </person-group>
+          <source>Converting Humidity Expressions with Computers and Calculators</source>
+          <publisher-name>University of California. Division of Agriculture and Natural Resources</publisher-name>
+          <publisher-loc>Oakland, CA, USA</publisher-loc>
+          <year>1984</year>
+        </element-citation>
+      </ref>
+      <ref id="B23-sustainability-15-15431">
+        <label>23.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Chander</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Purohit</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Sharma</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Arvind</surname>
+            </name>
+            <name>
+              <surname>Nehra</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Dhaka</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>A study on photovoltaic parameters of mono-crystalline silicon solar cell with cell temperature</article-title>
+          <source>Energy Rep.</source>
+          <year>2015</year>
+          <volume>1</volume>
+          <fpage>104</fpage>
+          <lpage>109</lpage>
+          <pub-id pub-id-type="doi">10.1016/j.egyr.2015.03.004</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B24-sustainability-15-15431">
+        <label>24.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Banerjee</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Bali</surname>
+              <given-names>V.</given-names>
+            </name>
+            <name>
+              <surname>Nawaz</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>Bali</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Mathur</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Mishra</surname>
+              <given-names>R.K.</given-names>
+            </name>
+            <name>
+              <surname>Rani</surname>
+              <given-names>S.</given-names>
+            </name>
+          </person-group>
+          <article-title>A machine-learning approach for prediction of water contamination using latitude, longitude, and elevation</article-title>
+          <source>Water</source>
+          <year>2022</year>
+          <volume>14</volume>
+          <elocation-id>728</elocation-id>
+          <pub-id pub-id-type="doi">10.3390/w14050728</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B25-sustainability-15-15431">
+        <label>25.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Khoi</surname>
+              <given-names>D.N.</given-names>
+            </name>
+            <name>
+              <surname>Quan</surname>
+              <given-names>N.T.</given-names>
+            </name>
+            <name>
+              <surname>Linh</surname>
+              <given-names>D.Q.</given-names>
+            </name>
+            <name>
+              <surname>Nhi</surname>
+              <given-names>P.T.T.</given-names>
+            </name>
+            <name>
+              <surname>Thuy</surname>
+              <given-names>N.T.D.</given-names>
+            </name>
+          </person-group>
+          <article-title>Using machine learning models for predicting the water quality index in the La Buong River, Vietnam</article-title>
+          <source>Water</source>
+          <year>2022</year>
+          <volume>14</volume>
+          <elocation-id>1552</elocation-id>
+          <pub-id pub-id-type="doi">10.3390/w14101552</pub-id>
+        </element-citation>
+      </ref>
+    </ref-list>
+    <sec sec-type="display-objects">
+      <title>Figures</title>
+      <fig id="sustainability-15-15431-f001" position="float">
+        <label>Figure 1</label>
+        <caption>
+          <p>Diagrammatic flow of the experiment.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g001.tif"/>
+      </fig>
+      <fig id="sustainability-15-15431-f002" position="float">
+        <label>Figure 2</label>
+        <caption>
+          <p>PV array with two different configurations of sprinkler installation for the cooling and cleaning tests at the Falaj Hazza campus. (<bold>a</bold>) Configuration 1: Panel 1 (cooled and cleaned with condensate water), Panel 4 (dry cleaned with microfiber cloth wiper), and Panel 6 (reference: uncooled and uncleaned). (<bold>b</bold>) Configuration 2: Panel 1 (dry cleaned with microfiber cloth wiper), Panels 2, 3, 4, and 5 (cooled and cleaned with condensate water), and Panel 6 (reference: uncooled and uncleaned).</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g002.tif"/>
+      </fig>
+      <fig id="sustainability-15-15431-f003" position="float">
+        <label>Figure 3</label>
+        <caption>
+          <p>Temperature of uncleaned, wiper-cleaned, and water-cleaned PV panels for the first configuration as a function of peak daytime. The dash line arrows indicate the highest and lowest temperature drops with respect to time.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g003.tif"/>
+      </fig>
+      <fig id="sustainability-15-15431-f004" position="float">
+        <label>Figure 4</label>
+        <caption>
+          <p>The data of (<bold>a</bold>) Voltage, (<bold>b</bold>) Current, and (<bold>c</bold>) Power as a function of peak day-time for the PV panels in their first configuration.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g004.tif"/>
+      </fig>
+      <fig id="sustainability-15-15431-f005" position="float">
+        <label>Figure 5</label>
+        <caption>
+          <p>Temperature variation in PV panels for Configuration 2 as a function of peak day-time.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g005.tif"/>
+      </fig>
+      <fig id="sustainability-15-15431-f006" position="float">
+        <label>Figure 6</label>
+        <caption>
+          <p>Currents for PV panels in the second configuration as a function of day-time.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g006.tif"/>
+      </fig>
+      <fig id="sustainability-15-15431-f007" position="float">
+        <label>Figure 7</label>
+        <caption>
+          <p>Voltages for PV panels in the second configuration as a function of peak day-time.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g007.tif"/>
+      </fig>
+      <fig id="sustainability-15-15431-f008" position="float">
+        <label>Figure 8</label>
+        <caption>
+          <p>Powers for PV panels in the second configuration as a function of peak day-time.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g008.tif"/>
+      </fig>
+      <fig id="sustainability-15-15431-f009" position="float">
+        <label>Figure 9</label>
+        <caption>
+          <p>Water generation prediction using the mathematical model.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="sustainability-15-15431-g009.tif"/>
+      </fig>
+    </sec>
+    <fn-group>
+      <fn>
+        <p><bold>Disclaimer/Publisher&#x2019;s Note:</bold> The statements, opinions and data contained in all publications are solely those of the individual author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to people or property resulting from any ideas, methods, instructions or products referred to in the content.</p>
+      </fn>
+    </fn-group>
+  </back>
+</article>

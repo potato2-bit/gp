@@ -1,0 +1,222 @@
+; ================================================================
+; pvbot_3d_assembly.scr
+; RAIL-GUIDED TEC PV-CLEANING ROBOT - FULL 3D SOLID ASSEMBLY
+; REE598 GRADUATION PROJECT  -  DATE 2026-06-13
+; UNITS: MILLIMETRES.  NATIVE ACIS 3D SOLIDS.
+; Run in AutoCAD 2026:  SCRIPT  ->  pick this file  ->  ZOOM E.
+;
+; COORDINATE FRAME (robot-local, matches gazebo/pvbot.urdf):
+;   +X = direction of travel / fall-line (down-slope)
+;   +Y = brush axis, across the 0.96 m panel width
+;   +Z = up, out of the glass
+;   ORIGIN: centre of the chassis plate top face, z=0 at deck top.
+;   The glass plane sits ~50 mm below the deck (brush contact).
+;
+; MASS / SIZE BASIS:
+;   output/rail_guided_design.json  (8.0 kg carriage, brush 0.96 m x D50,
+;   pinion D30, rack-and-pinion drive, 2 rails) AND
+;   gazebo/pvbot_description/pvbot.urdf (link sizes, TEC stack, tank, spray).
+; Invented workshop dimensions are tabulated in README_3D.md.
+;
+; BLANK LINES ARE DELIBERATE <ENTER> KEYSTROKES - DO NOT DELETE.
+; ================================================================
+FILEDIA 0
+EXPERT 5
+OSMODE 0
+INSUNITS 4
+ISOLINES 12
+FACETRES 6
+DISPSILH 1
+
+; ---------------- layers (one per subsystem, distinct colour) ----------------
+-LAYER N CHASSIS    C 8   CHASSIS
+-LAYER N FRAME      C 9   FRAME
+-LAYER N TEC_COLD   C 4   TEC_COLD
+-LAYER N TEC_TILE   C 1   TEC_TILE
+-LAYER N TEC_SINK   C 254 TEC_SINK
+-LAYER N TEC_FAN    C 250 TEC_FAN
+-LAYER N TANK       C 150 TANK
+-LAYER N BRUSH      C 51  BRUSH
+-LAYER N SPRAY      C 130 SPRAY
+-LAYER N NOZZLE     C 42  NOZZLE
+-LAYER N DRIVE      C 30  DRIVE
+-LAYER N WHEEL      C 250 WHEEL
+-LAYER N TEXT       C 7   TEXT
+
+; ================================================================
+; 1. CHASSIS PLATE  (URDF base_link footprint 400 x 300 x 12 mm,
+;    here modelled as a 10 mm structural carriage plate, top at z=0)
+; ================================================================
+CLAYER CHASSIS
+BOX -200,-150,-10 200,150,0
+
+; ================================================================
+; 2. TEC AWG MODULE (rear half of deck, centred at x=-75)
+;    Stack bottom-up exactly per URDF tec_module:
+;    cold plate -> 4 tiles 2x2 -> hot sink base -> 6 fins -> 2 fans.
+;    URDF z origins are deck-top +60 mm; here deck top is z=0, so
+;    subtract the URDF 60 mm joint offset: cold plate centre z=12.
+; ================================================================
+; -- cold plate (condensing face) 170 x 230 x 12 , centre z=12
+CLAYER TEC_COLD
+BOX -160,-115,6  10,115,18
+
+; -- four TEC1-12706 tiles 40 x 40 x 6 , 2x2 at +/-43 x , +/-55 y , z=23
+CLAYER TEC_TILE
+BOX -53,35,20  -33,75,26
+BOX -53,-75,20 -33,-35,26
+BOX -118,35,20 -98,75,26
+BOX -118,-75,20 -98,-35,26
+
+; -- hot-side heat-sink base 170 x 230 x 18 , centre z=40
+CLAYER TEC_SINK
+BOX -160,-115,31 10,115,49
+
+; -- six fins 12 x 220 x 50 standing on the sink, top z=99
+BOX -151,-110,49 -139,110,99
+BOX -123,-110,49 -111,110,99
+BOX -95,-110,49  -83,110,99
+BOX -67,-110,49  -55,110,99
+BOX -39,-110,49  -27,110,99
+BOX -11,-110,49  1,110,99
+
+; -- two extraction fans (cylinders r36 h12) on top, axis Z, z=108..120
+CLAYER TEC_FAN
+CYLINDER -75,58,108 36 12
+CYLINDER -75,-58,108 36 12
+
+; ================================================================
+; 3. WATER TANK 3.6 L  (front half, URDF tank_link 166 x 226 x 70 mm,
+;    tank joint at deck-top +35 ; here centre z=35)
+; ================================================================
+CLAYER TANK
+BOX -8,-113,0  158,113,70
+
+; ================================================================
+; 4. FULL-WIDTH BRUSH ROLLER  (0.96 m x D50 core, URDF brush_link
+;    cylinder L0.96 r0.04 -> here core r25 + bristle shell to r40,
+;    axis = Y, at x=+220, z=-50 = glass contact line)
+; ================================================================
+CLAYER BRUSH
+; Build the roller along +Z from the contact point, then rotate its
+; axis onto +Y. A cylinder of height 960 placed at the centre point and
+; rotated -90 about X spans y = -480..+480 (the full 0.96 m), centred.
+; -- bristle shell r40 (the visible cleaning surface)
+; cylinder grows +Z from base (220,-480,-50); ROTATE3D -90 about X maps
+; the axis onto +Y so the roller spans y=-480..+480 (the full 0.96 m).
+CYLINDER 220,-480,-50 40 960
+ROTATE3D L
+
+X
+220,-480,-50
+-90
+; -- inner Ø50 core r25 (concentric, shown by ISOLINES)
+CYLINDER 220,-480,-50 25 960
+ROTATE3D L
+
+X
+220,-480,-50
+-90
+
+; ================================================================
+; 5. SPRAY BAR + 9 NOZZLES  (URDF spray_bar L0.96 r0.010 just behind
+;    brush, x=+170, z=-35 ; nozzles at 100 mm pitch, y=-400..+400)
+; ================================================================
+CLAYER SPRAY
+; spray bar r6, axis Y, spanning y=-480..+480 (build +Z, rotate -90 X)
+CYLINDER 170,-480,-35 6 960
+ROTATE3D L
+
+X
+170,-480,-35
+-90
+CLAYER NOZZLE
+; nine flat-fan nozzle cones (cylinders r9 h18 pointing down)
+CYLINDER 170,400,-44 9 18
+CYLINDER 170,300,-44 9 18
+CYLINDER 170,200,-44 9 18
+CYLINDER 170,100,-44 9 18
+CYLINDER 170,0,-44   9 18
+CYLINDER 170,-100,-44 9 18
+CYLINDER 170,-200,-44 9 18
+CYLINDER 170,-300,-44 9 18
+CYLINDER 170,-400,-44 9 18
+
+; ================================================================
+; 6. CARRIAGE SIDE-FRAMES + V-GROOVE GUIDE WHEELS
+;    Two side frames reach out to the rails at y = +/-510 (rail
+;    centres just outside the 0.96 m brush). Each side carries two
+;    V-groove wheels that ride the 2040 V-slot rail.
+; ================================================================
+CLAYER FRAME
+; left side-frame arm (a plate bridging deck edge y=150 to rail y=510)
+BOX -160,150,-60  160,170,10
+BOX -160,490,-60  160,510,10
+; cross ribs tying the two frame rails (front + rear)
+BOX -160,150,-60 -130,510,-40
+BOX 130,150,-60  160,510,-40
+; right side-frame arm
+BOX -160,-170,-60 160,-150,10
+BOX -160,-510,-60 160,-490,10
+BOX -160,-510,-60 -130,-150,-40
+BOX 130,-510,-60  160,-150,-40
+
+; -- V-groove guide wheels (4 per side at corners) : cylinders r12 h16
+;    axis Z, riding the vertical face of the V-slot rail at y=+/-500
+CLAYER WHEEL
+CYLINDER -130,500,-52 12 16
+CYLINDER 130,500,-52  12 16
+CYLINDER -130,-500,-52 12 16
+CYLINDER 130,-500,-52  12 16
+
+; ================================================================
+; 7. RACK-AND-PINION DRIVE  (GA25-370 class gearmotor + D30 pinion,
+;    drives off the rack strip fixed to the rail. Need >=0.84 N.m,
+;    ~38 rpm.  Two driven sides; here drawn on the left rail.)
+; ================================================================
+CLAYER DRIVE
+; drive-motor body (GA25-370 class, gearbox ~D28 x 78) axis Y, inboard
+; end at y=425, outboard face at y=503 just short of the rail.
+CYLINDER -150,425,-30 14 78
+ROTATE3D L
+
+X
+-150,425,-30
+-90
+; pinion D30 module-1 on the motor shaft, axis Y, meshing the rack which
+; sits on the rail at y=515. Pinion hub spans y=503..515.
+CYLINDER -150,503,-30 15 12
+ROTATE3D L
+
+X
+-150,503,-30
+-90
+
+; ================================================================
+; 8. BOOLEAN TIDY-UP (union each subsystem so it selects as one solid)
+;    Done per-layer using PICK by layer is awkward in script; instead we
+;    leave parts discrete so layers stay independently visible. The
+;    cold-plate stack is unioned to show the AWG core as one body.
+; ================================================================
+; (left discrete on purpose for layer toggling in review)
+
+; ================================================================
+; 9. TITLE TEXT BLOCK
+; ================================================================
+CLAYER TEXT
+-TEXT -200,-200,0 12 0 RAIL-GUIDED TEC PV-CLEANING ROBOT - 3D ASSEMBLY
+-TEXT -200,-225,0 8 0 REE598 GRADUATION PROJECT   DATE 2026-06-13   UNITS MM
+-TEXT -200,-245,0 8 0 CARRIAGE 8.0 KG  BRUSH 0.96 m x D50  PINION D30  RACK-AND-PINION
+-TEXT -200,-265,0 8 0 BASIS: output/rail_guided_design.json + gazebo/pvbot.urdf
+
+; ================================================================
+; 10. VIEW: SW isometric, realistic shading, zoom extents
+; ================================================================
+-VIEW SWISO
+VSCURRENT
+R
+ZOOM
+E
+EXPERT 0
+FILEDIA 1
+; ---------------- end pvbot_3d_assembly.scr ----------------

@@ -1,0 +1,30 @@
+# AWH silica-gel adsorption simulation — Python dependencies
+# Install (in the WSL Ubuntu env):  pip install -r requirements.txt
+# CADET-Core is installed separately via conda: conda install -c conda-forge cadet
+# OpenFOAM is installed via apt (ESI openfoam.com) — not a pip package.
+
+numpy>=1.26,<3
+scipy>=1.11            # stats.qmc Sobol / LatinHypercube
+pandas>=2.0
+matplotlib>=3.8
+pyyaml>=6.0
+requests>=2.31         # NASA POWER fetch (urllib stdlib also works)
+
+# Surrogate modelling
+smt>=2.6               # KRG + MFK (multi-fidelity Kriging), matern52, LHS, EGO/ALM
+scikit-learn>=1.4      # GaussianProcessRegressor fallback + cross-validation
+pyDOE3>=1.0            # classical designs (RSM comparison)
+SALib>=1.5             # Sobol sensitivity indices (optional)
+
+# Isotherm fitting (Tier 0)
+pygaps>=4.0            # GAB / Dubinin-Astakhov / Toth / Sips fits + isosteric heat
+
+# Adsorption column engine (Tier 1)
+cadet-process>=0.9     # high-level CADET workflow; pulls CADET-Python (needs CADET-Core via conda)
+
+# OpenFOAM case templating (Tier 2 automation)
+Jinja2>=3.1
+# PyFoam              # optional alternative to Jinja2 templating; install only if used
+
+# Dev / tests
+pytest>=8.0

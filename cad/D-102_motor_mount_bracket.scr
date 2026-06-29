@@ -1,0 +1,127 @@
+; ============================================================
+; D-102  WHEEL/MOTOR MOUNT BRACKET (QTY 2, MIRROR PAIR)
+; TEC PV-CLEANING ROBOT, REE598 GRADUATION PROJECT
+; UNITS MM. GEOMETRY 1:1, PLOT 1:1 ON A4
+; VIEWS: FRONT (LOOKING ALONG AXLE) + SIDE + BASE PLAN
+; BLANK LINES ARE DELIBERATE ENTER KEYSTROKES - KEEP THEM
+; ============================================================
+FILEDIA 0
+EXPERT 3
+OSMODE 0
+INSUNITS 4
+LTSCALE 1
+-LINETYPE L HIDDEN acadiso.lin L CENTER acadiso.lin
+
+-LAYER N OUTLINE,HIDDEN,CENTER,DIM,TEXT C 7 OUTLINE C 1 HIDDEN C 2 CENTER C 3 DIM C 4 TEXT L HIDDEN HIDDEN L CENTER CENTER S OUTLINE
+
+DIMSCALE 1
+DIMTXT 3
+DIMASZ 2.5
+DIMEXO 1
+DIMEXE 1.5
+DIMDEC 1
+DIMZIN 8
+; ---- sheet frame and title block ----
+RECTANG -25,-65 275,180
+RECTANG 95,-65 275,-25
+LINE 95,-45 275,-45
+
+LINE 185,-65 185,-25
+
+CLAYER TEXT
+-TEXT 100,-39 6 0 D-102  MOTOR MOUNT BRACKET (x2)
+-TEXT 100,-59 4 0 TEC PV-CLEAN ROBOT - REE598 - 2026-06-12
+-TEXT 190,-39 4 0 SCALE 1:1  SHEET A4
+-TEXT 190,-59 4 0 UNITS MM - ISO 2768-m
+; ============================================================
+; VIEW 1 - FRONT VIEW (looking along motor axis), origin 0,0
+; base 44 wide x 6 thick, upright 44 wide x 44 tall
+; bore DIA 25 H8, center 22,20 (axle 14 above plate top)
+; ============================================================
+CLAYER OUTLINE
+RECTANG F 2 0,0 44,6
+LINE 0,6 0,44
+
+LINE 0,44 16,50
+
+LINE 16,50 28,50
+
+LINE 28,50 44,44
+
+LINE 44,44 44,6
+
+CIRCLE 22,20 12.5
+; clamp slit 2 mm wide from bore to top
+LINE 21,32.5 21,50
+
+LINE 23,32.5 23,50
+
+; clamp screw (M3) shown as hidden circle on slit
+CLAYER HIDDEN
+CIRCLE 10,41 1.6
+CIRCLE 34,41 1.6
+CLAYER CENTER
+LINE 22,-6 22,56
+
+LINE -6,20 50,20
+
+; ---- dims, front view ----
+CLAYER DIM
+DIMLINEAR 0,0 44,0 22,-14
+DIMLINEAR 44,0 44,6 58,3
+DIMLINEAR 44,0 44,44 70,22
+DIMLINEAR 0,0 0,20 -14,10
+DIMDIAMETER 34.5,20 52,38
+; ---- callouts, front ----
+CLAYER TEXT
+-TEXT -5,62 4 0 BORE %%C25 H8 - JGA25 GEARMOTOR, CLAMP SLIT 2 + 2x M3
+-TEXT -20,-22 4 0 FRONT VIEW
+; ============================================================
+; VIEW 2 - SIDE VIEW at x offset 110 (base 60 deep)
+; ============================================================
+CLAYER OUTLINE
+RECTANG F 0 110,0 170,6
+RECTANG 110,6 118,50
+; motor body (reference, hidden) DIA 24.4 x 62 long
+CLAYER HIDDEN
+RECTANG 118,7.8 180,32.2
+LINE 118,20 186,20
+
+CLAYER CENTER
+LINE 104,20 192,20
+
+; ---- dims, side view ----
+CLAYER DIM
+DIMLINEAR 110,0 170,0 140,-14
+DIMLINEAR 110,6 118,6 114,-26
+; ---- callouts, side ----
+CLAYER TEXT
+-TEXT 120,40 4 0 MOTOR JGA25-370 %%C24.4x62 (REF)
+-TEXT 105,-22 4 0 SIDE VIEW
+; ============================================================
+; VIEW 3 - BASE PLAN at y offset 90: 44 x 60, 4x DIA 4.5
+; ============================================================
+CLAYER OUTLINE
+RECTANG F 2 0,90 44,150
+CIRCLE 8,98 2.25
+CIRCLE 36,98 2.25
+CIRCLE 8,142 2.25
+CIRCLE 36,142 2.25
+CLAYER CENTER
+LINE 22,84 22,156
+
+LINE -6,120 50,120
+
+; ---- dims, base plan ----
+CLAYER DIM
+DIMLINEAR 8,98 36,98 22,106
+DIMLINEAR 8,98 8,142 -14,120
+; ---- callouts, base ----
+CLAYER TEXT
+-TEXT 0,158 4 0 BASE PLAN - 4x %%C4.5 (M4), PATTERN 28x44, MATCHES D-101 A
+; ---- notes ----
+-TEXT -20,172 5 0 NOTES: 1. MATERIAL POM (DELRIN), MACHINED. QTY 2, MIRROR PAIR.
+-TEXT -20,165 5 0 2. AXLE HEIGHT 14 ABOVE PLATE TOP. 3. BORE H8, REAM. MASS 0.06 KG EACH.
+ZOOM E
+EXPERT 0
+FILEDIA 1

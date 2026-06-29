@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<!--
+  pvbot.urdf.xacro - TEC PV-cleaning robot, REE598 graduation project.
+  Link names and frozen values match the URDF skeleton in
+  ROS2_ARCHITECTURE.tex (Listing lst:urdf):
+    base_link 5.0 kg box 0.40 x 0.30 x 0.12
+    wheel_left / wheel_right r=0.03 l=0.02, 0.15 kg, track 0.26,
+      joint origin (-0.12, +/-0.13, -0.045)
+    caster_link sphere r=0.015 (passive, frictionless)
+    imu_link at (0, 0, 0.06)
+    brush_link cylinder r=0.04 l=0.25 at (0.22, 0, -0.05), continuous
+  Masses sum to 6.00 kg: 5.0 + 2x0.15 + 0.60 + 0.09 + 0.01.
+  Inertias from the standard box / cylinder / sphere formulas.
+
+  Convert:  xacro pvbot.urdf.xacro > pvbot.urdf
+-->
+<robot name="pvbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <material name="alu_grey"><color rgba="0.65 0.67 0.70 1.0"/></material>
+  <material name="pom_black"><color rgba="0.10 0.10 0.10 1.0"/></material>
+  <material name="tank_blue"><color rgba="0.20 0.45 0.80 0.8"/></material>
+  <material name="brush_white"><color rgba="0.90 0.90 0.85 1.0"/></material>
+
+  <!-- ================= chassis ================= -->
+  <link name="base_link">
+    <inertial>
+      <mass value="5.0"/>  <!-- chassis + TEC tiles + 3.6 L tank (mean fill) -->
+      <inertia ixx="0.0435" iyy="0.0727" izz="0.1042"
+               ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <geometry><box size="0.40 0.30 0.12"/></geometry>
+      <material name="alu_grey"/>
+    </visual>
+    <!-- tank + TEC sandwich shown as a second visual block on the deck -->
+    <visual>
+      <origin xyz="0.055 0 0.075" rpy="0 0 0"/>
+      <geometry><box size="0.17 0.23 0.03"/></geometry>
+      <material name="tank_blue"/>
+    </visual>
+    <collision><geometry><box size="0.40 0.30 0.12"/></geometry></collision>
+  </link>
+
+  <!-- ================= driven wheels ================= -->
+  <xacro:macro name="wheel" params="side y">
+    <link name="wheel_${side}">
+      <inertial>
+        <mass value="0.15"/>
+        <inertia ixx="3.9e-5" iyy="3.9e-5" izz="6.8e-5"
+                 ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+      <visual>
+        <geometry><cylinder radius="0.03" length="0.02"/></geometry>
+        <material name="pom_black"/>
+      </visual>
+      <collision>
+        <geometry><cylinder radius="0.03" length="0.02"/></geometry>
+        <surface>
+          <friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction>
+        </surface>
+      </collision>
+    </link>
+    <joint name="wheel_${side}_joint" type="continuous">
+      <parent link="base_link"/> <child link="wheel_${side}"/>
+      <origin xyz="-0.12 ${y} -0.045" rpy="-1.5708 0 0"/>
+      <axis xyz="0 0 1"/>
+      <!-- motor sized >= 1.03 N m per wheel (1.5x SF on 0.686 N m) -->
+      <limit effort="1.03" velocity="10.0"/>
+    </joint>
+  </xacro:macro>
+  <xacro:wheel side="left"  y="0.13"/>
+  <xacro:wheel side="right" y="-0.13"/>
+
+  <!-- ================= passive front caster ================= -->
+  <link name="caster_link">
+    <inertial>
+      <mass value="0.09"/>
+      <inertia ixx="8.1e-6" iyy="8.1e-6" izz="8.1e-6"
+               ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <geometry><sphere radius="0.015"/></geometry>
+      <material name="pom_black"/>
+    </visual>
+    <collision>
+      <geometry><sphere radius="0.015"/></geometry>
+      <surface>
+        <friction><ode><mu>0.0</mu><mu2>0.0</mu2></ode></friction>
+      </surface>
+    </collision>
+  </link>
+  <joint name="caster_joint" type="fixed">
+    <parent link="base_link"/> <child link="caster_link"/>
+    <origin xyz="0.16 0 -0.06" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ================= IMU frame ================= -->
+  <link name="imu_link">
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="1e-6" iyy="1e-6" izz="1e-6" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/> <child link="imu_link"/>
+    <origin xyz="0.0 0.0 0.06" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ================= brush roller ================= -->
+  <link name="brush_link">
+    <inertial>
+      <mass value="0.60"/>
+      <inertia ixx="3.4e-3" iyy="3.4e-3" izz="4.8e-4"
+               ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <geometry><cylinder radius="0.04" length="0.25"/></geometry>
+      <material name="brush_white"/>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.04" length="0.25"/></geometry>
+    </collision>
+  </link>
+  <joint name="brush_joint" type="continuous">
+    <parent link="base_link"/> <child link="brush_link"/>
+    <origin xyz="0.22 0 -0.05" rpy="-1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- ================= Gazebo Classic diff drive ================= -->
+  <gazebo>
+    <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
+      <left_joint>wheel_left_joint</left_joint>
+      <right_joint>wheel_right_joint</right_joint>
+      <wheel_separation>0.26</wheel_separation>
+      <wheel_diameter>0.06</wheel_diameter>
+      <max_wheel_torque>1.03</max_wheel_torque>
+      <command_topic>cmd_vel</command_topic>
+      <publish_odom>true</publish_odom>
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>base_link</robot_base_frame>
+    </plugin>
+  </gazebo>
+
+  <!-- ================= Gazebo Harmonic (gz-sim) diff drive =================
+       Comment the Classic block above and uncomment this one for gz sim.
+  <gazebo>
+    <plugin filename="gz-sim-diff-drive-system"
+            name="gz::sim::systems::DiffDrive">
+      <left_joint>wheel_left_joint</left_joint>
+      <right_joint>wheel_right_joint</right_joint>
+      <wheel_separation>0.26</wheel_separation>
+      <wheel_radius>0.03</wheel_radius>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+    </plugin>
+  </gazebo>
+  -->
+
+</robot>

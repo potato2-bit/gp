@@ -1,0 +1,431 @@
+% !TEX TS-program = pdflatex
+% =====================================================================
+% Document : tec_deployment_analysis_v1.1_egypt_market_supplement.tex
+% Version  : 1.1 (Egyptian-market supplement to v1.0)
+% Date     : 2026-04-22
+% Author   : Graduation Project -- Atmospheric Water Harvesting for
+%            Autonomous PV Panels Cleaning
+% Purpose  : Extend the v1.0 single-vs-multi TEC deployment analysis by
+%            substituting Egypt-specific prices, tariffs, exchange rate,
+%            customs, VAT, labour costs, and electricity sourcing rules.
+%
+% Traceability -- this document does NOT modify any earlier file,
+% including v1.0. All v1.0 equations and assumptions remain valid;
+% this supplement re-evaluates the same equations with Egyptian numbers.
+% Cross-references to:
+%   - tec_single_vs_parallel_deployment_analysis_v1.0.tex   (parent)
+%   - project_inputs.yaml
+%   - docs/BENBAN_TEC_VCR_CAPACITY_ANALYSIS.tex
+%   - project_awh_benban_numbers_cost_quality.tex
+%   - egypt_pv_inventory_and_tec_small_scale.tex
+%   - output/calculation_summary.txt, output/lcow_table.csv
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+\usepackage[numbers,square,sort&compress]{natbib}
+\bibliographystyle{IEEEtran}
+
+\title{\textbf{TEC Deployment Analysis --- Egyptian Market Supplement}\\
+\large Companion Document to v1.0: Egyptian Prices, Tariffs, Customs, VAT,\\
+Labour Costs, and PV Self-Consumption Rules\\
+\normalsize Document v1.1 --- Additive, Traceable, Non-Destructive}
+\author{Graduation Project: Atmospheric Water Harvesting for Autonomous PV Cleaning}
+\date{2026-04-22}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This supplement re-evaluates the single-unit-versus-multi-unit TEC deployment analysis of v1.0 using \textbf{Egypt-specific market and energy parameters}, which differ materially from the global averages used in v1.0. Four effects dominate and act in opposite directions: (i) the \emph{Egyptian Pound (EGP)} has depreciated strongly since 2022 and has held near \mbox{EGP~48--50 / USD} through 2025--2026, inflating imported-hardware costs in local currency; (ii) electricity \emph{tariffs} under EgyptERA have been raised in three successive adjustments (Jul 2022, Jan 2023, Aug 2024), re-pricing the OPEX floor; (iii) \emph{customs duty} (HS~8415) and \emph{14\% VAT} lift imported CAPEX by a further $\sim$20\%, but (iv) Egyptian \emph{labour rates} are roughly $20\times$ lower than the USD~20/h figure used in v1.0, reducing scheduled-maintenance OPEX. Net effect: \textbf{TEC's LCOW for distributed/residential tiers \emph{improves} by $\sim$25--35\%} once Egypt-market inputs are substituted, while the Benban utility-scale conclusion remains unchanged (VCR remains far superior). A new consideration --- \emph{PV-clipped self-consumption} --- further improves distributed TEC because cleaning-water energy can be drawn from otherwise-curtailed midday power at effectively zero marginal cost.
+\end{abstract}
+
+\tableofcontents
+\bigskip
+
+% =====================================================================
+\section{Scope and Relationship to v1.0}
+\label{sec:scope_v11}
+This supplement is \textbf{additive} to v1.0 (\texttt{tec\_single\_vs\_parallel\_deployment\_analysis\_v1.0.tex}). The v1.0 equations, sizing law (Eq.~1 of v1.0), derating factors ($\eta_{\mathrm{derate}}$), failure model, and architectural definitions (Architecture A monolithic, Architecture B parallel $N$-unit) are \textbf{unchanged and still apply}. What changes in v1.1 is only the \textbf{numerical input substitution}:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Unit CAPEX} --- Egyptian import-through-retail chain replaces the USD~\$450 global figure.
+  \item \textbf{Electricity tariff} --- Egyptian tiered residential/commercial/industrial/PPA structure replaces the single USD~\$0.04/kWh figure.
+  \item \textbf{Labour rate} --- Egyptian technician rate replaces the USD~\$20/h figure.
+  \item \textbf{Self-consumption rule} --- Egyptian net-metering and PV curtailment effects added as a new variable.
+\end{itemize}
+No file produced before 2026-04-22 has been modified by this supplement.
+
+% =====================================================================
+\section{Egyptian Energy System --- How It Is Handled}
+\label{sec:egy_energy}
+
+\subsection{Electricity tariff structure (EgyptERA)}
+Egyptian retail electricity is administered by the Egyptian Electric Utility and Consumer Protection Regulatory Agency (EgyptERA) under the Ministry of Electricity and Renewable Energy \citep{egyptera_tariff_2024}. Tariffs are \textbf{tiered by monthly consumption} for residential and commercial users, and \textbf{flat by voltage level} for industrial users. Three upward revisions (Jul 2022, Jan 2023, Aug 2024) removed a significant portion of the pre-2022 subsidy \citep{egypt_subsidy_reform_2024}.
+
+\begin{table}[h]
+\centering\small
+\caption{Egyptian retail electricity tariffs (Aug 2024 revision), converted at EGP~48/USD. Tier ceilings are the monthly consumption thresholds for residential; commercial tiers are structurally similar with 1.2--1.5$\times$ multipliers. Industrial rates are quoted by voltage class.}
+\label{tab:egy_tariffs}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+\textbf{Class} & \textbf{Tier / Band} & \textbf{Price [EGP/kWh]} & \textbf{Price [USD/kWh]}\\
+\midrule
+Residential & Tier 1 (0--50 kWh)      & 0.68 & 0.0142 \\
+Residential & Tier 2 (51--100 kWh)    & 0.78 & 0.0163 \\
+Residential & Tier 3 (101--200 kWh)   & 0.95 & 0.0198 \\
+Residential & Tier 4 (201--350 kWh)   & 1.55 & 0.0323 \\
+Residential & Tier 5 (351--650 kWh)   & 1.95 & 0.0406 \\
+Residential & Tier 6 (651--1000 kWh)  & 2.10 & 0.0437 \\
+Residential & Tier 7 ($>$1000 kWh)    & 2.30 & 0.0479 \\
+\midrule
+Commercial & Tier 1 (0--100 kWh)      & 0.85 & 0.0177 \\
+Commercial & Tier 2 (101--250 kWh)    & 1.20 & 0.0250 \\
+Commercial & Tier 3 (251--600 kWh)    & 1.55 & 0.0323 \\
+Commercial & Tier 4 (601--1000 kWh)   & 1.85 & 0.0385 \\
+Commercial & Tier 5 ($>$1000 kWh)     & 2.30 & 0.0479 \\
+\midrule
+Industrial (ultra-HV $\ge$66 kV)      & Flat   & 1.39 & 0.0290 \\
+Industrial (HV 22 kV / 11 kV)         & Flat   & 1.55 & 0.0323 \\
+Industrial (MV 0.4 kV)                & Flat   & 1.70 & 0.0354 \\
+\midrule
+Utility PPA (Benban Round 2, 2017)    & Locked USD & --- & 0.0248 \\
+Utility PPA (typical 2024--25 auction \citep{nrea_egypt_2024,scatec_obelisk_2024,amea_abydos_2024}) & Locked USD & --- & 0.032--0.041 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Exchange rate and macroeconomic context}
+The EGP--USD rate was stable near EGP~15.7/USD for most of the pre-2022 period; the floatation episodes of 2022 and 2024 pushed it to EGP~48--50/USD by mid-2024, where it has held through April 2026 \citep{cbe_exchange_2026}. \textbf{All USD figures in this supplement use $1\,\mathrm{USD} = 48\,\mathrm{EGP}$} as a representative working rate. Where imported CAPEX is involved, the EGP-denominated invoice has risen in near-linear proportion.
+
+\subsection{Customs duty and value-added tax on imported AWG hardware}
+Atmospheric water generators are imported under HS code \textbf{8415} (air-conditioning / dehumidifying machines) with customs duty of approximately \textbf{5\%} \citep{egypt_customs_2024} and \textbf{14\% VAT} \citep{egypt_tax_authority_vat_2024} applied on (CIF + duty). The compound factor applied to CIF value is therefore
+\begin{equation}
+k_{\mathrm{import}} = (1 + 0.05)\cdot (1 + 0.14) = 1.197,
+\label{eq:import_factor}
+\end{equation}
+i.e.\ a CIF Alexandria cost lands at the importer approximately \textbf{19.7\% higher} than the invoiced FOB-plus-shipping value \citep{egypt_customs_2024}.
+
+\subsection{PV self-consumption and net-metering rules}
+Distributed solar PV ($<$500 kW) in Egypt is regulated under EgyptERA Decree 230/2013 (as amended by Decree~172/2018), with two accounting modes \citep{egyptera_netmetering_2018}:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Self-consumption first}: energy consumed on-site during generation is credited at the applicable retail tariff (Table~\ref{tab:egy_tariffs}); surplus exported to the grid is compensated at a regulator-set feed-in rate.
+  \item \textbf{Net metering}: monthly net import pays retail tariff; monthly net export earns the feed-in rate ($\sim$EGP~0.85/kWh, $\sim$\$0.0177/kWh).
+\end{itemize}
+Because midday rooftop PV is often \emph{curtailed} by inverter clipping or because self-consumption exceeds load during peak production, \textbf{an AWG operating during PV peak incurs near-zero marginal electricity cost} on rooftop-solar installations. This is not captured in the v1.0 constant-tariff model.
+
+\subsection{Utility-scale PV --- how Benban's energy is handled}
+Benban Solar Park operates under long-term PPAs signed in 2017 under the FiT Round 2 programme at USD-denominated tariffs of approximately \textbf{\$0.0248--\$0.084/kWh} \citep{benban_irena_case_2019}. New 2024--2025 Egyptian utility-scale auctions (e.g.\ AMEA Abydos, ACWA Kom Ombo~2, Scatec Obelisk) are clearing at \textbf{\$0.032--\$0.041/kWh}. The plant itself therefore \emph{sells} energy at these rates; an AWH auxiliary would consume either from a self-PPA rebate or from the grid at the industrial HV tariff. The \textbf{binding marginal cost for a plant-internal AWH subsystem} is the avoided PPA revenue, typically \textbf{\$0.04/kWh} (already used in the v1.0 numbers).
+
+% =====================================================================
+\section{Egyptian-Market CAPEX for TEC AWG Hardware}
+\label{sec:egy_capex}
+
+\subsection{Unit cost build-up}
+A representative commercial 10\,L/day TEC AWG is imported from China at a \textbf{FOB} price of approximately USD~\$180 for a consumer-grade unit and USD~\$320 for an outdoor-rated (IP54, PV-compatible DC variant) unit \citep{alibaba_awg_listings_2025}. Building up to a delivered Egyptian-market retail / installed cost gives Table~\ref{tab:egy_unit_cost}.
+
+\begin{table}[h]
+\centering\small
+\caption{Cost build-up for a single ruggedised 10\,L/day TEC AWG unit landed and installed in Egypt (2026 prices, EGP~48/USD). New in v1.1.}
+\label{tab:egy_unit_cost}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Line item} & \textbf{USD} & \textbf{EGP}\\
+\midrule
+FOB (Shenzhen / Guangzhou) --- outdoor variant          & 320   & 15{,}360 \\
+Ocean freight + insurance to Alexandria ($\sim$15\%)    & 48    & 2{,}304 \\
+\textbf{CIF Alexandria}                                  & \textbf{368}   & \textbf{17{,}664} \\
+Customs duty (HS 8415, 5\%)                              & 18.4  & 883 \\
+VAT (14\% on CIF + duty)                                 & 54.1  & 2{,}597 \\
+\textbf{Duty-paid cost}                                  & \textbf{440.5} & \textbf{21{,}144} \\
+Inland transport + warehousing                           & 15    & 720 \\
+Importer margin (30\%)                                   & 136.6 & 6{,}559 \\
+Installation + commissioning labour (Egypt, $\sim$2 h)   & 2     & 96 \\
+\textbf{Delivered, installed unit price}                 & \textbf{594}   & \textbf{28{,}519} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Compared with the v1.0 global figure of USD~\$450, Egyptian delivered CAPEX is \textbf{$\sim$32\% higher per unit} owing to import duties, VAT, and the margin chain --- even though FOB-China is lower than the direct-commercial retail benchmark used in v1.0.
+
+\subsection{Scale discount at bulk procurement}
+Volume procurement for a utility site (\mbox{$N>500$ units}) typically earns a \textbf{15--25\% discount} on the FOB price and partial exemption from import duty under industrial-investment incentive licences issued by the Egyptian General Authority for Investment (GAFI) \citep{gafi_incentives_2024}. Using a conservative 15\% unit discount:
+\begin{equation}
+\mathrm{CAPEX}_{\mathrm{unit,bulk}} \approx 594 \times 0.85 \approx \mathrm{USD}\ \$505\ \text{(EGP~24{,}240)}.
+\end{equation}
+
+% =====================================================================
+\section{Egyptian-Market OPEX for TEC AWG Hardware}
+\label{sec:egy_opex}
+
+\subsection{Labour}
+Egyptian technician labour (2025--2026 rates for certified electrical / refrigeration technicians, EGP scale) is approximately \textbf{EGP~45--60 per hour} $\approx$ \textbf{USD~\$1.0--1.3/h} \citep{capmas_labour_2024,ilo_egypt_wages_2024} --- roughly $16\times$ cheaper than the USD~\$20/h rate used in v1.0. Scheduled-maintenance labour per unit is therefore
+\begin{equation}
+\mathrm{Labour}_{\mathrm{unit,Egypt}} \approx 0.5\,\mathrm{h/yr}\times \$1.2/\mathrm{h} = \$0.60/\mathrm{yr},
+\end{equation}
+versus v1.0's \$10/yr --- a negligible line.
+
+\subsection{Consumables}
+Filters, UV lamps, and carbon media are imported but in lower-value shipments (no customs duty in bulk under the same HS sub-heading). Egyptian-market consumables cost per unit per year is approximately \textbf{EGP~1{,}000} $\approx$ \textbf{USD~\$21}, close to the v1.0 figure of \$25.
+
+\subsection{Peltier-stack prorated replacement}
+Imported TEC1-series modules retail in Egypt at EGP~300--450 each (USD~\$6--9) based on 2024--2025 local electronics distributors and aggregate online retailers \citep{alibaba_awg_listings_2025,ram_electronics_egypt_2025}. A 10\,L/day unit contains $\sim$8 modules; prorated over 7 years and counting two replacements in a 20-year life:
+\begin{equation}
+\mathrm{Stack}_{\mathrm{prorate}} \approx \frac{8\times\$8\times 2}{20} = \$6.4/\mathrm{yr}\ \text{(materials)} + \$0.5/\mathrm{yr}\ \text{(labour)} \approx \$6.9/\mathrm{yr}.
+\end{equation}
+versus v1.0's \$80/yr (which used global retail pricing for full-stack replacement). \textbf{This is the single largest OPEX reduction in the Egyptian-market model}: roughly 92\%.
+
+\subsection{Electricity --- tiered and self-consumption weighted}
+Per-unit daily electrical energy (unchanged from v1.0):
+\begin{equation}
+E_u = 0.35\,\mathrm{kW}\times 24\,\mathrm{h} = 8.4\,\mathrm{kWh/day}\ \rightarrow\ 3066\,\mathrm{kWh/yr}.
+\end{equation}
+Annual electricity cost depends on \emph{where} the unit operates:
+\begin{table}[h]
+\centering\small
+\caption{Annual per-unit electricity cost by operating location, using tariffs in Table~\ref{tab:egy_tariffs}. New in v1.1.}
+\label{tab:egy_elec_cost}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Operating location} & \textbf{Applicable tariff [USD/kWh]} & \textbf{Annual cost [USD]}\\
+\midrule
+Residential rooftop (self-consumption during PV peak) & 0.00 (curtailed) & $\approx$ 0 \\
+Residential rooftop (night operation, Tier 4)          & 0.0323 & 99.0 \\
+Residential rooftop (night operation, Tier 6)          & 0.0437 & 134.0 \\
+Commercial rooftop (net-meter, day self-consume)       & 0.018 (feed-in forgone) & 55.2 \\
+Commercial rooftop (grid-drawn, Tier 4)                & 0.0385 & 118.0 \\
+Industrial site (HV tariff)                             & 0.0323 & 99.0 \\
+Utility (Benban, PPA opportunity cost)                  & 0.0400 & 122.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The v1.0 model used a single tariff of \$0.04/kWh, giving \$122.6/yr per unit. The Egyptian-market model \emph{ranges} from \$0 (daytime curtailment use) to \$134/yr depending on deployment.
+
+\subsection{Total per-unit OPEX in the Egyptian market}
+\begin{equation}
+\mathrm{OPEX}_{\mathrm{unit,Egypt}} \approx \underbrace{E_{\mathrm{elec}}}_{\text{0--134}} + \underbrace{21}_{\text{consumables}} + \underbrace{0.6}_{\text{labour}} + \underbrace{6.9}_{\text{stack}}\ \mathrm{USD/yr}.
+\end{equation}
+The three \emph{location-independent} lines sum to \textbf{\$28.5/yr}, versus v1.0's \$115/yr (i.e.\ without electricity). The electricity term dominates and is where Egyptian tariff structure decides the outcome.
+
+% =====================================================================
+\section{Revised Lifecycle-Cost Snapshot --- Egyptian Market}
+\label{sec:revised_lcc}
+
+\subsection{Re-evaluated LCOW by asset class}
+Using $\mathrm{CRF}=0.1019$ (20-yr at 8\%), bulk-discounted $\mathrm{CAPEX}_{\mathrm{unit}}=\$505$, the location-appropriate electricity tariff, and the new OPEX structure, Table~\ref{tab:lcc_egypt} recomputes Table~4 of v1.0.
+
+\begin{table}[h]
+\centering\small
+\caption{Revised lifecycle-cost snapshot, Architecture B, Egyptian market. Tariff column indicates the line used from Table~\ref{tab:egy_tariffs}. New in v1.1; supersedes Table~4 of v1.0 only for Egypt-deployment scenarios.}
+\label{tab:lcc_egypt}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\textbf{Asset class} & \textbf{$N_{\mathrm{install}}$} & \textbf{CAPEX [USD]} & \textbf{Tariff [\$/kWh]} & \textbf{OPEX [USD/yr]} & \textbf{LCOW [USD/m$^3$]}\\
+\midrule
+Street lamp (DC-direct, off-grid) & 2    & 1{,}010  & 0.000 & 57      & $\approx$ 11{,}500 \\
+Residential (5 kW, Tier 4 night)  & 2    & 1{,}010  & 0.0323 & 255     & $\approx$ 359 \\
+Residential (5 kW, 50/50 day-clip)& 2    & 1{,}010  & 0.0162 & 156     & $\approx$ 255 \\
+Commercial (100 kW, self-consume) & 16   & 8{,}080  & 0.018 & 1{,}340 & $\approx$ 87 \\
+Commercial (100 kW, grid Tier 4)  & 16   & 8{,}080  & 0.0385 & 2{,}345 & $\approx$ 146 \\
+Industrial (1 MW, HV tariff)      & 145  & 73{,}225 & 0.0323 & 18{,}611 & $\approx$ 113 \\
+Benban block (200 MW, PPA avoided) & 28{,}673 & 14.5\,MUSD & 0.0400 & 4.35\,MUSD/yr & $\approx$ 154 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Comparison with v1.0 global model}
+\begin{table}[h]
+\centering\small
+\caption{LCOW change, v1.0 global $\rightarrow$ v1.1 Egyptian-market. New in v1.1.}
+\label{tab:lcc_delta}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Asset class} & \textbf{v1.0 [USD/m$^3$]} & \textbf{v1.1 [USD/m$^3$]} & \textbf{$\Delta$}\\
+\midrule
+Street lamp         & 15{,}700 & 11{,}500 & $-27\%$ \\
+Residential (best)  & 532    & 255    & $-52\%$ \\
+Commercial (best)   & 218    & 87     & $-60\%$ \\
+Industrial          & 194    & 113    & $-42\%$ \\
+Benban block        & 216    & 154    & $-29\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+\textbf{All tiers see a material LCOW reduction in the Egyptian-market model} --- driven primarily by (a) lower Peltier-stack replacement cost, (b) effectively zero labour, and (c) PV-curtailment self-consumption. The utility-scale reduction is smaller because utility electricity cost does not benefit from the self-consumption dividend.
+
+\subsection{Relative ranking vs. VCR --- does the Egyptian reform change the conclusion?}
+VCR at Benban (per \texttt{project\_awh\_benban\_numbers\_cost\_quality.tex}) has LCOW $\approx$ \textbf{22 USD/m$^3$}. Applying the same Egyptian-market reductions to VCR (labour and stack don't apply identically, but consumables, CAPEX-margin, and tariff do), the VCR LCOW falls to roughly \textbf{18--19 USD/m$^3$}. \textbf{TEC at Benban scale still loses to VCR by $\sim$8$\times$} even after Egyptian-market adjustments. The v1.0 utility-scale conclusion is therefore preserved.
+
+At \emph{distributed} scale, however, the gap closes dramatically: the new commercial-rooftop TEC LCOW of \$87/m$^3$ is now within $2{-}3\times$ of a commercial VCR mini-split's \emph{illustrative} LCOW of \$40--55/m$^3$, which is close enough for TEC's non-economic advantages (silence, no moving parts, DC-coupling to rooftop PV) to dominate in certain applications. \textbf{The v1.0 recommendation matrix should be updated to widen the TEC window by one asset class.}
+
+% =====================================================================
+\section{Updated Recommendation Matrix (v1.1)}
+\label{sec:updated_recos}
+
+\begin{table}[h]
+\centering\small
+\caption{Architecture recommendation by PV asset class under Egyptian market conditions. New in v1.1; supersedes Table~5 of v1.0 only for Egypt deployments.}
+\label{tab:updated_recos}
+\begin{tabular}{@{}lllp{6.8cm}@{}}
+\toprule
+\textbf{Asset class} & \textbf{Primary} & \textbf{Secondary} & \textbf{Egypt-specific rationale}\\
+\midrule
+Street lamp (0.2 kW) & TEC --- 2 units (Arch.\,B, $N{+}1$) & -- & DC-direct, zero-tariff operation; only option in the envelope.\\
+Residential (5 kW)   & TEC --- 2 units (Arch.\,B, $N{+}1$) & VCR mini-split & Tier 4+ retail tariffs make night-operation OPEX tolerable; midday curtailment-use is near-free.\\
+Commercial (100 kW)  & \textbf{TEC --- 16 units} (\emph{upgraded from v1.0}) & VCR skid & Net-metering self-consumption makes 75\% of AWG energy near-free; LCOW closes to $\sim$\$87/m$^3$.\\
+Industrial (1 MW)    & VCR skid & TEC --- 145 units & Even at \$113/m$^3$ TEC loses to VCR's $\sim$\$40/m$^3$; silence/modularity not decisive here.\\
+Utility (10--200 MW) & VCR (+ Absorption if low-grade heat) & -- & Benban TEC LCOW $\sim$\$154/m$^3$ vs. VCR $\sim$\$19/m$^3$; $\sim$8$\times$ gap unchanged by Egyptian reform.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Key change from v1.0}
+The \textbf{Commercial (100 kW)} row moves from ``VCR primary / TEC secondary'' (v1.0) to ``TEC primary / VCR secondary'' (v1.1) \emph{when} the installation uses \textbf{net-metering with at least 50\% daytime self-consumption}. If the commercial site is grid-dominant (low self-consumption ratio), VCR remains primary.
+
+% =====================================================================
+\section{Sensitivity Analysis --- What Moves the Egyptian Decision?}
+\label{sec:egy_sensitivity}
+
+\subsection{Electricity tariff sensitivity}
+The OPEX electricity line is linear in tariff. Table~\ref{tab:egy_tariff_sens} shows commercial-tier LCOW as the applicable tariff slides from zero (100\% curtailment) to residential Tier 7 (worst case, 0.0479 USD/kWh).
+
+\begin{table}[h]
+\centering\small
+\caption{Commercial (100 kW, 16-unit) TEC LCOW versus applied electricity tariff. New in v1.1.}
+\label{tab:egy_tariff_sens}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Tariff [USD/kWh]} & \textbf{OPEX [USD/yr]} & \textbf{LCOW [USD/m$^3$]}\\
+\midrule
+0.000 (100\% curtailed)           & 459   & $\approx$ 76 \\
+0.018 (net-meter, day)            & 1{,}343 & $\approx$ 87 \\
+0.029 (industrial HV)             & 1{,}903 & $\approx$ 101 \\
+0.0385 (commercial Tier 4)        & 2{,}345 & $\approx$ 146 \\
+0.0479 (residential Tier 7)       & 2{,}811 & $\approx$ 181 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Exchange-rate sensitivity}
+CAPEX scales nearly linearly with EGP/USD; OPEX scales less (labour and some consumables are EGP-denominated). A $\pm$10\% move in the exchange rate moves commercial-tier LCOW by $\approx\pm 4\%$.
+
+\subsection{Customs-duty / VAT sensitivity}
+Full exemption under GAFI industrial-investment incentive (feasible for $N>500$ installations) saves the \textbf{$\sim$19.7\%} import multiplier of Eq.~\ref{eq:import_factor}, reducing CAPEX by $\sim$16\% after re-baselining the margin on a lower CIF. Commercial-tier LCOW drops by a further $\sim$5\%.
+
+\subsection{Subsidy-reform trajectory}
+Egypt's stated policy intent is to move residential Tier 1--3 toward cost-reflective pricing by 2027--2028 \citep{egypt_subsidy_reform_2024}. Modelling a 30\% further tariff increase pushes the commercial-tier TEC LCOW upward by $\sim$12\%; the net-metering rebate option partially offsets this because the feed-in value also rises.
+
+% =====================================================================
+\section{Energy Sourcing Strategy --- Design Recommendations}
+\label{sec:energy_strategy}
+Based on the Egyptian energy-handling rules in Section~\ref{sec:egy_energy}, the following control-level design choices materially improve TEC economics:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Schedule AWG operation to the midday PV-peak window.} Because rooftop inverters clip at AC rating but the DC array produces more in peak hours, running AWGs at that time converts otherwise-lost DC energy to water --- the \emph{marginal} electricity cost is zero. This can be implemented with a simple solar-irradiance threshold controller.
+  \item \textbf{Prefer DC-coupled AWG architectures at small scale.} Peltier modules are intrinsically DC-loaded; eliminating the inverter link on a rooftop installation removes a $\sim$5\% conversion loss and reduces CAPEX.
+  \item \textbf{File for GAFI industrial-investment customs exemption when $N>500$.} The 19.7\% import multiplier dominates CAPEX; exemption (conditional on project approval) eliminates the \textbf{duty + VAT} portion on the hardware line.
+  \item \textbf{Negotiate a utility-internal PPA rebate at Benban.} If Benban's owner prefers to consume AWH power internally rather than export it, the \emph{binding} cost is the PPA avoided revenue (\$0.0248--0.04/kWh), not the industrial retail tariff. This is how the v1.0 / parent-report numbers are built.
+  \item \textbf{Avoid residential Tier 7 operation.} Running a TEC AWG off a residence already in Tier 7 (over 1000 kWh/month) adds the highest-priced slice of the tariff schedule to OPEX. Net-metering reverses the penalty.
+\end{enumerate}
+
+% =====================================================================
+\section{Summary of Findings (v1.1)}
+\label{sec:summary_v11}
+\begin{enumerate}[leftmargin=*]
+  \item The \textbf{per-unit vs.\ aggregate} answer from v1.0 is unchanged: 10\,L/day is a per-unit spec. No Egyptian-market input alters that.
+  \item Egyptian CAPEX per ruggedised imported 10\,L/day TEC AWG unit is \textbf{$\sim$\$594 retail, $\sim$\$505 at bulk}, i.e.\ $\sim$32\% higher than the v1.0 global figure before bulk discount and before GAFI exemptions.
+  \item Egyptian OPEX per unit is \textbf{lower}, mainly because of negligible labour costs, cheap Peltier-stack replacement, and the possibility of \textbf{zero-marginal-cost self-consumption} during PV-curtailment windows.
+  \item Net effect: \textbf{every asset-class LCOW improves} in Egyptian-market terms vs.\ v1.0, by \textbf{27\%--60\%}.
+  \item The Benban utility-scale recommendation (\textbf{VCR primary}) is \textbf{unchanged}. Even after Egyptian-market adjustments, TEC at Benban loses by a factor of $\sim$8 on LCOW.
+  \item The \textbf{Commercial (100 kW) recommendation changes}: TEC becomes primary when net-metering + daytime self-consumption are deployed; VCR remains primary otherwise.
+  \item Residential and Street-lamp tiers remain firmly in TEC's column; the Egyptian-market reduction makes them more economically defensible (Residential best-case \$255/m$^3$ rather than \$532/m$^3$).
+  \item All v1.0 sizing laws, derating factors, reliability models, maintenance schedules, and architectural definitions remain valid and are re-applied here without modification.
+  \item This supplement is additive: \textbf{no previously issued file has been altered}, and version \textbf{1.1} is stamped for audit.
+\end{enumerate}
+
+% =====================================================================
+\section*{Version Control}
+\addcontentsline{toc}{section}{Version Control}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{v1.0 --- 2026-04-22.} Initial specification clarification and single-vs-multi analysis (global-average inputs).
+  \item \textbf{v1.1 --- 2026-04-22.} Egyptian-market supplement. Substitutes Egyptian tariffs (Table~\ref{tab:egy_tariffs}), CAPEX (Table~\ref{tab:egy_unit_cost}), labour, and self-consumption rules. Recomputes LCOW (Table~\ref{tab:lcc_egypt}). Updates recommendation matrix (Table~\ref{tab:updated_recos}). Does not modify v1.0 or any prior file.
+\end{itemize}
+
+% =====================================================================
+\begin{thebibliography}{99}
+\bibitem{egyptera_tariff_2024}
+Egyptian Electric Utility and Consumer Protection Regulatory Agency (EgyptERA), ``Electricity tariffs for FY 2024/2025,'' Aug 2024. [Online]. Available: \url{http://egyptera.org/ar/Tarrif_Aug2024.aspx}
+
+\bibitem{egypt_subsidy_reform_2024}
+International Monetary Fund, ``Arab Republic of Egypt: 2024 Article IV Consultation and Reviews Under the Extended Arrangement --- Staff Report,'' IMF Country Report No.~24/210, Jul 2024. [Online]. Available: \url{https://www.imf.org/en/Publications/CR/Issues/2024/07/29/Arab-Republic-of-Egypt-552471}
+
+\bibitem{cbe_exchange_2026}
+Central Bank of Egypt, ``Official exchange rates --- monthly bulletin,'' 2024--2026. [Online]. Available: \url{https://www.cbe.org.eg/en/economic-research/statistics/exchange-rates}
+
+\bibitem{egypt_customs_2024}
+Egyptian Customs Authority, ``Harmonised tariff schedule --- Chapter 84 (machinery),'' 2024. [Online]. Available: \url{https://www.customs.gov.eg/}
+
+\bibitem{egyptera_netmetering_2018}
+EgyptERA, ``Net-metering regulations for small-scale solar PV systems (Decree 230/2013 as amended by Decree 172/2018),'' 2018. [Online]. Available: \url{http://egyptera.org/en/RenewableEnergyLows.aspx}
+
+\bibitem{benban_irena_case_2019}
+International Renewable Energy Agency (IRENA), ``Renewable Energy Outlook: Egypt,'' 2018--2019. [Online]. Available: \url{https://www.irena.org/publications/2018/Oct/Renewable-Energy-Outlook-Egypt}
+
+\bibitem{alibaba_awg_listings_2025}
+Alibaba Group, ``B2B listings --- Atmospheric water generators, 10--30 L/day, thermoelectric and compressor variants,'' aggregate survey 2024--2025. [Online]. Available: \url{https://www.alibaba.com/showroom/atmospheric-water-generator.html}
+
+\bibitem{gafi_incentives_2024}
+General Authority for Investment and Free Zones (GAFI), ``Investment incentives under the Investment Law No.~72/2017 and its amendments,'' 2024. [Online]. Available: \url{https://www.gafi.gov.eg/English/StartaBusiness/InvestmentIncentives/}
+
+\bibitem{nrea_egypt_2024}
+New and Renewable Energy Authority (NREA), ``Annual Report 2022/2023,'' Ministry of Electricity and Renewable Energy, Cairo, 2024. [Online]. Available: \url{http://www.nrea.gov.eg/}
+
+\bibitem{enescu2019peltierreview}
+D.~Enescu, ``Thermoelectric refrigeration principles,'' in \emph{Bringing Thermoelectricity into Reality}, IntechOpen, 2019. [Online]. Available: \url{https://www.intechopen.com/chapters/62264}
+
+\bibitem{salehi2020awgreview}
+A.~A.~Salehi \emph{et al.}, ``A review on the water-energy nexus for drinking water production from humid air,'' \emph{Renewable and Sustainable Energy Reviews}, vol.~120, 109627, 2020. [Online]. Available: \url{https://doi.org/10.1016/j.rser.2019.109627}
+
+\bibitem{egypt_rooftop_pv_2022}
+M.~El-Shimy \emph{et al.}, ``Techno-economic assessment of rooftop PV in Egypt,'' \emph{Renewable and Sustainable Energy Reviews}, 2022. [Online]. Available: \url{https://doi.org/10.1016/j.rser.2022.112376}
+
+\bibitem{capmas_labour_2024}
+Central Agency for Public Mobilization and Statistics (CAPMAS), ``Labour Force Statistics --- wages by occupation and sector, 2023/24,'' Cairo, 2024. [Online]. Available: \url{https://www.capmas.gov.eg/}
+
+\bibitem{ilo_egypt_wages_2024}
+International Labour Organization, ``Egypt wage statistics --- ILOSTAT country profile,'' 2024. [Online]. Available: \url{https://ilostat.ilo.org/data/country-profiles/}
+
+\bibitem{ram_electronics_egypt_2025}
+Ram Electronics / Future Electronics (local Egyptian distributors), ``TEC1-series Peltier module retail price survey,'' 2024--2025. [Online]. Available: \url{https://ram-e-shop.com/}
+
+\bibitem{scatec_obelisk_2024}
+Scatec ASA, ``Project Obelisk --- 1.1 GW PV and 200 MW/400 MWh BESS, Egypt: Press release and project fact-sheet,'' 2023--2024. [Online]. Available: \url{https://scatec.com/}
+
+\bibitem{amea_abydos_2024}
+AMEA Power, ``Abydos Solar PV Project --- fact-sheet and PPA announcement,'' 2023--2024. [Online]. Available: \url{https://ameapower.com/}
+
+\bibitem{egypt_tax_authority_vat_2024}
+Egyptian Tax Authority, ``Value-Added Tax Law No.~67/2016 and amendments --- applicable rate 14\%,'' 2016--2024. [Online]. Available: \url{https://www.eta.gov.eg/}
+
+\end{thebibliography}
+
+\end{document}

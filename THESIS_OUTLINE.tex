@@ -1,0 +1,490 @@
+% !TEX TS-program = pdflatex
+% THESIS_OUTLINE.tex
+% Chapter-by-chapter outline of the REE 599 final thesis, with a map from
+% every existing project artifact to its destination chapter.
+% Companion document: FIVE_DAY_WRAPUP_PLAN.tex (schedule for closing the
+% remaining work). Format follows PROJECT_COMPLETION_PLAN.tex.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage[table]{xcolor}
+% Compat shim: colortbl 1.0k (2024) expects \insert@pcolumn from array v2.6,
+% but this MiKTeX tree carries array v2.5g. Without the alias every p-column
+% in a colortbl document throws "Undefined control sequence".
+\makeatletter
+\@ifundefined{insert@pcolumn}{\let\insert@pcolumn\insert@column}{}
+\makeatother
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\emergencystretch=1.5em   % long typewriter file names need slack
+
+\definecolor{rowExist}{RGB}{198,239,206}   % material exists, edit/merge only
+\definecolor{rowPart}{RGB}{255,235,156}    % partly exists, needs new writing
+\definecolor{rowNew}{RGB}{252,213,180}     % must be written new / test-dependent
+
+% File-name macro: typewriter face with line breaks allowed after underscores,
+% so long artifact names do not overflow the margin.
+\newcommand{\f}[1]{{\ttfamily\def\_{\textunderscore\allowbreak}#1}}
+
+\title{\textbf{REE 599 Final Thesis: Chapter Outline and Source Map}\\[0.4em]
+\large Autonomous Thermoelectric Atmospheric-Water PV-Cleaning Robot\\[0.2em]
+\normalsize for Egypt's New Sustainable Cities (Commercial / Residential / Street-Lamp PV)}
+\author{Rahma El-Hamouly, Graduation Project}
+\date{Issued: 10 June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This document is the writing plan for the REE 599 thesis (target 80--100 pages).
+For each chapter it states the purpose, the section list, which existing project
+files supply the content, and what still has to be written from scratch or
+filled in after the 4-tile prototype test. The structure follows the REE 598
+departmental guidelines (\f{REE 598 GP\_1\_Guidelines.pdf}): cover page,
+acknowledgment, one-page abstract, table of contents, lists of figures and
+tables, nomenclature, numbered chapters, references, and appendices, with
+chapter-based numbering of sections, figures, tables, and equations
+(Times~12\,pt, 1.5 line spacing). The day-by-day schedule that executes this
+outline is in \f{FIVE\_DAY\_WRAPUP\_PLAN.tex}.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% =============================================================================
+\section{Ground Rules}
+% =============================================================================
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Single thesis source file.} The thesis is assembled as
+        \f{REE599\_thesis.tex} (\f{report} class), reusing the siunitx shim and
+        preamble of \f{prototype\_design\_report.tex}, which compiles cleanly on
+        this TeX tree.
+  \item \textbf{Numbers come from the verified engine.} Every performance figure
+        traces to \f{scripts/tec\_robot\_design.py} and its archived outputs
+        (\f{output/tec\_robot\_results.json}, \f{output/tec\_robot\_monthly.csv}).
+        If a parameter changes during design closure (heat-sink resistance,
+        battery size), the script is re-run before the text is updated.
+  \item \textbf{The eight review flags are resolved before assembly.} The open
+        items in \f{docs/REE598\_PROPOSAL\_REVIEW.md} \S3.1--3.8 contradict
+        numbers that would otherwise be copied into Chapters 5, 7, and 11.
+        Resolving them first (Day 1 of the wrap-up plan) avoids writing the same
+        chapter twice.
+  \item \textbf{Citations.} IEEE style via \f{IEEEtran}/\f{ieeetr} and
+        \f{references.bib} (about 34 entries, all with DOI/URL). The citation
+        corrections logged in \f{docs/CITATION\_VERIFICATION\_2026-06-02.md}
+        carry over: the 0.3~L/m$^2$ microfibre cleaning-water dose stays a
+        declared design assumption (within the published 0.1--0.5~L/m$^2$ band
+        for water-assisted robotic PV cleaning), not a literature value.
+  \item \textbf{Benban is evidence, not the deliverable.} Per
+        \f{memory/project\_context.md}, the Benban work appears once, in
+        Chapter~3, as climate-feasibility validation. The robot design carries
+        the rest of the thesis.
+\end{enumerate}
+
+% =============================================================================
+\section{Front Matter (Guideline Items 1--6)}
+% =============================================================================
+\begin{itemize}[nosep,leftmargin=*]
+  \item Cover page: faculty template with \f{logo.jpg}, official title,
+        supervisor, term. Reuse the title page of \f{prototype\_design\_report.tex}
+        as the starting layout.
+  \item Acknowledgment: one page, written new (supervisor, department, vendors
+        who supplied datasheets).
+  \item Abstract: one page. Written new, last, after measured prototype results
+        exist. Must quote the final headline numbers: per-tile yield, 69-tile
+        sizing, 1.011~L/day annual mean, COP 1.44, measured prototype yield, and
+        the feasibility headline (at the residential 0.3~L/m$^2$ dose, full water
+        self-supply is feasible from a grid-coupled TEC array, about 14\% of the
+        host array's annual energy).
+  \item Table of contents, list of figures, list of tables: generated.
+  \item Nomenclature and abbreviations: written new, one page. Harvest symbols
+        from \f{prototype\_design\_report.tex} (TEC coefficients $\alpha, R, K$;
+        psychrometric symbols $\omega, T_{dew}, P_{sat}$; energy symbols) and
+        abbreviations (AWG, AWH, TEC, VCR, SEC, COP, LCOW, PSH, PR, DoD, BOM).
+\end{itemize}
+
+% =============================================================================
+\section{Chapter-by-Chapter Outline}
+% =============================================================================
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 1: Introduction (5 pp)}
+\textit{Purpose.} State the soiling/water-scarcity problem in arid Egypt, present
+the robot-with-self-generated-water concept, and define scope across the three
+deployment scales tied to the new sustainable cities.
+
+\textbf{Sections:} 1.1 Importance of the field (PV growth in Egypt, soiling
+losses 20--30\%/yr untreated); 1.2 The water-logistics problem of wet cleaning;
+1.3 Proposed solution: autonomous TEC-AWG cleaning robot; 1.4 Deployment scales
+A/B/C and target cities; 1.5 Contributions; 1.6 Thesis structure.
+
+\textbf{Existing material:} \f{main\_report.tex} ch.~1 (motivation, proposed
+solution, scope, contribution) merges with \f{REE598\_proposal.tex} ch.~1 and
+\f{prototype\_design\_report.tex} ch.~1 (problem statement, functional
+requirements table). \f{memory/project\_context.md} fixes the scale ordering:
+street-lamp and rooftop scales lead, industrial is the stretch case (review
+flag \S4.1).
+
+\textbf{Write new:} contributions list (now includes measured prototype data);
+thesis-structure roadmap paragraph.
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 2: Literature Review (10 pp)}
+\textit{Purpose.} Survey soiling in MENA, wet vs.\ dry cleaning, AWH
+technologies, TEC condensers in arid climates, and existing cleaning robots,
+ending with the research gap the project fills.
+
+\textbf{Sections:} 2.1 PV soiling in Egypt and MENA; 2.2 Cleaning methods and
+why wet cleaning wins on recovery; 2.3 Atmospheric water harvesting technologies
+(sorbent, fog, VCR, TEC); 2.4 TEC condenser physics and prior arid-climate
+implementations; 2.5 Autonomous PV-cleaning robots, state of the art; 2.6
+Egyptian new cities and solar context; 2.7 Critique and research gap.
+
+\textbf{Existing material:} \f{REE598\_proposal.tex} ch.~2 (five sections,
+already cited) and \f{main\_report.tex} ch.~2 cover all of 2.1--2.6. The AWH
+comparison framework in \f{project\_analysis\_awh\_comparison\_and\_scope.tex}
+supplies the SEC bands for 2.3.
+
+\textbf{Write new:} merge pass only; deduplicate the two existing reviews and
+sharpen 2.7 so the gap statement matches the pivoted deliverable (no published
+robot generates its own cleaning water on-board).
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 3: Feasibility Evidence: TEC Water Harvesting in the
+Benban Climate (8 pp)}
+\textit{Purpose.} Compress the Benban-era analyses into the evidence base: TEC
+beats VCR on sustainability and maintenance at small scale, and the Benban
+hourly climate proves condensation is achievable in arid Egypt.
+
+\textbf{Sections:} 3.1 Benban as reference climate dataset (NASA POWER, 8784
+hourly records, 2020); 3.2 Psychrometric analysis and the seasonal condensation
+window; 3.3 TEC vs.\ VCR: efficiency, sustainability, maintenance; 3.4 Scaling
+floor: where TEC wins (small/distributed) and where VCR wins (central plant);
+3.5 Egyptian PV inventory and the addressable small-scale segment; 3.6
+Conclusion: design basis for a TEC robot.
+
+\textbf{Existing material:} \f{BENBAN\_TEC\_VCR\_CAPACITY\_ANALYSIS.tex};
+\f{tec\_vcr\_sustainability\_efficiency\_maintenance\_v1.2.tex} (efficiency,
+sustainability, maintenance, lifecycle sections);
+\f{tec\_single\_vs\_parallel\_deployment\_analysis\_v1.0.tex} and
+\f{tec\_deployment\_analysis\_v1.1\_egypt\_market\_supplement.tex} (deployment
+configurations, Egyptian market);
+\f{egypt\_pv\_inventory\_and\_tec\_small\_scale.tex} (inventory, scaling floor,
+recommendation matrix); \f{main\_report.tex} ch.~3 (climate analysis,
+validation against measurements); \f{output/psychrometrics\_monthly.csv}.
+
+\textbf{Write new:} compression only. These five standalone documents total
+well over 60 pages; the chapter keeps the summary tables and one psychrometric
+figure and cites the standalone PDFs as project archive material in an
+appendix pointer.
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 4: System Architecture and Deployment Scales (8 pp)}
+\textit{Purpose.} Define the robot as a system (AWG + cleaning + mobility +
+power + control), specify the three scale variants, and record the architecture
+decisions forced by the feasibility finding.
+
+\textbf{Sections:} 4.1 Overall concept and subsystem block diagram; 4.2 Scale A,
+street-lamp pole unit; 4.3 Scale B, commercial rooftop rail-guided carriage
+(prototype scale); 4.4 Scale C, industrial: fleet of Scale-B units, not a gantry;
+4.5 Per-array TEC harvester sizing and reservoir buffering; 4.6 Docking and
+safe-park station; 4.7 Requirements tables per scale.
+
+\textbf{Existing material:} \f{main\_report.tex} ch.~4 (overall concept, design
+requirements per scale); \f{REE598\_proposal.tex} ch.~3 (solution architecture,
+deployment-scale specification tables); \f{figures/system\_architecture.svg};
+\f{prototype\_design\_report.tex} feasibility section (per-array harvester,
+full water self-supply at the 0.3~L/m$^2$ dose).
+
+\textbf{Write new:} 4.4 must be rewritten to the fleet decomposition that
+resolves review flag \S3.7 (the 1.67-tonne gantry reservoir is dropped); 4.5
+must state the multi-night harvest-to-buffer sequence that resolves flag \S3.8
+(condensate tank sizing); 4.6 docking detail is currently a one-line mention
+and needs a figure plus a half page of mechanism description (charging contacts,
+park orientation, wind/dust survival).
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 5: TEC AWG Design: Psychrometrics and Operating Point (12 pp)}
+\textit{Purpose.} The thermodynamic core: module selection, device coefficients,
+the coupled heat-and-mass-transfer condensation model, the operating-point
+solver, and tile-array sizing.
+
+\textbf{Sections:} 5.1 TEC1-12706 selection and Egyptian-market coefficients;
+5.2 Governing equations ($Q_C$, $W$, COP); 5.3 Site psychrometrics (Buck,
+Magnus, humidity ratio); 5.4 Condensation as coupled heat/mass transfer (Lewis
+analogy); 5.5 Hot-side thermal path and the self-consistent operating point;
+5.6 Operating modes A/B and the smart night-only strategy; 5.7 Condensation
+margin sensitivity; 5.8 Tile count: 69 tiles for 1~L/day; 5.9 SEC and
+reconciliation with published TEC-AWG data.
+
+\textbf{Existing material:} \f{prototype\_design\_report.tex} chs.~2--4 carry
+almost the whole chapter, including the strategy and margin-sensitivity tables
+and \f{figures/fig\_margin\_sensitivity.pdf}; \f{main\_report.tex} ch.~5
+duplicates parts and is merged in; \f{output/tec\_robot\_results.json} for all
+numbers; \f{scripts/verify\_independent\_solver.py} for the solver
+cross-check paragraph.
+
+\textbf{Write new:} 5.5 and 5.9 absorb review flags \S3.2--3.4. The proposal's
+SEC of 0.927~kWh/L is superseded by the coupled-solver value (4.16~kWh/L
+condensation-only, 5.27 with parasitics), which sits inside the published
+2.8--12~kWh/L band; the chapter must say so explicitly and show the heat-sink
+resistance sensitivity (design value vs.\ realistic 0.5--1.0~K/W per module
+pair). Section 5.9 gains a measured point from the prototype
+(test-dependent).
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 6: Robot Mechanical and Cleaning Design (8 pp)}
+\textit{Purpose.} Mechanical design of the rail-guided carriage: drive sizing on a
+tilted panel, the fall-line sweep, cleaning head, water circuit, and the CAD
+assembly.
+
+\textbf{Sections:} 6.1 Chassis and mass budget (8~kg rail-guided carriage); 6.2
+Drive-system sizing (42.7~N resistive force, rack-and-pinion at $\geq$0.84~N$\cdot$m
+on a 30~mm pinion near 38~rpm, 1.5 safety factor) and why the free
+differential-drive crawler was revised to a rail carriage (it cannot hold yaw on
+24$^\circ$ glass, confirmed in Gazebo); 6.3 Fall-line sweep coverage (full-width
+brush, one down-and-up traverse, 66.7~s per 2~m$^2$ panel); 6.4 Cleaning
+head: full-width 0.96~m brush plus low-pressure spray, 0.3~L/m$^2$ microfibre dose,
+102.5 events/yr; 6.5 Water circuit: gutter, reservoir, pump, level sensing; 6.6 CAD
+assembly model and drawings; 6.7 Structural and safety considerations (end-of-travel
+detection, tilt trip).
+
+\textbf{Existing material:} \f{prototype\_design\_report.tex} ch.~6 (drive
+sizing, coverage, water logic); \f{main\_report.tex} ch.~6 (per-scale
+mechanical sections, structural/safety) and ch.~7 (water storage, treatment,
+delivery) folds into 6.5.
+
+\textbf{Write new:} 6.6 does not exist. A block-level CAD assembly (Fusion 360)
+with one exploded view and overall-dimension drawing is produced on Day~4 of
+the wrap-up plan; renders go here, working drawings go to Appendix~D.
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 7: Power and Energy System (6 pp)}
+\textit{Purpose.} Energy budget, PV and battery sizing, and the corrected
+Scale-B electrical BOM.
+
+\textbf{Sections:} 7.1 Daily energy budget (5.32~kWh/day, TEC stack 79\%);
+7.2 PV sizing (1147~Wp, 5.34~m$^2$, PSH 5.8, PR 0.80); 7.3 Battery sizing
+(698~Ah at 12~V, 80\% DoD) and the corrected Scale-B pack (2.5~kWh, realistic
+450~USD pricing); 7.4 DC architecture, MPPT, converters, protection; 7.5 Water
+self-supply feasibility: at the 0.3~L/m$^2$ dose a grid-coupled TEC array meets the
+full residential demand (about 38 tiles, roughly 14\% of the host array's annual
+energy), so the design consequence is sizing the harvester, not rationing water.
+
+\textbf{Existing material:} \f{prototype\_design\_report.tex} ch.~5 (budget,
+sizing, feasibility finding) and \f{figures/fig\_energy\_balance.pdf};
+\f{main\_report.tex} ch.~8 (charge controller, DC architecture);
+\f{REE598\_proposal.tex} \S6.4.
+
+\textbf{Write new:} 7.3 incorporates review flags \S3.5--3.6 (battery
+undersizing and unrealistic pack price); the Scale-B cost figure changes to
+about 900~USD and propagates to Chapter~11 economics. 7.4 needs one wiring
+one-liner per protection element (fuse, reverse-polarity, low-voltage cutoff),
+currently scattered.
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 8: Control, Autonomy, and Firmware (6 pp)}
+\textit{Purpose.} The supervisory state machine, the cold-plate PID loop, safety
+logic, and the firmware as actually implemented on the prototype ESP32.
+
+\textbf{Sections:} 8.1 Supervisory state machine
+(\textsc{Idle}/\textsc{Harvest}/\textsc{Store}/\textsc{Clean}/\textsc{Dock});
+8.2 Dew-point computation on-board; 8.3 Cold-plate set-point control, PID with
+anti-windup at $I_{max}$; 8.4 Safety logic (over-current, limit switches, IMU
+trip, watchdog); 8.5 Implemented firmware: architecture, set-point hold, and
+logging (ESP32, DHT22, DS18B20, INA219); 8.6 Observed control performance.
+
+\textbf{Existing material:} \f{prototype\_design\_report.tex} ch.~7 covers
+8.1--8.4 as design (pseudocode level); \f{main\_report.tex} ch.~8 control
+section overlaps.
+
+\textbf{Write new:} 8.5 and 8.6 depend on the prototype build (Days 2--3) and
+the test run (Day 4). The firmware listing itself goes to Appendix~C; the
+chapter shows the loop timing, the measured set-point step response, and the
+hold accuracy.
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 9: Annual Simulation Results (8 pp)}
+\textit{Purpose.} Present the hourly Benban-year simulation of the full 69-tile
+system: monthly water yield, COP, energy, and the seasonal pattern that drives
+the deployment concept.
+
+\textbf{Sections:} 9.1 Method (8784 hourly records, night-hours window,
+per-tile linear scaling); 9.2 Climate inputs; 9.3 Monthly yield: 4.5~L/day
+November peak, near zero June--September, 1.011~L/day annual mean; 9.4 COP and
+SEC vs.\ temperature lift; 9.5 Smart vs.\ all-night strategy comparison; 9.6
+Implications: reservoir banking of the October--March surplus.
+
+\textbf{Existing material:} \f{prototype\_design\_report.tex} ch.~8 (method,
+monthly table, discussion); \f{output/tec\_robot\_monthly.csv} and
+\f{output/tec\_robot\_results.json} (all numbers);
+\f{figures/fig\_monthly\_climate.pdf}, \f{fig\_diurnal.pdf},
+\f{fig\_monthly\_water.pdf}, \f{fig\_cop\_sec\_dT.pdf};
+\f{main\_report.tex} ch.~10 results section.
+
+\textbf{Write new:} nothing structural. If design closure changes the heat-sink
+resistance (flag \S3.4), the simulation is re-run and the tables regenerate
+from the CSV; the text already reads off the script outputs.
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 10: Prototype Build and Experimental Validation (10 pp)}
+\textit{Purpose.} The 4-tile bench demonstrator: rationale, BOM, build, test
+protocol, measured results, uncertainty, and model comparison. This is the
+chapter that distinguishes REE 599 from REE 598.
+
+\textbf{Sections:} 10.1 Rationale: per-tile linearity, 4 tiles predict
+59~g/day at the Benban annual mean; 10.2 Bill of materials, Egyptian market
+($\approx$5{,}760~EGP full kit; bench-critical subset $\approx$3{,}800~EGP);
+10.3 Assembly (TEC sandwich, cold plate, gutter, shared cold-side fan); 10.4
+Instrumentation and calibration (DHT22, DS18B20 ice-point check, INA219); 10.5
+Test protocol (overnight runs, hourly or end-of-run condensate weighing); 10.6
+June test conditions: humidified-enclosure method and dawn-hour outdoor runs,
+and why point-wise model validation at measured $(T, RH)$ replaces a direct
+comparison with the annual-mean 59~g/day figure; 10.7 Measured results: yield,
+COP, set-point hold; 10.8 Uncertainty analysis; 10.9 Model vs.\ measurement and
+what it means for the 69-tile scale-up.
+
+\textbf{Existing material:} \f{prototype\_design\_report.tex} prototype and
+test-plan chapters carry 10.1--10.5 and the uncertainty formulation almost
+verbatim.
+
+\textbf{Write new:} 10.6--10.9 are entirely test-dependent (wrap-up plan Days
+3--5). Data tables, the predicted-vs-measured plot, and photographs of the rig
+are new artifacts. This is the largest block of genuinely new thesis text.
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 11: Deployment in Egyptian New Cities and Economics (8 pp)}
+\textit{Purpose.} Translate the design into a rollout plan for the New
+Administrative Capital, New Alamein, New Mansoura, and New Ismailia, with
+corrected per-scale economics.
+
+\textbf{Sections:} 11.1 Target building stock and PV inventory per city; 11.2
+Scale-matched deployment (A: street-light grids; B: commercial rooftops; C:
+fleets on industrial yards); 11.3 Corrected economics: energy recovered from
+the consistent soiling model, realistic battery pricing, payback per scale;
+11.4 Water-economics comparison vs.\ trucked water; 11.5 Environmental, social,
+and regulatory considerations; 11.6 Rollout phasing.
+
+\textbf{Existing material:} \f{egypt\_pv\_inventory\_and\_tec\_small\_scale.tex}
+(inventory, recommendation matrix);
+\f{tec\_deployment\_analysis\_v1.1\_egypt\_market\_supplement.tex} (market
+pricing); \f{REE598\_proposal.tex} ch.~6 economics tables and ch.~5
+(regulations, standards, ethical/environmental sections);
+\f{main\_report.tex} ch.~10 economic analysis.
+
+\textbf{Write new:} 11.3 is a rebuild, not a copy. Review flag \S3.1 showed the
+proposal's Table~6.2 overstates recovered energy by 3.5--4.7$\times$; the
+corrected Scale-B case is roughly 3{,}360~kWh/yr recovered, 67~USD/yr at the
+0.02~USD/kWh tariff, and payback near 13 years at the corrected 900~USD unit
+cost. The honest framing (payback driven by labour and water-logistics savings,
+not tariff revenue) must be written fresh. 11.6 is new but short.
+
+% -----------------------------------------------------------------------------
+\subsection{Chapter 12: Conclusions and Future Work (3 pp)}
+\textit{Purpose.} State the validated findings and the recommendations.
+
+\textbf{Sections:} 12.1 Conclusions (per-tile physics validated by experiment;
+69-tile sizing; seasonal yield pattern; water self-supply feasible at the
+0.3~L/m$^2$ dose; corrected economics); 12.2 Limitations (single climate year,
+bench-scale
+validation, June-only test window); 12.3 Future work (field trial on a real
+rooftop array, winter validation campaign, docking-station prototype, fleet
+coordination, MOF-assisted hybrid harvesting).
+
+\textbf{Existing material:} \f{prototype\_design\_report.tex} conclusions
+chapter; \f{main\_report.tex} ch.~11.
+
+\textbf{Write new:} rewritten last, after measured data lands; half a day.
+
+% =============================================================================
+\section{Appendices}
+% =============================================================================
+\begin{itemize}[nosep,leftmargin=*]
+  \item \textbf{Appendix A: Simulation code.} \f{scripts/tec\_robot\_design.py}
+        and \f{scripts/verify\_independent\_solver.py} listings with a usage
+        note; archived outputs \f{tec\_robot\_results.json},
+        \f{tec\_robot\_monthly.csv}, \f{tec\_margin\_sensitivity.csv}.
+  \item \textbf{Appendix B: Bills of materials.} B.1 the 4-tile bench BOM
+        (exists, \f{prototype\_design\_report.tex}); B.2 the full-scale 69-tile
+        Scale-B BOM with Egyptian vendor pricing (new, produced Day~4 of the
+        wrap-up plan); B.3 corrected Scale-B electrical BOM
+        (battery upsized per flags \S3.5--3.6).
+  \item \textbf{Appendix C: Firmware listing.} ESP32 source as built
+        (new, Days 2--3).
+  \item \textbf{Appendix D: CAD drawings.} Assembly drawing, exploded view,
+        overall dimensions (new, Day~4).
+  \item \textbf{Appendix E: Test data.} Raw logs (CSV), condensate weighing
+        sheets, calibration records (new, Days 3--5).
+  \item \textbf{Appendix F: Benban climate data.} Monthly summary from
+        \f{output/psychrometrics\_monthly.csv} and pointers to the archived
+        standalone Benban analyses (existing PDFs).
+  \item \textbf{Appendix G: Standards and regulations.} Carried from
+        \f{REE598\_proposal.tex} Appendix D.
+\end{itemize}
+
+% =============================================================================
+\section{Source-to-Chapter Map (Summary)}
+% =============================================================================
+Row colour: green = exists, merge/edit only; yellow = exists in part, needs new
+sections; orange = mostly new or test-dependent.
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{longtable}{@{}clp{7.2cm}c@{}}
+\toprule
+\textbf{Ch.} & \textbf{Title (short)} & \textbf{Primary sources} & \textbf{Pages} \\
+\midrule
+\endhead
+\rowcolor{rowExist} 1 & Introduction & \f{main\_report} ch.1; \f{REE598\_proposal} ch.1; \f{prototype\_design\_report} ch.1 & 5 \\
+\rowcolor{rowExist} 2 & Literature review & \f{REE598\_proposal} ch.2; \f{main\_report} ch.2; \f{project\_analysis\_awh\_comparison} & 10 \\
+\rowcolor{rowExist} 3 & Feasibility evidence (Benban) & \f{BENBAN\_TEC\_VCR\_CAPACITY\_ANALYSIS}; \f{tec\_vcr\_...\_v1.2}; \f{tec\_...\_v1.0/v1.1}; \f{egypt\_pv\_inventory}; \f{main\_report} ch.3 & 8 \\
+\rowcolor{rowPart} 4 & Architecture, three scales & \f{main\_report} ch.4; \f{REE598\_proposal} ch.3; flags \S3.7--3.8 resolutions & 8 \\
+\rowcolor{rowPart} 5 & TEC AWG design & \f{prototype\_design\_report} chs.2--4; \f{tec\_robot\_results.json}; flags \S3.2--3.4 & 12 \\
+\rowcolor{rowPart} 6 & Mechanics and cleaning & \f{prototype\_design\_report} ch.6; \f{main\_report} chs.6--7; CAD (new) & 8 \\
+\rowcolor{rowPart} 7 & Power and energy & \f{prototype\_design\_report} ch.5; \f{main\_report} ch.8; flags \S3.5--3.6 & 6 \\
+\rowcolor{rowPart} 8 & Control and firmware & \f{prototype\_design\_report} ch.7; firmware as built (new) & 6 \\
+\rowcolor{rowExist} 9 & Annual simulation & \f{prototype\_design\_report} ch.8; \f{tec\_robot\_monthly.csv}; 6 figures & 8 \\
+\rowcolor{rowNew} 10 & Prototype and validation & \f{prototype\_design\_report} build/test chapters + measured data (new) & 10 \\
+\rowcolor{rowNew} 11 & Deployment and economics & \f{egypt\_pv\_inventory}; \f{tec\_deployment\_v1.1}; corrected economics (new) & 8 \\
+\rowcolor{rowNew} 12 & Conclusions, future work & \f{prototype\_design\_report} conclusions + measured findings & 3 \\
+ & Front matter, references & guidelines items 1--6; \f{references.bib} & 10 \\
+ & Appendices A--G & scripts, BOMs, firmware, CAD, test data, climate, standards & 8--12 \\
+\midrule
+ & \textbf{Total} & & \textbf{$\approx$100} \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+If the total runs over 100 pages, Chapter 3 compresses first (its standalone
+PDFs remain in the archive) and Appendix~A switches from full listings to
+repository pointers.
+
+% =============================================================================
+\section{Items Blocked on Prototype Results}
+% =============================================================================
+Everything else can be assembled from existing files in parallel with the
+build. Only these wait for measured data:
+\begin{enumerate}[nosep,leftmargin=*]
+  \item Chapter 10, \S\S10.6--10.9 (measured yield, COP, uncertainty,
+        model comparison).
+  \item Chapter 8, \S\S8.5--8.6 (firmware as built, set-point hold performance).
+  \item Chapter 5, \S5.9 measured SEC point.
+  \item Chapter 12 conclusions and the abstract headline numbers.
+  \item Appendices C and E.
+\end{enumerate}
+
+\end{document}

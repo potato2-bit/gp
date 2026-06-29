@@ -1,0 +1,45 @@
+/*--------------------------------*- C++ -*----------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     adsorpSilicaFoam;
+
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         3000;
+deltaT          1;
+
+writeControl    timeStep;
+writeInterval   3000;
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  8;
+writeCompression off;
+timeFormat      general;
+timePrecision   6;
+runTimeModifiable true;
+
+functions
+{
+    intY   { type volFieldValue; libs (fieldFunctionObjects); fields (Y);
+             operation volIntegrate; regionType all; writeFields false;
+             writeControl timeStep; writeInterval 25; log false; }
+    intQ   { type volFieldValue; libs (fieldFunctionObjects); fields (q);
+             operation volIntegrate; regionType all; writeFields false;
+             writeControl timeStep; writeInterval 25; log false; }
+    Tavg   { type volFieldValue; libs (fieldFunctionObjects); fields (T);
+             operation volAverage; regionType all; writeFields false;
+             writeControl timeStep; writeInterval 25; log false; }
+    Yavg   { type volFieldValue; libs (fieldFunctionObjects); fields (Y);
+             operation volAverage; regionType all; writeFields false;
+             writeControl timeStep; writeInterval 25; log false; }
+}
+
+// ************************************************************************* //

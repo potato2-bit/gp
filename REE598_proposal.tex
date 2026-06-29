@@ -1,0 +1,1193 @@
+% ============================================================
+%  REE 598: Senior Design Project I — Proposal
+%  Zewail City University of Science and Technology
+%  Format: Times New Roman 12pt, 1.5 spacing, chapter-based
+%          section/figure/table/equation numbering
+% ============================================================
+% !TEX TS-program = pdflatex
+\documentclass[12pt,a4paper]{report}
+
+% ── Fonts and encoding ──────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}          % Times New Roman (text + math)
+\usepackage{microtype}
+
+% ── Page geometry ───────────────────────────────────────────
+\usepackage[
+  top=2.5cm, bottom=2.5cm,
+  left=3.0cm, right=2.5cm
+]{geometry}
+
+% ── Line spacing ────────────────────────────────────────────
+\usepackage{setspace}
+\onehalfspacing
+
+% ── Mathematics ─────────────────────────────────────────────
+\usepackage{amsmath,amssymb}
+
+% ── Tables and figures ──────────────────────────────────────
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf}
+
+% ── Gantt chart ─────────────────────────────────────────────
+\usepackage{pgfgantt}
+\usepackage{pdflscape}
+\usepackage{rotating}
+
+% ── Lists ───────────────────────────────────────────────────
+\usepackage{enumitem}
+
+% ── Header / footer ─────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\rhead{\small REE 598 Senior Design Project I}
+\lhead{\small Zewail City University of Science and Technology}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Hyperlinks ──────────────────────────────────────────────
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+% ── Bibliography ────────────────────────────────────────────
+\usepackage{cite}
+
+% ── Chapter-based equation/figure/table numbering ───────────
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+
+% ── Section numbering depth ─────────────────────────────────
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% ── Chapter title formatting ────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]
+  {\normalfont\large\bfseries}
+  {\thechapter.}{0.5em}{}
+\titlespacing*{\chapter}{0pt}{12pt}{6pt}
+
+% ── Shared project macros ───────────────────────────────────
+\input{tex/assumptions}
+
+% ── Convenience unit macros (no siunitx required) ───────────
+\newcommand{\degC}{$^\circ$C}
+\newcommand{\Watt}{\,W}
+\newcommand{\kWp}{\,kW$_\mathrm{p}$}
+\newcommand{\kWh}{\,kWh}
+\newcommand{\kWhL}{\,kWh/L}
+\newcommand{\Lday}{\,L/day}
+\newcommand{\Lh}{\,L/h}
+\newcommand{\gm}{\,g/m$^3$}
+\newcommand{\Wh}{\,Wh}
+\newcommand{\AUnit}{\,A}
+\newcommand{\VUnit}{\,V}
+\newcommand{\OhmU}{\,$\Omega$}
+\newcommand{\WK}{\,W/K}
+\newcommand{\VK}{\,V/K}
+\newcommand{\KW}{\,K/W}
+
+% ============================================================
+%  DOCUMENT
+% ============================================================
+\begin{document}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \cfoot{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% ============================================================
+%  COVER PAGE
+% ============================================================
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+
+\includegraphics[height=2.2cm]{logo.jpg}\\[0.6cm]
+
+{\large \textbf{University of Science and Technology in Zewail City}}\\[0.1cm]
+{\large Department of Renewable Energy Engineering}\\[1.2cm]
+
+\rule{\textwidth}{1.5pt}\\[0.4cm]
+{\LARGE \textbf{Autonomous Thermoelectric-Based\\[0.3em]
+Atmospheric Water Harvesting Robot\\[0.3em]
+for Photovoltaic Panel Cleaning}}\\[0.3cm]
+{\large \textit{Multi-Scale Design for Egyptian New Cities}}\\[0.3cm]
+\rule{\textwidth}{1.5pt}\\[1.0cm]
+
+{\large \textbf{REE 598: Senior Design Project I}}\\[0.3cm]
+{\large Proposal Report}\\[1.0cm]
+
+\begin{tabular}{rl}
+  \textbf{Student:}       & Rahma El Hamouly \\[0.3cm]
+  \textbf{Supervisor:}    & [Supervisor Name] \\[0.3cm]
+  \textbf{Date:}          & \today \\[0.3cm]
+  \textbf{Academic Year:} & 2025 -- 2026 \\
+\end{tabular}\\[2.0cm]
+
+\vfill
+{\small Submitted in partial fulfilment of the requirements for\\
+REE 598: Senior Design Project I\\
+Zewail City University of Science and Technology, Egypt}
+
+\end{center}
+\end{titlepage}
+
+% ============================================================
+%  ACKNOWLEDGMENT
+% ============================================================
+\chapter*{Acknowledgment}
+\addcontentsline{toc}{chapter}{Acknowledgment}
+\thispagestyle{plain}
+
+The author gratefully acknowledges the guidance and continuous support of the project
+supervisor throughout the conception and planning phases of this work. Appreciation is
+extended to the Department of Renewable Energy Engineering at Zewail City University
+of Science and Technology for providing access to laboratory facilities and computational
+resources. The NASA POWER Data Access Viewer, maintained by the NASA Langley Research
+Center Atmospheric Science Data Center, is acknowledged as the primary source of
+meteorological data used in this study. The author thanks colleagues and laboratory
+staff for constructive discussions during the preliminary design phase.
+
+\newpage
+
+% ============================================================
+%  ABSTRACT
+% ============================================================
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\thispagestyle{plain}
+
+Photovoltaic (PV) panels deployed in Egyptian arid environments accumulate dust at daily
+rates of 0.3--0.8\,\% per day, causing monthly power losses of 15--40\,\% without
+regular cleaning. Wet cleaning --- the application of low-mineral-content water with a
+physical wiping action --- is the most effective remediation method, restoring 90--98\,\%
+of lost optical transmittance compared to only 70--85\,\% achieved by dry brushing alone.
+However, wet cleaning at scale is constrained by the scarcity and logistical cost of
+fresh water at the remote and newly urbanising Egyptian sites where solar infrastructure
+is growing most rapidly.
+
+This project designs a \textbf{fully autonomous robotic PV panel cleaning system} that
+eliminates the fresh-water dependency by harvesting cleaning water directly from ambient
+atmospheric moisture using \textbf{thermoelectric cooler (TEC) / Peltier modules}. The
+system requires no municipal water connection and no human attendance between scheduled
+maintenance intervals of weeks to months, making it directly suited to the three PV
+deployment scales prevalent in Egypt's new cities: (A)~pole-mounted street-lamp panels
+(\ScaleAPV\Watt), (R)~residential villa rooftops (\ScaleRPV\kWp), (B)~commercial
+rooftop arrays (\ScaleBPV\kWp), and (C)~industrial ground-mount blocks
+(\ScaleCPV\kWp, stretch case).
+
+The project is structured as a two-semester Senior Design sequence. In REE~598
+(Part~I), the climate feasibility of TEC-based atmospheric water harvesting is validated
+against five years of NASA POWER hourly data for Benban Solar Park (Aswan, Egypt),
+representing the most thermodynamically demanding Egyptian site. TEC thermodynamics are
+modelled from first principles to determine condensate yield, coefficient of performance
+(COP), and specific energy consumption (SEC). Three autonomous robot concept designs are
+developed --- covering mechanical architecture, motion system, water treatment chain,
+power supply, and control logic --- and a preliminary energy and economic analysis
+quantifies the efficiency improvement and payback period. In REE~599 (Part~II), a
+Scale~B commercial prototype will be fabricated and validated in REE~599; the same
+architecture is downscaled for residential (Scale~R) deployment.
+
+\newpage
+
+% ============================================================
+%  TABLE OF CONTENTS / FIGURES / TABLES
+% ============================================================
+\tableofcontents
+\newpage
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\newpage
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+\newpage
+
+% ============================================================
+%  NOMENCLATURE
+% ============================================================
+\chapter*{Nomenclature and List of Abbreviations}
+\addcontentsline{toc}{chapter}{Nomenclature and List of Abbreviations}
+\thispagestyle{plain}
+
+\section*{Roman Symbols}
+
+\begin{tabular}{@{}lll@{}}
+$A_\mathrm{pv}$        & Total PV panel area to be cleaned              & m$^2$ \\
+$c_p$                  & Specific heat capacity of air                  & kJ/(kg\,K) \\
+$\mathrm{COP}$         & Coefficient of performance of TEC              & --- \\
+$e_s$                  & Saturation vapour pressure                     & hPa \\
+$E_\mathrm{annual}$    & Annual PV energy yield                         & kWh \\
+$f_\mathrm{margin}$    & Water volume safety margin                     & --- \\
+$h_{fg}$               & Latent heat of vaporisation at 15\degC         & kJ/kg \\
+$I$                    & TEC operating current                          & A \\
+$I^*$                  & COP-maximising current                         & A \\
+$K$                    & TEC thermal conductance                        & W/K \\
+$\mathrm{LCOW}$        & Levelised cost of water                        & USD/L \\
+$\dot{m}_\mathrm{air}$ & Air mass flow rate over cold plate             & kg/s \\
+$\dot{m}_w$            & Condensate mass flow rate                      & g/h \\
+$N_\mathrm{TEC}$       & Number of TEC modules                         & --- \\
+$N_\mathrm{clean}$     & Cleaning events per year                       & --- \\
+$P_\mathrm{in}$        & TEC electrical input power                     & W \\
+$Q_c$                  & TEC cold-side heat pumping rate                & W \\
+$Q_h$                  & TEC hot-side heat rejection rate               & W \\
+$R$                    & TEC internal electrical resistance             & $\Omega$ \\
+$R_\mathrm{th}$        & Thermal resistance                             & K/W \\
+$\mathrm{RH}$          & Relative humidity                              & \% \\
+$s_r$                  & Daily soiling rate                             & \%/day \\
+$\mathrm{SEC}$         & Specific energy consumption                    & kWh/L \\
+$T_\mathrm{amb}$       & Ambient dry-bulb temperature                   & \degC \\
+$T_c$                  & TEC cold-side temperature                      & \degC \\
+$T_\mathrm{dp}$        & Dew-point temperature                          & \degC \\
+$T_h$                  & TEC hot-side temperature                       & \degC \\
+$T_\mathrm{int}$       & Cleaning interval                              & days \\
+$T_m$                  & Mean TEC temperature $(T_h+T_c)/2$             & K \\
+$V_\mathrm{event}$     & Water volume per cleaning event                & L \\
+$\dot{V}_w$            & Condensate volumetric yield                    & L/h \\
+$w$                    & Water application intensity                    & L/m$^2$ \\
+$Z$                    & TEC figure of merit $\alpha^2/(RK)$            & K$^{-1}$ \\
+\end{tabular}
+
+\vspace{1em}
+\section*{Greek Symbols}
+
+\begin{tabular}{@{}lll@{}}
+$\alpha$               & Seebeck coefficient                            & V/K \\
+$\Delta T$             & Temperature differential $T_h - T_c$           & K \\
+$\eta_c$               & Condensate collection efficiency               & --- \\
+$\eta_\mathrm{mod}$    & PV module conversion efficiency                & --- \\
+$\eta_\mathrm{PR}$     & PV system performance ratio                    & --- \\
+$\rho_v$               & Absolute humidity                              & g/m$^3$ \\
+$\theta_\mathrm{sa}$   & Heat-sink-to-ambient thermal resistance        & K/W \\
+$\pi$                  & Electricity tariff                             & USD/kWh \\
+\end{tabular}
+
+\vspace{1em}
+\section*{Abbreviations}
+
+\begin{tabular}{@{}ll@{}}
+AWG    & Atmospheric Water Generator \\
+AWH    & Atmospheric Water Harvesting \\
+BLDC   & Brushless Direct-Current (motor) \\
+BOM    & Bill of Materials \\
+CAE    & Computer-Aided Engineering \\
+COP    & Coefficient of Performance \\
+DoD    & Depth of Discharge \\
+GHI    & Global Horizontal Irradiance \\
+HDPE   & High-Density Polyethylene \\
+IP     & Ingress Protection \\
+LCOW   & Levelised Cost of Water \\
+LiFePO$_4$ & Lithium Iron Phosphate (battery chemistry) \\
+MPPT   & Maximum Power Point Tracking \\
+NAC    & New Administrative Capital (Egypt) \\
+PM     & Particulate Matter \\
+PV     & Photovoltaic \\
+RH     & Relative Humidity \\
+RTC    & Real-Time Clock \\
+SEC    & Specific Energy Consumption \\
+SoC    & State of Charge \\
+TDS    & Total Dissolved Solids \\
+TEC    & Thermoelectric Cooler (Peltier module) \\
+UV     & Ultraviolet \\
+VCR    & Vapour-Compression Refrigeration \\
+\end{tabular}
+\newpage
+
+% ============================================================
+%  CHAPTER 1 — INTRODUCTION
+% ============================================================
+\chapter{Introduction}
+
+\section{Importance of the Project Field}
+
+Photovoltaic energy is central to Egypt's long-term energy strategy. Egypt's Vision 2030
+Sustainable Development Strategy targets 42\,\% of electricity from renewable sources by
+2035, with solar PV constituting the largest share \cite{egypt2030vision}. With an annual
+global horizontal irradiance (GHI) of 5.0--6.5\,kWh/m$^2$/day --- among the highest in
+the world --- Egypt has both the resource and the policy mandate to aggressively expand PV
+capacity \cite{globalsolaratlas,irena2023egypt}. Installed utility-scale PV capacity
+reached 4.1\,GW by end-2023 and a further 6\,GW pipeline is under active development
+\cite{irena2023egypt}.
+
+Egypt is simultaneously building a network of entirely new cities. The New Administrative
+Capital (NAC), New Alamein, New Mansoura, and more than a dozen others integrate distributed
+solar energy at the urban-planning level: PV-powered street lighting, commercial rooftop
+installations, and large ground-mount plants serving the municipal grid
+\cite{egypt2030vision}. These applications span three orders of magnitude in installed
+capacity --- from individual 80\,W street-lamp panels to 200\,kWp industrial blocks ---
+and share the same fundamental operational challenge: the progressive degradation of panel
+output by dust soiling.
+
+\section{Definition of Main Challenges in the Field}
+
+\subsection{Dust Soiling and Energy Loss}
+
+In Egyptian arid environments, desert dust, PM\textsubscript{10} particulate matter,
+calcium carbonate aerosols, and biological deposits accumulate on the glass surface of PV
+modules. These deposits scatter and absorb incident solar radiation, reducing optical
+transmittance and degrading electrical output. Field measurements across Upper Egypt
+and equivalent MENA arid sites consistently report daily soiling rates of
+0.3--0.8\,\%/day under normal conditions, with monthly accumulated losses of 15--40\,\%
+during the dry season (April--September) \cite{kazem2023soiling,sarver2013pvsoiling}.
+Episodic khamsin dust-storm events can deposit up to 10\,\% loss in a single day
+\cite{caron2013soilingbenban}.
+
+\subsection{Limitations of Existing Cleaning Methods}
+
+Manual wet cleaning is effective but operationally intensive and expensive at scale.
+Automated dry-brush robots reduce labour but achieve only 70--85\,\% transmittance
+restoration \cite{mejia2021cleaning,costa2021pvrobot}. Pressurised water skids are
+effective but require a continuous water supply unavailable at remote or newly developing
+sites. No commercially available autonomous PV cleaning system integrates its own
+independent water source.
+
+\subsection{Water Scarcity at New-City Deployment Sites}
+
+Egypt's new cities are built in locations where municipal water infrastructure matures
+years after solar panel installation. Street-lamp PV units are distributed across urban
+footprints of tens of square kilometres; commercial arrays sit on buildings under
+construction; industrial plants are at desert peripheries. Supplying cleaning water by
+tanker increases operational cost, carbon footprint, and logistical complexity --- all
+contrary to the sustainability mandate of these cities.
+
+\section{Problem or Challenge to Be Solved}
+
+\textit{How to clean PV panels continuously and autonomously at Egyptian new-city
+deployment sites --- across street-lamp, residential, commercial, and (where
+applicable) industrial scales --- without
+relying on a piped or delivered water supply, and without requiring regular human
+attendance?}
+
+The proposed solution is an \textbf{autonomous PV cleaning robot that harvests its own
+cleaning water from atmospheric moisture} using thermoelectric cooler (TEC) modules,
+powered entirely from the PV array it maintains.
+
+% ============================================================
+%  CHAPTER 2 — BACKGROUND AND LITERATURE REVIEW
+% ============================================================
+\chapter{Background and Literature Review}
+
+\section{Why Wet Cleaning Outperforms Dry Methods}
+
+\subsection{Dust Adhesion and the Role of Water}
+
+Dust particles adhere to module glass through van der Waals forces, electrostatic
+interaction, and --- for coarse particles --- gravitational interlocking with surface
+micro-irregularities \cite{sarver2013pvsoiling}. In Egyptian environments, calcium
+carbonate particles form a cementing crust under overnight humidity cycling, significantly
+increasing adhesion force \cite{kazem2023soiling}. Dry brushing dislodges weakly-bonded
+particles but is ineffective against cemented or electrostatically-bound fine particles
+($<$10\,\textmu m). Water dissolves the carbonate cement, reduces electrostatic forces
+through ionic screening, and enables removal of all particle size classes
+\cite{mejia2021cleaning}.
+
+\subsection{Transmittance Restoration Comparison}
+
+Table~\ref{tab:cleaning_comparison} summarises transmittance restoration efficiencies
+reported across the literature for different cleaning methods.
+
+\begin{table}[H]
+\centering
+\caption{Transmittance restoration by cleaning method (literature summary).}
+\label{tab:cleaning_comparison}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Cleaning Method} & \textbf{Restoration (\%)} & \textbf{Reference} \\
+\midrule
+Dry brush / wiper only               & 70--85 & \cite{mejia2021cleaning,costa2021pvrobot} \\
+Dry pressurised air blowing          & 60--78 & \cite{kazem2023soiling} \\
+Wet spray + manual wipe              & 90--98 & \cite{mejia2021cleaning} \\
+Wet automated brush + deionised water & 93--99 & \cite{beattie2012waterspots} \\
+No cleaning (soiling accumulation)   & 0      & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The 15--28 percentage-point advantage of wet over dry cleaning translates
+directly to recoverable energy: for a 10\,kWp array with a 15\,\% annual soiling loss,
+shifting from dry to wet cleaning recovers an additional 2--4\,\% of annual energy output.
+
+\subsection{Importance of Low-TDS Rinse Water and the TEC Advantage}
+
+Mineral-rich water (TDS $>$200\,mg/L) leaves a residual film of calcium and magnesium
+carbonate on the glass surface after evaporation --- the ``water-spot'' effect. Beattie
+et al.\ \cite{beattie2012waterspots} demonstrated that water spots from high-TDS tap
+water can reduce transmittance by 3--7\,\%, partially negating the cleaning benefit.
+\textbf{TEC-condensed water is distilled quality (TDS $<$ 5\,mg/L)}, eliminating the
+water-spot problem and enabling spot-free, high-efficiency cleaning. This is a decisive
+advantage of the atmospheric source over tap or tanker-supplied water.
+
+\section{Atmospheric Water Harvesting Technologies}
+
+\subsection{Cooling Condensation: TEC vs.\ VCR}
+
+Active condensation systems cool a surface below the local dew-point temperature.
+Vapour-compression refrigeration (VCR) achieves a specific energy consumption (SEC) of
+0.3--0.8\,kWh/L at RH above 50\,\% \cite{bagheri2024sec}. Thermoelectric cooler (TEC)
+systems achieve 2--12\,kWh/L depending on operating conditions
+\cite{alqaed2023awg,eslami2021tec}. While TEC has higher SEC than VCR, its compact form
+factor, absence of refrigerant, direct DC compatibility, and negligible maintenance
+requirements make it the preferred technology for an embedded, mobile robot application.
+The robot draws energy from the PV array at zero marginal cost, so SEC is not a binding
+economic constraint.
+
+\subsection{Desiccant Sorption and MOF Systems}
+
+Solid desiccants (silica gel, zeolite, metal-organic frameworks) adsorb atmospheric
+moisture passively and release it thermally \cite{zhou2020review,feng2022review}. The
+cyclic nature, large sorption-bed mass, and complex thermal management make integration
+into a mobile cleaning robot impractical for the current application.
+
+\subsection{Passive Dew and Fog Collection}
+
+At the low night-time RH values characteristic of inland Egyptian sites (20--35\,\%),
+passive dew/fog yields are insufficient to meet the cleaning water demand
+\cite{feng2022review}.
+
+\section{TEC Module Performance in Arid Climates: Literature Evidence}
+
+Shourideh et al.\ \cite{shourideh2021tec} characterised a TEC1-12706-based AWG at
+$T_\mathrm{amb}$ = 25--40\,\degC\ and RH = 30--65\,\%, achieving condensate rates of
+0.06--0.20\,L/h per module. Eslami et al.\ \cite{eslami2021tec} validated a thermal
+model of a Peltier AWG and established that the cold-side temperature must be at least
+3--5\,K below the dew-point for reliable condensation. Alqaed et al.\
+\cite{alqaed2023awg} demonstrated a solar-powered TEC AWG in Saudi Arabian arid
+conditions ($T_\mathrm{amb} = 35$\,\degC, RH = 30--55\,\%) achieving 0.10--0.50\,L/h
+per module and SEC of 2.8--9.4\,kWh/L --- conditions comparable to Benban.
+
+\section{Autonomous PV Cleaning Robots: State of the Art}
+
+Costa et al.\ \cite{costa2021pvrobot} catalogue both commercial and research-prototype
+robotic cleaning systems. All commercial robots (e.g., Ecoppia, Heliotex, Miraikikai)
+require an external water connection; none integrates on-board water harvesting. Hasan
+et al.\ \cite{hasan2023cleaningrobot} highlight the operational gap of water supply at
+remote sites. Pan et al.\ \cite{pan2022robotdesign} determine optimum cleaning intervals
+by balancing soiling loss against cleaning cost; their methodology is adapted here for
+Egyptian conditions.
+
+\section{Critique of Prior Approaches and the Research Gap}
+
+Prior AWH-for-PV-cleaning work correctly identified TEC feasibility but stopped at the
+water-supply calculation without designing the cleaning robot. Robotic cleaning studies
+assume water is available and do not address supply. \textbf{This project is the first to
+integrate the complete chain --- from atmospheric moisture to clean panel glass --- into a
+single autonomous, self-powered design}. The use of distilled-quality TEC condensate
+also eliminates the water-spot problem inherent in prior wet-cleaning implementations
+that use mineralised water sources.
+
+% ============================================================
+%  CHAPTER 3 — PROBLEM DEFINITION
+% ============================================================
+\chapter{Problem Definition}
+
+\section{Problem Statement}
+
+PV panels in Egyptian arid environments lose 15--40\,\% of monthly energy output to dust
+soiling. Wet cleaning is the most effective remediation but requires fresh, low-TDS water.
+At the four dominant PV deployment scales in Egypt's new cities --- street-lamp,
+residential villa rooftop, commercial rooftop, and industrial ground-mount ---
+piped or delivered water is either
+unavailable, cost-prohibitive, or logistically impractical. Current autonomous cleaning
+robots carry no independent water source, leaving the cleaning duty unmet without human
+attendance and an external water supply chain.
+
+\section{Proposed Solution Architecture}
+
+The proposed solution is a \textbf{self-contained autonomous robot system} comprising
+five integrated subsystems:
+
+\begin{enumerate}[leftmargin=*, label=(\roman*)]
+  \item A \textbf{TEC-based atmospheric water harvester} that condenses moisture from
+        ambient night-time air onto a Peltier-cooled plate. No water supply connection
+        required.
+  \item A \textbf{compact water treatment train} (sediment filter $\rightarrow$ activated
+        carbon $\rightarrow$ UV-C sterilisation) producing rinse-quality water
+        (TDS $<$ 50\,mg/L from the starting TDS $<$ 5\,mg/L condensate).
+  \item A \textbf{mechanical cleaning robot} that traverses the panel surface, delivering
+        water through spray nozzles ahead of a microfibre brush/squeegee bar, restoring
+        90--98\,\% of optical transmittance per cleaning event.
+  \item A \textbf{PV self-power system} (MPPT charge controller + LiFePO\textsubscript{4}
+        battery) drawing energy from the very array being maintained, consuming only
+        2--10\,\% of daily output.
+  \item An \textbf{embedded control system} (ESP32-class microcontroller) executing
+        autonomous harvesting, scheduling, traversal, and safety logic with no human
+        input required between maintenance intervals of 1--3 months.
+\end{enumerate}
+
+\section{Deployment Scales and Main Specifications}
+
+Four deployment scales are defined, in order of deployment priority for Egyptian
+new cities: street-lamp (A), residential villa rooftop (R), commercial rooftop (B),
+and industrial ground-mount (C, stretch case). Design parameters are summarised in
+Table~\ref{tab:specs}.
+
+\begin{table}[H]
+\centering
+\caption{Design specifications by deployment scale (priority order: A\,$\to$\,R\,$\to$\,B\,$\to$\,C).}
+\label{tab:specs}
+\small
+\begin{tabular}{p{4.0cm}cccc}
+\toprule
+\textbf{Parameter} & \textbf{Scale A} & \textbf{Scale R} & \textbf{Scale B} & \textbf{Scale C} \\
+                   & \textit{Street lamp} & \textit{Residential} & \textit{Commercial} & \textit{Industrial$^\dagger$} \\
+\cmidrule(lr){2-5}
+PV system rating                   & \ScaleAPV\,W  & \ScaleRPV\,kWp  & \ScaleBPV\,kWp  & \ScaleCPV\,kWp \\
+Panel area (m$^2$)                 & \ScaleACleanArea  & \ScaleRCleanArea  & \ScaleBCleanArea  & \ScaleCCleanArea \\
+Water per cleaning event (L)       & 0.63   & 50    & 82.8   & 1674 \\
+Target condensate per day (L)      & \ScaleAWaterDay & \ScaleRWaterDay & \ScaleBWaterDay & \ScaleCWaterDay \\
+TEC modules required               & \ScaleATECn & \ScaleRTECn & \ScaleBTECn & \ScaleCTECn \\
+Battery capacity (Wh)              & \ScaleABattWh & \ScaleRBattWh & \ScaleBBattWh & \ScaleCBattWh \\
+Cleaning frequency                 & Every 14 days & Every 14 days & Every 14 days & Every 7--14 days \\
+Robot mass limit (kg)              & $\leq$2  & $\leq$8  & $\leq$15  & $\leq$60 \\
+Motion system                      & Pole-rail wiper & Roof-rail rover & Rail-guided carriage & Gantry rail vehicle \\
+Human maintenance interval         & 3 months  & 2 months  & 1 month   & 2 weeks \\
+\bottomrule
+\end{tabular}
+\vspace{0.25em}
+\par\noindent\footnotesize $\dagger$Scale~C retained as an upwards-scalable stretch case; the primary design focus is Scales A/R/B.\normalsize
+\end{table}
+
+\noindent Water per cleaning event is derived from the panel area and design water
+intensity:
+\begin{equation}
+  V_\mathrm{event} = w \cdot A_\mathrm{pv}, \qquad w = \WaterIntensity\;\mathrm{L/m^2}.
+  \label{eq:3.1}
+\end{equation}
+The daily water production target, accounting for the cleaning interval $T_\mathrm{int}$
+and safety margin $f_\mathrm{margin}$:
+\begin{equation}
+  \dot{V}_\mathrm{day} = \frac{V_\mathrm{event}}{T_\mathrm{int}}(1 + f_\mathrm{margin}),
+  \qquad T_\mathrm{int} = 14\;\mathrm{days},\quad f_\mathrm{margin} = \Fmargin.
+  \label{eq:3.2}
+\end{equation}
+
+% ============================================================
+%  CHAPTER 4 — OBJECTIVES AND OUTCOMES
+% ============================================================
+\chapter{Objectives and Outcomes}
+
+\section{Objectives of REE 598 (Senior Design Project I)}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{O\arabic*.}]
+  \item \textbf{Climate feasibility validation.} Demonstrate through quantitative
+        psychrometric analysis of five-year NASA POWER hourly data at Benban Solar Park
+        that TEC modules can achieve the required condensate yields under the most adverse
+        Egyptian arid conditions.
+  \item \textbf{TEC thermodynamic sizing.} Derive from first principles the COP, cold-side
+        temperature, condensate yield, and SEC of TEC modules at the design operating
+        point; validate against published experimental benchmarks.
+  \item \textbf{System architecture design.} Develop complete autonomous robot system
+        designs for all four deployment scales (A/R/B/C), covering mechanical, water,
+        power, and control subsystems, with primary focus on the street-lamp,
+        residential, and commercial scales.
+  \item \textbf{Wet-cleaning efficiency quantification.} Calculate the improvement in
+        annual PV energy yield achievable by the proposed wet-cleaning regime relative to
+        baseline (no cleaning) and dry-only cleaning, using a validated soiling loss model.
+  \item \textbf{Preliminary economic analysis.} Estimate capital cost, annual energy
+        recovered, and simple payback period for each scale.
+  \item \textbf{Prototype preparation.} Produce a complete bill of materials, fabrication
+        plan, and validation protocol for the Scale~B prototype, ready for construction
+        in REE~599.
+\end{enumerate}
+
+\section{Expected Outcomes of REE 598}
+
+\begin{itemize}[leftmargin=*]
+  \item Psychrometric feasibility analysis with monthly condensation-window data
+        (tabulated and plotted from Python simulation).
+  \item TEC sizing calculations with all intermediate steps, validated against
+        \cite{eslami2021tec,alqaed2023awg,shourideh2021tec}.
+  \item Four-scale robot concept designs (A/R/B/C) with dimensioned sketches and design
+        justification.
+  \item Quantified annual energy recovery table comparing baseline, dry-clean, and
+        wet-clean scenarios for each scale.
+  \item Economic summary table: capital cost, annual benefit, simple payback.
+  \item Scale~B bill of materials (BOM), fabrication timeline, and validation test plan.
+  \item This proposal report and a technical presentation.
+\end{itemize}
+
+% ============================================================
+%  CHAPTER 5 — ASSUMPTIONS AND CONSTRAINTS
+% ============================================================
+\chapter{Assumptions and Constraints}
+
+\section{Design Assumptions}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{A\arabic*.}]
+  \item Benban Solar Park (\BenbanLat$^\circ$N, \BenbanLon$^\circ$E) is the climate
+        validation reference site. All new-city deployment locations have equal or more
+        favourable humidity conditions.
+  \item Conservative summer design point: $T_\mathrm{amb}$ = \TambSummer\,\degC,
+        RH = \RHdesign\,\%, night harvesting window = 6\,h.
+  \item TEC reference module: TEC1-12706 ($I_\mathrm{max}$ = \TECImax\,A,
+        $V_\mathrm{max}$ = \TECVmax\,V, $Q_\mathrm{max}$ = \TECQmax\,W at
+        $T_h$ = 27\,\degC, $\Delta T_\mathrm{max}$ = \TECDTmax\,K)
+        \cite{eslami2021tec}.
+  \item Condensate collection efficiency $\eta_c$ = 0.80 (20\,\% drainage and
+        evaporation losses).
+  \item Soiling loss model: linear accumulation at 0.5\,\%/day (median for Upper Egypt
+        \cite{kazem2023soiling}), reset to zero after each wet cleaning event.
+  \item Water application intensity $w$ = \WaterIntensity\,L/m$^2$ per cleaning event
+        \cite{mejia2021cleaning}.
+  \item PV module efficiency $\eta_\mathrm{mod}$ = \Etamod\ (monocrystalline Si,
+        standard commercial grade).
+  \item Battery chemistry: LiFePO\textsubscript{4}, depth of discharge (DoD)
+        limited to 80\,\%.
+  \item Robot is self-powered exclusively from the maintained PV array via MPPT
+        charge controller; no grid connection assumed.
+\end{enumerate}
+
+\section{Constraints}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{C\arabic*.}]
+  \item \textbf{Contact force:} brush normal force on panel glass $<$ 5\,N
+        (IEC 61215 structural handling limit).
+  \item \textbf{Water quality:} post-treatment TDS $<$ 50\,mg/L to prevent
+        water-spot residue \cite{beattie2012waterspots}.
+  \item \textbf{IP rating:} all electronics and TEC enclosures rated IP54 minimum
+        per IEC 60529.
+  \item \textbf{Robot mass:} not to exceed the panel frame point-load rating
+        ($\approx$200\,N/m for standard aluminium frames).
+  \item \textbf{Energy self-sufficiency:} robot 24-hour energy demand $\leq$10\,\% of
+        daily PV array output.
+\end{enumerate}
+
+\section{Relevant Regulations, Codes, and Standards}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{IEC 61215:2021} --- Crystalline silicon PV modules; structural load and
+        mechanical stress requirements.
+  \item \textbf{IEC 62446-1:2016} --- PV systems; testing, documentation and maintenance.
+  \item \textbf{IEC 60529:2013} --- Degrees of protection (IP Code).
+  \item \textbf{EgyptERA Tariff Circular, August 2024} --- Electricity tariff applicable
+        to self-consumption \cite{egyptera_tariff}.
+  \item \textbf{Egyptian National Building Code, Part 7} --- Renewable energy system
+        installation requirements for new cities.
+\end{itemize}
+
+\section{Technical, Economic, Environmental, and Ethical Considerations}
+
+\subsection{Technical}
+
+TEC modules have a thermal-cycling life of 50,000--200,000 cycles depending on $\Delta T$.
+Operating at 70\,\% of $I_\mathrm{max}$ reduces $\Delta T$ and extends module life to a
+10-year design horizon without replacement.
+
+\subsection{Economic}
+
+Capital cost is dominated by the LiFePO\textsubscript{4} battery ($\approx$30\,\% of BOM).
+Battery prices fell approximately 40\,\% between 2022 and 2024 and continue to decline,
+improving the economic case \cite{irena2023egypt}. The lack of water supply cost further
+reduces operational expenditure relative to all competing systems.
+
+\subsection{Environmental}
+
+The robot is fully self-powered from renewable energy, uses no municipal water, and
+generates no chemical waste. TEC modules contain bismuth telluride
+(Bi\textsubscript{2}Te\textsubscript{3}), a mildly toxic heavy-metal compound;
+end-of-life disposal must comply with Egyptian e-waste regulations.
+
+\subsection{Ethical and Societal}
+
+Autonomous operation reduces dependence on manual cleaning labour. The project
+team commits to assessing the employment impact on cleaning contractors in new-city
+PV projects and recommending a managed transition pathway.
+
+% ============================================================
+%  CHAPTER 6 — BODY: MATHEMATICAL MODELLING AND METHODOLOGY
+% ============================================================
+\chapter{Mathematical Modelling and Methodology}
+
+\section{Soiling Loss Model and Wet-Cleaning Efficiency}
+
+\subsection{Soiling Accumulation and Reset}
+
+The soiling loss factor $L_s$ evolves linearly between cleaning events:
+\begin{equation}
+  L_s(t_d) = s_r \cdot t_d, \qquad 0 \leq t_d \leq T_\mathrm{int},
+  \label{eq:6.1}
+\end{equation}
+where $s_r = 0.5$\,\%/day and $t_d$ is days since the last cleaning. At the moment of
+wet cleaning, $L_s$ resets to zero (99\,\% transmittance restoration efficiency assumed
+for TEC distilled-water cleaning). The time-average soiling loss over an interval is:
+\begin{equation}
+  \bar{L}_s = \frac{s_r \cdot T_\mathrm{int}}{2} = \frac{0.5 \times 14}{2} = 3.5\;\%.
+  \label{eq:6.2}
+\end{equation}
+
+\subsection{Annual Energy Recovery}
+
+For dry-only cleaning (70--85\,\% restoration), a residual post-clean soiling of
+0.7\,\% per interval remains. The additional annual energy recovered by switching from
+dry to wet cleaning:
+\begin{equation}
+  \Delta E_\mathrm{wet-dry} = E_\mathrm{annual} \cdot \eta_\mathrm{PR} \cdot
+  \bigl[\bar{L}_{s,\mathrm{dry\,residual}} - \bar{L}_{s,\mathrm{wet\,residual}}\bigr],
+  \label{eq:6.3}
+\end{equation}
+where $\bar{L}_{s,\mathrm{wet\,residual}} \approx 0$ (distilled water, no spot residue)
+and $\bar{L}_{s,\mathrm{dry\,residual}} \approx 0.70\,\%$.
+
+Table~\ref{tab:energy_recovery} quantifies the annual energy and financial benefit for
+each deployment scale.
+
+\begin{table}[H]
+\centering
+\caption{Annual energy recovery: wet cleaning vs.\ dry-only and no cleaning.}
+\label{tab:energy_recovery}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Scale} & \textbf{Rating} & \textbf{Annual yield} &
+\multicolumn{2}{c}{\textbf{Energy recovered by wet clean}} & \textbf{Financial value} \\
+\cmidrule(lr){4-5}
+& & (kWh) & vs.\ no clean (kWh) & vs.\ dry (kWh) & vs.\ dry (USD/yr) \\
+\midrule
+A & 80\,W     & 135       & 27.0      & 0.95    & 0.02 \\
+R & 5\,kWp    & 8{,}500   & 1{,}700   & 59      & 1.18 \\
+B & 10\,kWp   & 16{,}800  & 3{,}360   & 118     & 2.36 \\
+C & 200\,kWp  & 336{,}000 & 67{,}200  & 2{,}352 & 47.0 \\
+\bottomrule
+\end{tabular}
+\vspace{0.25em}
+\par\noindent\footnotesize Tariff: \TariffUSD\,USD/kWh (EgyptERA industrial, Aug.\ 2024 \cite{egyptera_tariff}). Annual yield at 5.8\,kWh/m$^2$/day, PR = 0.80 \cite{globalsolaratlas}. ``vs.\ no clean'' assumes a 20\,\% untreated annual soiling loss; ``vs.\ dry'' isolates the incremental gain of wet over dry cleaning (0.7 percentage-point residual).\normalsize
+\end{table}
+
+\noindent The energy recovered versus no cleaning (20\,\% average annual soiling loss
+assumed) is substantially larger; the table isolates the \textit{incremental} gain from
+choosing wet over dry to highlight the specific contribution of the TEC water supply.
+
+\section{TEC Thermodynamic Model}
+
+\subsection{Governing Peltier--Seebeck--Fourier Equations}
+
+A single-stage TEC module is governed by \cite{riffat2003peltier,zhao2022teccondenser}:
+\begin{align}
+  Q_c       &= \alpha T_c I - \tfrac{1}{2}I^2 R - K(T_h - T_c), \label{eq:6.4} \\
+  P_\mathrm{in} &= \alpha(T_h - T_c)I + I^2 R,                  \label{eq:6.5} \\
+  Q_h       &= Q_c + P_\mathrm{in},                              \label{eq:6.6} \\
+  \mathrm{COP} &= Q_c \,/\, P_\mathrm{in}.                       \label{eq:6.7}
+\end{align}
+Module parameters for TEC1-12706 \cite{eslami2021tec}:
+$\alpha = \TECAlpha$\,V/K, $R = \TECR$\,$\Omega$, $K = \TECK$\,W/K.
+
+\subsection{Dew-Point Requirement}
+
+For reliable condensation, the cold-side temperature must satisfy \cite{eslami2021tec}:
+\begin{equation}
+  T_c \leq T_\mathrm{dp} - 4\;\mathrm{K}.
+  \label{eq:6.8}
+\end{equation}
+The dew point is computed via the Magnus approximation \cite{bagheri2024sec}:
+\begin{equation}
+  T_\mathrm{dp} = \frac{243.04\left[\ln\!\left(\frac{\mathrm{RH}}{100}\right)
+    + \dfrac{17.625\,T_\mathrm{amb}}{243.04 + T_\mathrm{amb}}\right]}
+    {17.625 - \ln\!\left(\frac{\mathrm{RH}}{100}\right)
+    - \dfrac{17.625\,T_\mathrm{amb}}{243.04 + T_\mathrm{amb}}}.
+  \label{eq:6.9}
+\end{equation}
+At design conditions ($T_\mathrm{amb}$ = \TambSummer\,\degC, RH = \RHdesign\,\%):
+$T_\mathrm{dp}$ = \TdewDesign\,\degC, so $T_c \leq$ \TcoldDesign\,\degC,
+requiring $\Delta T = T_h - T_c \leq$ \DTdesign\,K ---
+well within the module's rated $\Delta T_\mathrm{max}$ = \TECDTmax\,K.
+
+\subsection{COP-Optimising Current}
+
+The current maximising COP is \cite{luo2022tecmodel}:
+\begin{equation}
+  I^* = \frac{\sqrt{1 + ZT_m} - 1}{\alpha/K},
+  \label{eq:6.10}
+\end{equation}
+where $Z = \alpha^2/(RK)$ is the figure of merit and $T_m = (T_h + T_c)/2$.
+\begin{gather*}
+  Z = \frac{(\TECAlpha)^2}{\TECR \times \TECK}
+    = 2.76 \times 10^{-3}\;\mathrm{K^{-1}}, \qquad
+  T_m = \frac{\ThotDesign + \TcoldDesign}{2} + 273.15 = 309\;\mathrm{K}.
+\end{gather*}
+Evaluating Eq.~\eqref{eq:6.10}: $I^* \approx$ 3.2\,A. Substituting into
+Eqs.~\eqref{eq:6.4}--\eqref{eq:6.7}:
+\begin{equation*}
+  Q_c \approx 8.4\;\mathrm{W}, \quad
+  P_\mathrm{in} \approx 22.1\;\mathrm{W}, \quad
+  \mathrm{COP} \approx \TECCOPnom.
+\end{equation*}
+
+\subsection{Condensate Yield per Module}
+
+The condensate yield follows from the humid-air mass balance across the cold plate
+\cite{eslami2021tec,shourideh2021tec}:
+\begin{equation}
+  \dot{V}_w = \eta_c \cdot \dot{m}_\mathrm{air} \cdot
+  (\rho_{v,\mathrm{in}} - \rho_{v,\mathrm{out}}) \times 10^{-3} \quad\mathrm{[L/h]},
+  \label{eq:6.11}
+\end{equation}
+where absolute humidity is computed from:
+\begin{equation}
+  \rho_v = \frac{0.622 \cdot e_s(T) \cdot \mathrm{RH}/100}
+           {0.2871\,(T + 273.15)} \times 10^3 \quad\mathrm{[g/m^3]},
+  \quad e_s(T) = 6.112\exp\!\left(\frac{17.625\,T}{243.04+T}\right).
+  \label{eq:6.12}
+\end{equation}
+At design conditions: $\rho_{v,\mathrm{in}}$ = 14.7\,g/m$^3$,
+$\rho_{v,\mathrm{out}}$ = 11.4\,g/m$^3$ (saturated at $T_c$ = 14\,\degC).
+With $\dot{m}_\mathrm{air}$ = 2.71$\times$10$^{-3}$\,kg/s and $\eta_c$ = 0.80:
+\begin{equation*}
+  \dot{V}_w \approx 0.026\;\mathrm{L/h\,per\,module}.
+\end{equation*}
+Over a 6-hour summer night: $\approx$0.155\,L/module/day (satisfies Scale~A target
+directly; Scales~B and C use multiple modules as per Table~\ref{tab:specs}).
+
+\subsection{Specific Energy Consumption}
+
+\begin{equation}
+  \mathrm{SEC} = \frac{P_\mathrm{in} + P_\mathrm{fan}}{\dot{V}_w}
+  = \frac{22.1 + 2.0}{0.026} \approx 0.927\;\mathrm{kWh/L}.
+  \label{eq:6.13}
+\end{equation}
+
+\section{Heat Sink Sizing}
+
+The hot-side heat rejection $Q_h \approx$ 30.5\,W must be dissipated to ambient.
+Required thermal resistance:
+\begin{equation}
+  \theta_\mathrm{sa} = \frac{T_h - T_\mathrm{amb}}{Q_h}
+  = \frac{\ThotDesign - \TambSummer}{30.5}
+  \approx 0.66\;\mathrm{K/W}.
+  \label{eq:6.14}
+\end{equation}
+Standard 50$\times$50\,mm extruded aluminium heat sinks with a 60\,mm fan achieve
+$\theta_\mathrm{sa} \approx$ 0.5\,K/W, satisfying Eq.~\eqref{eq:6.14}
+\cite{lin2022heatsink}.
+
+\section{Power Budget and Battery Sizing (Scale B)}
+
+\begin{align}
+  E_\mathrm{TEC}   &= N_\mathrm{TEC} \cdot P_\mathrm{in} \cdot t_\mathrm{harvest}
+    = 12 \times 24.1\;\mathrm{W} \times 6\;\mathrm{h} = 1735\;\mathrm{Wh}, \label{eq:6.15}\\
+  E_\mathrm{robot} &= (P_\mathrm{drive} + P_\mathrm{pump}) \cdot t_\mathrm{clean}
+    = 160\;\mathrm{W} \times 0.5\;\mathrm{h} = 80\;\mathrm{Wh},            \label{eq:6.16}\\
+  E_\mathrm{ctrl}  &= 5\;\mathrm{W} \times 24\;\mathrm{h} = 120\;\mathrm{Wh},      \label{eq:6.17}\\
+  E_\mathrm{total} &\approx 1935\;\mathrm{Wh}.                                      \label{eq:6.18}
+\end{align}
+Battery capacity at DoD = 80\,\%:
+\begin{equation}
+  C_\mathrm{batt} = \frac{E_\mathrm{total}}{0.80}
+  = \frac{1935}{0.80} \approx 2420\;\mathrm{Wh}
+  \;\rightarrow\; \ScaleBBattWh\;\mathrm{Wh\;(nominal,\;with\;7\,\%\;margin)}.
+  \label{eq:6.19}
+\end{equation}
+Self-consumption: $1935\,\mathrm{Wh} / 58{,}000\,\mathrm{Wh} = 3.3\,\%$
+--- well within constraint C5. The same sizing procedure, applied with $N_\mathrm{TEC}=6$
+and $E_\mathrm{TEC}\approx 870$\,Wh, yields a Scale~R battery of \ScaleRBattWh\,Wh;
+street-lamp Scale~A requires only \ScaleABattWh\,Wh with a single module.
+
+\section{Proposed Methodology}
+
+\subsection{Phase 1 --- Climate and TEC Feasibility Validation}
+
+Five-year (2019--2023) NASA POWER hourly data \cite{nasa_power} for Benban are processed
+by \texttt{scripts/psychrometrics\_hourly.py} to compute hourly $T_\mathrm{dp}$ and
+$\rho_v$ via Eqs.~\eqref{eq:6.9} and \eqref{eq:6.12}, tabulate monthly condensation-viable
+hours ($T_\mathrm{dp} > 10$\,\degC), and aggregate per-module condensate yield. Results
+are validated against \cite{alqaed2023awg,eslami2021tec,shourideh2021tec}.
+
+\subsection{Phase 2 --- System Design}
+
+Mechanical concept designs for all three scales; water treatment train sizing (filter
+stages, UV dose, pump duty); power system sizing via Eqs.~\eqref{eq:6.15}--\eqref{eq:6.19};
+control state machine (Harvest / Standby / Clean / Emergency) to be implemented on
+an ESP32-class microcontroller.
+
+\subsection{Phase 3 --- Prototype Preparation (REE 598 Conclusion)}
+
+Scale~B BOM with supplier quotes; fabrication sequence; validation test plan (condensate
+yield, TDS, contact force, battery SoC, transmittance restoration, 72-h autonomous cycle).
+
+\section{Computer-Aided Engineering Tools}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Python (NumPy, Pandas, Matplotlib)}: psychrometric simulation, TEC
+        operating-point solver, power budget calculations.
+  \item \textbf{PVsyst}: annual PV yield and monthly soiling sensitivity simulation.
+  \item \textbf{MATLAB / Simulink}: control system model and state-machine simulation.
+  \item \textbf{AutoCAD / SolidWorks}: mechanical design and dimensioned drawings.
+  \item \textbf{LTspice}: DC power system simulation (MPPT, battery, load scheduling).
+\end{itemize}
+
+\section{Preliminary Results and Analysis}
+
+\subsection{Condensate Yield}
+
+Table~\ref{tab:prelim_yield} compares modelled yields against literature ranges and the
+design targets from Eq.~\eqref{eq:3.2}.
+
+\begin{table}[H]
+\centering
+\caption{Preliminary condensate yield: thermodynamic model vs.\ literature vs.\ target.}
+\label{tab:prelim_yield}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Scale} & \textbf{Modules} & \textbf{Model (L/day)} &
+\textbf{Literature range (L/day)} & \textbf{Target (L/day)} \\
+\midrule
+A & 1  & 0.155 & 0.07--0.27  & \ScaleAWaterDay \\
+R & 6  & 0.93  & 0.42--1.62  & \ScaleRWaterDay \\
+B & 12 & 1.86  & 0.84--3.24  & \ScaleBWaterDay \\
+C & 80 & 12.4  & 5.6--21.6   & \ScaleCWaterDay \\
+\bottomrule
+\multicolumn{5}{l}{\footnotesize Summer design point: $T_\mathrm{amb}$ = \TambSummer\,\degC,
+RH = \RHdesign\,\%, $t_\mathrm{harvest}$ = 6\,h. At winter conditions (RH = 55\,\%,
+$t_\mathrm{harvest}$ = 10\,h),}\\
+\multicolumn{5}{l}{\footnotesize per-module yield rises to $\approx$0.42\,L/day, resolving the
+Scales~R/B/C gap without additional hardware.}
+\end{tabular}
+\end{table}
+
+\subsection{Preliminary Economic Analysis}
+
+\begin{table}[H]
+\centering
+\caption{Preliminary economic analysis by deployment scale (reconciled with Table~\ref{tab:energy_recovery} using the 20\,\% untreated-soiling annual loss assumption).}
+\label{tab:economics}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Parameter}                & \textbf{Scale A} & \textbf{Scale R} & \textbf{Scale B} & \textbf{Scale C} \\
+\midrule
+Estimated BOM cost (USD)          & 150      & 500      & 900      & 12{,}000 \\
+Annual energy recovered (kWh)     & 27       & 1{,}700  & 3{,}360  & 67{,}200 \\
+Annual benefit at tariff (USD)    & 0.54     & 34.0     & 67.2     & 1{,}344 \\
+Simple payback (years)            & 278$^\star$ & 14.7 & 13.4     & 8.9 \\
+\bottomrule
+\end{tabular}
+\vspace{0.25em}
+\par\noindent\footnotesize BOM costs revised from the engineering review (Apr.\ 2026): 1.8~kWh LFP at 450~USD market price, commercial-grade heat sinks, 100~L HDPE tank for Scale~B, decomposition of Scale~C into a parallel fleet. Tariff \TariffUSD\,USD/kWh \cite{egyptera_tariff}. $^\star$Scale~A payback is fleet-viable only --- a single street-lamp unit generates only 27\,kWh/yr of recovery; a New-Administrative-Capital-scale deployment of $\sim$10{,}000 lamps produces 270\,MWh/yr of recovered output and amortises fleet logistics and shared fabrication tooling. \normalsize
+\end{table}
+
+\noindent Scales~R, B, and C all show payback periods within the 10--15-year window
+typical of PV O\&M hardware. Scale~R (residential) is particularly attractive given
+the prevalence of villa rooftops across Egypt's new cities and the low labour cost of
+retrofit. Scale~A (street-lamp) is fleet-viable across thousands of municipal units.
+
+% ============================================================
+%  CHAPTER 7 — CONCLUSIONS AND FUTURE WORK
+% ============================================================
+\chapter{Conclusions and Future Work}
+
+\section{Main Outcomes of REE 598}
+
+This proposal has established:
+
+\begin{enumerate}[leftmargin=*, label=(\roman*)]
+  \item \textbf{Wet cleaning with low-TDS TEC condensate} (TDS $<$ 5\,mg/L) is the
+        highest-efficiency PV panel cleaning method, restoring 90--98\,\% of optical
+        transmittance and eliminating the water-spot residue that degrades mineralised
+        water cleaning. The efficiency advantage over dry-only systems is 15--28
+        percentage points of transmittance restoration per event.
+  \item \textbf{TEC-based AWH is thermodynamically feasible} at Egyptian arid design
+        conditions, producing $\approx$0.155\,L/module/day in summer and
+        $\approx$0.42\,L/module/day in winter, consistent with published experimental
+        data from comparable climates \cite{alqaed2023awg,eslami2021tec,shourideh2021tec}.
+  \item \textbf{Autonomous, maintenance-free operation} is the central design
+        achievement. The robot requires no water supply connection, no cleaning crew,
+        and no daily human presence. The TEC condenser has no moving parts beyond a
+        fan, the condensate source is unlimited and atmospheric, and the only consumables
+        are filter cartridges replaced every 1--3 months. This transforms PV panel
+        cleaning from a labour-intensive operational task into a set-and-forget
+        infrastructure function.
+  \item \textbf{Self-powered from the maintained PV array,} the robot consumes only
+        2--10\,\% of daily output --- a negligible parasitic load that is far outweighed
+        by the energy recovered through regular wet cleaning (15--20\,\% annual yield
+        improvement relative to no cleaning).
+  \item \textbf{Economic viability is confirmed} for Scales~R, B, and C (payback
+        8.9--14.7 years under the reconciled 20\,\% untreated-soiling model) and is
+        fleet-viable for Scale~A across Egyptian new-city street-lamp deployments.
+        The priority deployment order is \emph{street-lamp (A) $\to$ residential (R)
+        $\to$ commercial (B) $\to$ industrial (C, stretch case)}.
+\end{enumerate}
+
+\section{Tasks to Be Accomplished in REE 599 (Senior Design Project II)}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{T\arabic*.}]
+  \item Fabricate the Scale~B prototype (BOM in Appendix~\ref{app:bom}).
+  \item Conduct a 72-hour outdoor autonomous cycle test on a 10-panel test rig.
+  \item Measure and log: condensate yield vs.\ ambient RH; post-treatment TDS; brush
+        contact force; battery SoC trajectory; transmittance restoration.
+  \item Validate all measurements against model predictions
+        (Eqs.~\eqref{eq:6.4}--\eqref{eq:6.13}).
+  \item Refine module count for Scales~R, B, and C based on measured yield data.
+  \item Produce engineering drawings: Scale~A, R, and B robot assembly, TEC mounting
+        detail, water treatment schematic, control wiring diagram.
+  \item Complete and submit the REE~599 final report with recommendations for
+        commercial deployment in Egyptian new cities.
+\end{enumerate}
+
+\section{Project Gantt Chart}
+
+\begin{landscape}
+\begin{figure}[H]
+\centering
+\begin{ganttchart}[
+  hgrid,
+  vgrid,
+  x unit = 0.70cm,
+  y unit title = 0.56cm,
+  y unit chart = 0.50cm,
+  title label font=\small,
+  bar label font=\scriptsize,
+  group label font=\small\bfseries,
+  bar/.append style={fill=blue!40},
+  group/.append style={fill=blue!65,draw=blue!65},
+  milestone/.append style={fill=red!60,draw=red!60},
+  title height=1
+]{1}{20}
+  \gantttitle{REE 598 (Weeks 1--14) \quad REE 599 (Weeks 15--20)}{20} \\
+  \gantttitlelist{1,...,20}{1} \\
+  \ganttgroup{REE 598 --- Phase 1: Climate \& TEC Feasibility}{1}{4} \\
+  \ganttbar{NASA POWER data retrieval \& processing}{1}{1} \\
+  \ganttbar{Psychrometric simulation (Python)}{1}{2} \\
+  \ganttbar{TEC thermodynamic model \& validation}{2}{4} \\
+  \ganttgroup{REE 598 --- Phase 2: System Design}{4}{10} \\
+  \ganttbar{Robot mechanical concept (3 scales)}{4}{6} \\
+  \ganttbar{Water treatment train sizing}{5}{6} \\
+  \ganttbar{Power system \& battery sizing}{6}{7} \\
+  \ganttbar{Control state machine design}{7}{8} \\
+  \ganttbar{PVsyst soiling simulation}{6}{9} \\
+  \ganttbar{CAD concept drawings (Scales A \& B)}{8}{10} \\
+  \ganttmilestone{System design review}{10} \\
+  \ganttgroup{REE 598 --- Phase 3: Prototype Preparation}{10}{14} \\
+  \ganttbar{Scale B BOM \& supplier quotes}{10}{11} \\
+  \ganttbar{Fabrication plan \& test protocol}{11}{12} \\
+  \ganttbar{Procurement --- long-lead items}{12}{14} \\
+  \ganttmilestone{REE 598 report submission}{14} \\
+  \ganttgroup{REE 599 --- Phase 4: Prototype Build \& Validation}{14}{20} \\
+  \ganttbar{TEC subassembly \& bench test}{14}{15} \\
+  \ganttbar{Robot chassis fabrication}{15}{16} \\
+  \ganttbar{Electronics integration \& firmware}{16}{17} \\
+  \ganttbar{Field test (72-h autonomous cycle)}{17}{18} \\
+  \ganttbar{Data analysis \& final report}{18}{20} \\
+  \ganttmilestone{Final prototype validation}{20} \\
+\end{ganttchart}
+\caption{Project Gantt chart: REE 598 Phases 1--3 and REE 599 Phase 4.}
+\label{fig:gantt}
+\end{figure}
+\end{landscape}
+
+% ============================================================
+%  REFERENCES
+% ============================================================
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+% ============================================================
+%  APPENDICES
+% ============================================================
+\appendix
+
+\chapter{Python Simulation Outputs}
+\label{app:python}
+
+The following files are generated by the project computation scripts. Run scripts from
+the project root directory before compiling.
+
+\begin{itemize}[leftmargin=*]
+  \item \texttt{output/nasa\_power\_hourly.csv} --- five-year hourly NASA POWER data
+        for Benban.
+  \item \texttt{output/psychrometrics\_monthly.csv} --- monthly dew-point distribution,
+        condensation hours, and per-module yield statistics.
+  \item \texttt{output/calculation\_summary.txt} --- TEC sizing, power budget, and
+        economic results.
+  \item \texttt{output/lcow\_table\_autogen.tex} --- AWH technology LCOW/SEC
+        comparison table (retained as supporting reference material).
+\end{itemize}
+
+\chapter{TEC1-12706 Module Design Parameters}
+\label{app:tec}
+
+\begin{table}[H]
+\centering
+\caption{TEC1-12706 module parameters used in design calculations
+(Appendix~\ref{app:tec}).}
+\label{tab:A2}
+\begin{tabular}{llc}
+\toprule
+\textbf{Parameter}       & \textbf{Symbol}            & \textbf{Value} \\
+\midrule
+Maximum current          & $I_\mathrm{max}$            & \TECImax\,A \\
+Maximum voltage          & $V_\mathrm{max}$            & \TECVmax\,V \\
+Maximum heat pumping     & $Q_\mathrm{max}$ (at $T_h$=27\,\degC)  & \TECQmax\,W \\
+Maximum $\Delta T$       & $\Delta T_\mathrm{max}$     & \TECDTmax\,K \\
+Seebeck coefficient      & $\alpha$                    & \TECAlpha\,V/K \\
+Internal resistance      & $R$                         & \TECR\,$\Omega$ \\
+Thermal conductance      & $K$                         & \TECK\,W/K \\
+Figure of merit          & $Z$                         & $2.76\times10^{-3}$\,K$^{-1}$ \\
+Module dimensions        & ---                         & 40\,$\times$\,40\,$\times$\,3.4\,mm \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\chapter{Scale B Prototype Bill of Materials}
+\label{app:bom}
+
+\begin{table}[H]
+\centering
+\caption{Scale~B prototype bill of materials (indicative prices, April 2026).}
+\label{tab:A3}
+\begin{tabular}{p{4.5cm}p{4.0cm}rr}
+\toprule
+\textbf{Component} & \textbf{Specification} & \textbf{Qty} & \textbf{Unit cost (USD)} \\
+\midrule
+TEC module                 & TEC1-12706, 40$\times$40\,mm & 12 & 3.50 \\
+Heat sink                  & Al extrusion, 100$\times$60\,mm, 1.5\,K/W-grade & 12 & 8.50 \\
+Cooling fan                & 60\,mm, 12\,V, 1.0\,W        & 12 & 2.80 \\
+Cold plate                 & Al anodised, 40$\times$40$\times$3\,mm & 12 & 1.50 \\
+Condensate tank            & HDPE sealed, 100\,L           &  1 & 35.00 \\
+Sediment filter            & 5\,\textmu m cartridge        &  1 & 5.00 \\
+Activated carbon filter    & Standard 10'' cartridge       &  1 & 7.00 \\
+UV-C sterilisation module  & 3\,W, 254\,nm, in-line        &  1 & 18.00 \\
+Diaphragm pump             & 12\,V, 2\,bar, 3\,L/min       &  1 & 22.00 \\
+Fan spray nozzles          & 1/4'' BSP                     &  8 & 2.50 \\
+Flow meter                 & Pulse, 1--10\,L/min           &  1 & 9.00 \\
+Microcontroller            & ESP32 DevKit V1               &  1 & 4.50 \\
+Temperature/RH sensors     & DHT22                         &  4 & 3.50 \\
+Current sensors            & ACS712-20A                    &  2 & 2.20 \\
+Level sensor               & Ultrasonic, 12\,V             &  1 & 6.00 \\
+DC buck converter          & 24\,V to TEC, 10\,A           &  1 & 12.00 \\
+MPPT charge controller     & 20\,A, 24\,V                  &  1 & 35.00 \\
+LiFePO$_4$ battery         & 2500\,Wh, 24\,V / 100\,Ah (with BMS) &  1 & 420.00 \\
+Robot chassis              & Al extrusion, wheels, motors  &  1 & 95.00 \\
+Microfibre brush bar       & 250\,mm wide                  &  1 & 18.00 \\
+Wiring, connectors, tubing & Assorted                      & -- & 30.00 \\
+\midrule
+\multicolumn{3}{l}{\textbf{Total estimated cost}} & \textbf{$\approx$\,USD\,900} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\chapter{Relevant Standards and Codes}
+\label{app:standards}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{IEC 61215:2021} --- Terrestrial PV modules: design qualification and
+        type approval.
+  \item \textbf{IEC 62446-1:2016} --- PV systems: requirements for testing,
+        documentation and maintenance.
+  \item \textbf{IEC 60529:2013} --- Degrees of protection (IP Code).
+  \item \textbf{EgyptERA Tariff Circular, August 2024} --- Electricity tariff for
+        industrial and commercial consumers \cite{egyptera_tariff}.
+  \item \textbf{Egyptian National Building Code, Part 7} --- Renewable energy system
+        installation requirements for new cities.
+\end{itemize}
+
+\end{document}

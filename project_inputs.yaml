@@ -1,0 +1,59 @@
+# Single source of truth for graduation project calculations
+# Project title: Atmospheric Water Harvesting for Autonomous PV Panels Cleaning
+# Harmonize all chapters and scripts with these values unless sensitivity analysis says otherwise.
+
+site:
+  name: "Benban Solar Park (representative block) — autonomous cleaning water sizing"
+  latitude_deg: 24.45
+  longitude_deg: 32.75
+  elevation_m: 180  # approximate; refine from DEM if needed
+
+pv_plant:
+  P_dc_MW: 200
+  eta_module_stc: 0.215
+  G_stc_W_m2: 1000
+
+cleaning:
+  w_L_m2_event: 1.8
+  N_clean_per_year: 18
+  f_margin: 0.25
+  rho_kg_m3: 1000
+
+# Secondary scenario for sensitivity (optional)
+pv_plant_secondary:
+  P_dc_MW: 50
+
+economics:
+  # EgyptERA August 2024 tariff update: industrial medium-voltage tier ≈ 0.73–1.17 EGP/kWh.
+  # At USD/EGP ≈ 48–50 (April 2026), this equates to ≈ 0.015–0.025 USD/kWh.
+  # Source: https://www.egyptera.org/en/TarrifAug2024.aspx (accessed Apr. 2026).
+  # Using midpoint 0.020 USD/kWh for LCOW table; replace with actual invoice tariff.
+  electricity_USD_per_kWh: 0.020
+  discount_rate_i: 0.08
+  project_life_years: 15
+  # Midpoint illustrative CAPEX [USD] for LCOW table (not vendor quotes)
+  capex_MUSD:
+    VCR: 1.8
+    silica_desiccant: 2.2
+    MOF_pilot: 5.0
+    TEC_skid: 1.6
+
+# Literature SEC anchors [kWh/kg] unless noted
+sec_kWh_per_kg:
+  absorption_avg: 0.38
+  cooling_condensation_avg: 0.42
+  adsorption_avg: 1.16
+  MOF_headline: 2.96  # kWh/L treated as ~kWh/kg for water
+  TEC_low: 2.0
+  TEC_mid: 6.0
+  TEC_high: 12.0
+
+# NASA POWER API (optional fetch) — one calendar year for hourly analysis
+nasa_power:
+  start_date: "20200101"
+  end_date: "20201231"
+  community: "RE"
+  parameters:
+    - T2M
+    - RH2M
+    - PRECTOTCORR

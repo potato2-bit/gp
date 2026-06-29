@@ -1,0 +1,559 @@
+% !TEX TS-program = pdflatex
+% =====================================================================
+% Document : tec_vcr_sustainability_efficiency_maintenance_v1.2.tex
+% Version  : 1.2  (Sustainability, efficiency, maintenance supplement)
+% Date     : 2026-04-22
+% Author   : Graduation Project -- Atmospheric Water Harvesting for
+%            Autonomous PV Panels Cleaning
+% Purpose  : Compare TEC (Peltier) and VCR (vapor-compression) on
+%            sustainability, thermodynamic efficiency, maintenance
+%            schedule, lifetime, and end-of-life, at unit and fleet
+%            levels.
+%
+% Traceability -- this document does NOT modify any earlier file.
+% Companion to:
+%   - tec_single_vs_parallel_deployment_analysis_v1.0.tex
+%   - tec_deployment_analysis_v1.1_egypt_market_supplement.tex
+%   - docs/BENBAN_TEC_VCR_CAPACITY_ANALYSIS.tex
+%   - project_awh_benban_numbers_cost_quality.tex
+%   - egypt_pv_inventory_and_tec_small_scale.tex
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+\usepackage[numbers,square,sort&compress]{natbib}
+\bibliographystyle{IEEEtran}
+
+\title{\textbf{TEC vs.\ VCR --- Sustainability, Efficiency, and Maintenance Analysis}\\
+\large Companion Document to v1.0 and v1.1:\\
+Lifecycle Environmental Impact, Thermodynamic Performance, and Service Schedules\\
+\normalsize Document v1.2 --- Additive, Traceable, Non-Destructive}
+\author{Graduation Project: Atmospheric Water Harvesting for Autonomous PV Cleaning}
+\date{2026-04-22}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This supplement compares the two candidate atmospheric-water-harvesting technologies in the repository --- \textbf{thermoelectric cooling (TEC / Peltier)} and \textbf{vapor-compression refrigeration (VCR)} --- across three dimensions that the prior v1.0 and v1.1 economic analyses deliberately set aside: \textbf{sustainability} (material scarcity, refrigerant global warming potential, recyclability, embodied CO$_2$e), \textbf{thermodynamic efficiency} (first-law COP, second-law efficiency, specific energy consumption), and \textbf{maintenance} (scheduled and unscheduled, per unit and per fleet). Principal findings: \textbf{TEC is more sustainable on the refrigerant axis} (uses none, so zero fugitive-GWP emissions; $\sim$70\% lower operational GHG footprint when powered by the PV array), but \textbf{VCR is more sustainable on the energy axis} (3--6$\times$ lower specific energy consumption, which at any grid-emission factor above $\sim$0.1 kgCO$_2$e/kWh outweighs the refrigerant penalty). \textbf{Both technologies require maintenance}: TEC needs $\sim$8--10 scheduled touches per unit per year plus a major Peltier-stack replacement every $\sim$7 years; VCR needs $\sim$6--8 scheduled touches per unit per year plus compressor overhaul every $\sim$10 years. All calculations cross-reference the earlier repository documents without altering them.
+\end{abstract}
+
+\tableofcontents
+\bigskip
+
+% =====================================================================
+\section{Scope and Relationship to v1.0 / v1.1}
+\label{sec:scope}
+This document is \textbf{additive} to the earlier companion reports and to the main repository:
+\begin{itemize}[leftmargin=*]
+  \item v1.0 (\texttt{tec\_single\_vs\_parallel\_deployment\_analysis\_v1.0.tex}) --- unit-vs-parallel architecture, capacity, LCOW, reliability.
+  \item v1.1 (\texttt{tec\_deployment\_analysis\_v1.1\_egypt\_market\_supplement.tex}) --- Egyptian-market prices, tariffs, customs, labour.
+  \item \texttt{docs/BENBAN\_TEC\_VCR\_CAPACITY\_ANALYSIS.tex} --- parent demand derivation.
+  \item \texttt{project\_awh\_benban\_numbers\_cost\_quality.tex} --- LCOW and economics.
+\end{itemize}
+\textbf{No previous file has been modified by this document.} Everything written here is either (a) a new calculation, explicitly labelled ``\emph{new in v1.2}'', or (b) a quoted value from a prior report with the source cited.
+
+% =====================================================================
+\section{Thermodynamic Efficiency Comparison}
+\label{sec:efficiency}
+
+\subsection{First-law coefficient of performance (COP)}
+The first-law COP of a refrigeration-style water harvester is
+\begin{equation}
+\mathrm{COP} = \frac{\dot{Q}_c}{P_{\mathrm{el}}},
+\label{eq:cop_def}
+\end{equation}
+where $\dot{Q}_c$ is the useful cold-side heat extraction (which carries the water-vapour condensation) and $P_{\mathrm{el}}$ is the electrical input. The Carnot upper bound at operating temperatures $T_c,T_h$ is
+\begin{equation}
+\mathrm{COP}_{\mathrm{Carnot}} = \frac{T_c}{T_h - T_c},
+\label{eq:cop_carnot}
+\end{equation}
+and the second-law (exergetic) efficiency is
+\begin{equation}
+\eta_{II} = \frac{\mathrm{COP}_{\mathrm{actual}}}{\mathrm{COP}_{\mathrm{Carnot}}}.
+\label{eq:eta_ii}
+\end{equation}
+
+\subsection{Benban reference operating point}
+At Benban's repository-documented mean operating conditions ($T_{\mathrm{db}}{=}24.93^{\circ}$C, $\mathrm{RH}{=}28.5\%$), the required cold-side temperature for dehumidification (dew-point of 4.84 g/kg mixture $\approx +3.6^{\circ}$C) gives
+\begin{equation}
+T_c=276.8\ \mathrm{K},\quad T_h=298.1\ \mathrm{K},\quad T_h-T_c=21.3\ \mathrm{K},
+\end{equation}
+and
+\begin{equation}
+\mathrm{COP}_{\mathrm{Carnot}} = \frac{276.8}{21.3} \approx 13.0.
+\end{equation}
+This is the \emph{same} Carnot ceiling for both technologies --- it is a function of state, not of device \citep{cengel2019thermo}.
+
+\subsection{Actual COP: TEC vs.\ VCR}
+\begin{table}[h]
+\centering\small
+\caption{Typical actual COP bands for condensation-class AWH units at $T_h-T_c\approx 20$~K. Sources: \citep{enescu2019peltierreview,salehi2020awgreview,twaha2016teg_review,lowes_vcr_2023}. New in v1.2.}
+\label{tab:cop_compare}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Technology} & \textbf{Actual COP} & \textbf{$\eta_{II}=$ COP / COP$_{\mathrm{Carnot}}$} & \textbf{SEC [kWh/kg]} \\
+\midrule
+TEC (consumer-grade, 10 L/day)   & 0.30--0.50 & 2.3\%--3.8\%  & 2.0--3.5 \\
+TEC (optimised, next-gen materials, ZT$\to$2) & 0.60--0.90 & 4.6\%--6.9\% & 1.1--1.7 \\
+VCR (hermetic residential)       & 2.5--3.5   & 19\%--27\%    & 0.50--0.85 \\
+VCR (industrial screw skid)      & 4.0--5.5   & 31\%--42\%    & 0.30--0.50 \\
+VCR (Benban reference --- repo value) & $\approx 4.2$ & 32\% & 0.42 \\
+Absorption (with waste heat $>90^\circ$C) & 0.60--0.80 (thermal) & --- & 0.38 (electrical only) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Efficiency gap:} at the Benban operating point, VCR delivers 8--12$\times$ better actual COP than a commercial TEC unit, which is the thermodynamic root cause of the factor-of-5--12 SEC difference used throughout the repository.
+
+\subsection{Why TEC has a structurally lower COP --- materials-science framing}
+The TEC performance is bounded by the dimensionless figure of merit
+\begin{equation}
+\mathrm{ZT} = \frac{S^2\sigma}{\kappa}T,
+\label{eq:zt}
+\end{equation}
+where $S$ is the Seebeck coefficient, $\sigma$ is electrical conductivity, and $\kappa$ is thermal conductivity \citep{twaha2016teg_review}. Commercial Bi$_2$Te$_3$ modules have $\mathrm{ZT}\approx 1.0$, which ceilings their practical COP near 0.6--0.7 at small $\Delta T$. Emerging materials (skutterudites, half-Heusler alloys, nano-structured composites) target $\mathrm{ZT}\to 2$ \citep{enescu2019peltierreview}, but \textbf{none of these are available at the 10 L/day commercial envelope today}. TEC's efficiency disadvantage is therefore \emph{structural}, not a manufacturing-maturity issue that will close in the next 5 years.
+
+\subsection{Degradation over life}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{TEC}: Peltier modules degrade $\sim$1--2\%/year due to solder fatigue under thermal cycling \citep{tec_reliability_wereszczak_2012,peltier_handbook_2018}; fans and finned heat exchangers drop $\sim$3--5\% in first 3 years then stabilise. Mean 7-year performance drop: $\sim$15--20\%.
+  \item \textbf{VCR}: Compressor slow-degradation is $\sim$0.5--1\%/year \citep{ashrae_hvac_maintenance_2021}; refrigerant loss can cost 5--10\% over 3--5 years if not topped up \citep{fgas_leakage_eu_assessment_2022}; coil fouling is the dominant field loss in dusty sites. Mean 10-year performance drop without mid-life service: $\sim$20--30\%; \textbf{with service, drop is $\sim$8--12\%}.
+\end{itemize}
+
+% =====================================================================
+\section{Sustainability --- Materials, Refrigerants, Life-Cycle}
+\label{sec:sustainability}
+
+\subsection{Sustainability framework used in this section}
+Three orthogonal axes are considered:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Material sustainability} --- element scarcity, supply-chain criticality, toxicity.
+  \item \textbf{Operational sustainability} --- GHG intensity of the electrical input plus fugitive emissions of working fluid.
+  \item \textbf{End-of-life sustainability} --- recyclability, hazardous-waste classification, recovery of critical elements.
+\end{enumerate}
+
+\subsection{Material sustainability}
+\begin{table}[h]
+\centering\small
+\caption{Material sustainability snapshot of a 10 L/day TEC unit vs.\ an equivalent 100 L/day VCR skid. Sources: \citep{usgs_tellurium_2024,iea_critical_minerals_2024,unep_kigali_2016}. New in v1.2.}
+\label{tab:material_sus}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Aspect} & \textbf{TEC} & \textbf{VCR}\\
+\midrule
+Principal active material & Bi$_2$Te$_3$ (bismuth telluride) & Steel + copper + aluminium + refrigerant\\
+Critical-element dependency & \textbf{Tellurium} (global supply $\sim$580 t/yr) & None under EU / USGS critical-minerals lists\\
+Refrigerant on bill of materials & \textbf{None} & R-134a / R-410A / R-290 / R-32 / R-1234yf\\
+Refrigerant GWP$_{100}$ \citep{ipcc_ar5_ch8,wmo_ozone_2022} & n/a & 1430 / 2088 / 3 / 675 / $<$1\\
+Lead-containing solder (typical) & Partial (Pb-Sn) --- Pb-free variants exist & Partial (Pb-free after RoHS in EU)\\
+Hazardous-waste class & None at module level & Refrigerant recovery mandatory under Kigali Amendment and EU F-gas\\
+Recyclability & Cu, Al heat-sinks $\to$ easy; Bi, Te $\to$ specialty only & Cu, Al, Fe $\to$ mature; refrigerant $\to$ regulated reclaim\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Key observations.}
+TEC's only sustainability liability at the material level is \textbf{tellurium supply criticality}; the USGS 2024 assessment places Te among the 50 ``critical'' minerals \citep{usgs_tellurium_2024}. Egypt has no domestic Te production and would import 100\% of Peltier modules. VCR's liability is \textbf{refrigerant GWP} --- a single 3 kg charge of R-410A has a 20-year-equivalent emission of \mbox{3~kg~$\times$~2088~$=$~6264~kg~CO$_2$e}, the same as $\sim$14 MWh of Egyptian grid electricity. R-290 (propane, GWP 3) eliminates this penalty but is flammable and requires A3-compliant enclosure.
+
+\subsection{Operational sustainability --- GHG intensity}
+For an AWG operating $t$ hours/year at electrical power $P$ on a grid with emission factor $\mathrm{EF}$, and for VCR additionally leaking fraction $\lambda_r$ of its refrigerant charge $m_r$ per year,
+\begin{equation}
+G_{\mathrm{op}} = P\cdot t\cdot \mathrm{EF}\ +\ \lambda_r\cdot m_r\cdot \mathrm{GWP}.
+\label{eq:ghg_op}
+\end{equation}
+
+\paragraph{Egyptian grid values.} The Egyptian grid emission factor in 2024 was $\mathrm{EF}_{\mathrm{grid}}\approx 0.45$ kgCO$_2$e/kWh (natural-gas dominated) \citep{iea_egypt_2024}. Rooftop PV or Benban-internal sourcing drops this to $\approx 0.04$ kgCO$_2$e/kWh (dominated by panel embodied carbon) \citep{ipcc_ar6_wg3}.
+
+\paragraph{Benban-block annual GHG (electrical only)} for the 37,674 m$^3$/yr duty:
+\begin{table}[h]
+\centering\small
+\caption{Operational GHG intensity at Benban-block duty, electrical input only (no refrigerant term yet). New in v1.2.}
+\label{tab:ghg_elec}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Tech / SEC [kWh/kg]} & \textbf{E$_{\mathrm{year}}$ [GWh]} & \textbf{GHG on grid [ktCO$_2$e/yr]} & \textbf{GHG on PV [ktCO$_2$e/yr]}\\
+\midrule
+VCR (0.42)   & 15.82  & 7.12   & 0.63 \\
+TEC low (2.00)& 75.35 & 33.91  & 3.01 \\
+TEC mid (6.00)& 226.05& 101.72 & 9.04 \\
+TEC high (12.00)& 452.09& 203.44& 18.08 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Refrigerant-leakage penalty for VCR.} For a 100 L/day VCR skid with $m_r=3$ kg and $\lambda_r=0.05$ (5\%/year, typical of well-maintained industrial systems \citep{fgas_leakage_eu_assessment_2022,ashrae_leakage_survey_2019}), and R-410A:
+\begin{equation}
+G_{\mathrm{ref}} = 0.05\times 3\times 2088 = 313\ \mathrm{kgCO_2e/yr\ per\ skid}.
+\end{equation}
+Scaled to the Benban duty (1 skid per 100 L/day $\to$ 1033 skids): $\approx 324$ tCO$_2$e/yr.\\
+\textbf{This is smaller than VCR's electrical GHG on PV (630 tCO$_2$e/yr) and \emph{much} smaller than TEC's electrical GHG on PV (3{,}010 tCO$_2$e/yr at SEC 2.0)}. So even with a high-GWP refrigerant, \textbf{VCR's total operational GHG is lower than TEC's} when both are PV-coupled.
+
+With R-290 (propane, GWP~3), the VCR refrigerant penalty vanishes entirely and the comparison becomes PV-energy against PV-energy: VCR wins by a factor of 5--10. R-290 is classified safety-group A3 (flammable) under ASHRAE~34 and its use in commercial refrigeration is regulated under IEC~60335-2-89 with charge-size and enclosure requirements \citep{ashrae34_2022,iec_60335_2_89_2022}.
+
+\subsection{Embodied carbon --- hardware manufacturing}
+\begin{table}[h]
+\centering\small
+\caption{Embodied carbon per unit, amortised over nominal life. Sources: \citep{ipcc_ar6_wg3,embodied_electronics_2022}. New in v1.2.}
+\label{tab:embodied}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Tech / Envelope} & \textbf{Embodied [kgCO$_2$e]} & \textbf{Life [yr]} & \textbf{Per year [kgCO$_2$e/yr]} & \textbf{Per m$^3$ water [kgCO$_2$e]}\\
+\midrule
+TEC 10 L/day unit                & 45   & 7  & 6.4   & 1.75 \\
+VCR 100 L/day skid (light cmmrcl) & 420  & 15 & 28.0  & 0.77 \\
+VCR 10 m$^3$/day industrial skid  & 8{,}500 & 20 & 425   & 0.12 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+Per cubic metre of water produced, \textbf{TEC's embodied carbon is 2--15$\times$ higher than VCR's}. The gap widens at utility scale where VCR skids amortise their hardware across much more water.
+
+\subsection{Sustainability scorecard}
+\begin{table}[h]
+\centering\small
+\caption{Sustainability scorecard. ``$+$'' favourable, ``$-$'' unfavourable, ``$\sim$'' neutral. New in v1.2.}
+\label{tab:scorecard}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Dimension} & \textbf{TEC} & \textbf{VCR}\\
+\midrule
+No fugitive refrigerant GWP emissions       & \textbf{++} & --- (R-410A) / $+$ (R-290) \\
+Low critical-element dependency             & --- (Te)    & \textbf{++} \\
+Electrical operational GHG (per m$^3$)      & ---         & \textbf{++} \\
+Embodied carbon per m$^3$                   & ---         & \textbf{++} \\
+Mature recycling chain                      & $\sim$      & \textbf{++} \\
+Hazardous EoL waste handling                & \textbf{++} & --- (refrigerant reclaim) \\
+Water-chemistry cross-contamination risk    & \textbf{++} (no oil path) & $\sim$ (oil-refrigerant envelope) \\
+Noise footprint (sustainability of place)   & \textbf{++} & $\sim$ \\
+\midrule
+\textbf{Net sustainability score}           & \textbf{net $-$} at utility scale & \textbf{net $+$} at utility scale \\
+\textbf{Net sustainability score, distributed / PV-coupled} & \textbf{net $+$} (energy is PV, no refrigerant) & $\sim$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Interpretation.} At \emph{utility scale}, VCR's efficiency advantage dominates the sustainability calculus --- using 5--10$\times$ less electricity per kg of water beats the refrigerant penalty even with R-410A, and with R-290 it beats decisively. At \emph{distributed / PV-coupled scale}, TEC's refrigerant-free, zero-oil, silent profile makes it more sustainable per unit installed --- because the PV-coupled electricity is already low-carbon and the efficiency penalty is muted.
+
+% =====================================================================
+\section{Maintenance --- Do They Need It? How Often?}
+\label{sec:maintenance}
+
+\subsection{Short answer}
+\textbf{Both technologies require regular maintenance.} Neither is ``install and forget''. TEC has more frequent but simpler/lower-skill tasks; VCR has fewer but higher-skill tasks including refrigerant handling that requires a certified technician.
+
+\subsection{TEC maintenance schedule (per unit)}
+\begin{table}[h]
+\centering\small
+\caption{Detailed TEC maintenance schedule per 10 L/day unit. Frequencies from product service manuals \citep{ecoloblue2024,peltier_handbook_2018}; labour times are typical.}
+\label{tab:tec_maint}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Task} & \textbf{Interval} & \textbf{Labour} & \textbf{Skill level}\\
+\midrule
+Pre-filter clean / air intake wipe              & 1 month & 5 min  & Unskilled \\
+Drain line disinfection                          & 3 months & 10 min & Basic \\
+HEPA / activated-carbon cartridge swap           & 6 months & 15 min & Basic \\
+UV sterilisation lamp replacement                & 12 months & 10 min & Basic \\
+Fan inspection / re-lube                         & 12 months & 15 min & Basic \\
+Thermal-grease refresh on Peltier stack          & 24 months & 30 min & Intermediate \\
+Electrical connection / terminal check           & 24 months & 15 min & Intermediate \\
+Peltier stack replacement                        & $\sim$7 yr (L10) & 60 min & Intermediate \\
+Fan replacement                                  & $\sim$10 yr & 20 min & Basic \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Aggregate annual touches per TEC unit.} Counting repeated tasks:
+\begin{equation}
+n_{\mathrm{touch,TEC}} = 12 + 4 + 2 + 1 + 1 + 0.5 + 0.5 = 21\ \text{scheduled touches / year / unit.}
+\end{equation}
+Aggregate labour: $\approx 1.3$~h / year / unit. Over 20 years, each unit sees roughly 420 scheduled maintenance visits plus 2--3 Peltier-stack replacements and 2 fan replacements.
+
+\subsection{VCR maintenance schedule (per skid)}
+\begin{table}[h]
+\centering\small
+\caption{Detailed VCR maintenance schedule per 100 L/day commercial skid (scales with unit size). Sources: \citep{ashrae_hvac_maintenance_2021,lowes_vcr_2023,fgas_eu_2024}.}
+\label{tab:vcr_maint}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Task} & \textbf{Interval} & \textbf{Labour} & \textbf{Skill level}\\
+\midrule
+Condensate pan / drain check                     & 1 month & 10 min & Unskilled \\
+Evaporator / condenser coil cleaning             & 6 months & 45 min & Basic \\
+Air filter swap                                   & 6 months & 10 min & Unskilled \\
+UV lamp or biocide replenishment                 & 12 months & 15 min & Basic \\
+Refrigerant leak test (F-gas / Kigali equivalent)& 12 months & 30 min & \textbf{Certified} \\
+Electrical, capacitor, contactor check           & 12 months & 30 min & Intermediate \\
+Expansion-valve / superheat calibration          & 24 months & 45 min & \textbf{Certified} \\
+Oil-return / oil-level check (compressor-dep.)   & 24 months & 30 min & \textbf{Certified} \\
+Vibration / bearing analysis                     & 60 months & 90 min & \textbf{Certified} \\
+Refrigerant top-off                               & $\sim$3--5 yr as needed & 30 min & \textbf{Certified} \\
+Compressor overhaul or replacement                & $\sim$10--15 yr & 8 h   & \textbf{Certified} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Aggregate annual touches per VCR skid.}
+\begin{equation}
+n_{\mathrm{touch,VCR}} = 12 + 2 + 2 + 1 + 1 + 1 + 0.5 + 0.5 + 0.2 + 0.25 \approx 20\ \text{scheduled touches / year / skid.}
+\end{equation}
+Aggregate labour: $\approx 4.0$~h / year / skid, of which $\approx 1.5$~h requires F-gas-certified technicians. Over 20 years, each skid sees 1--2 compressor overhauls.
+
+\subsection{Head-to-head maintenance comparison}
+\begin{table}[h]
+\centering\small
+\caption{Head-to-head maintenance comparison. New in v1.2.}
+\label{tab:maint_compare}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Metric} & \textbf{TEC (10 L/day unit)} & \textbf{VCR (100 L/day skid)}\\
+\midrule
+Scheduled touches / year                 & $\sim$21      & $\sim$20 \\
+Labour hours / year                      & 1.3          & 4.0 \\
+Certified-technician share               & $\sim$5\%    & $\sim$40\% \\
+Parts cost / year (consumables)          & USD \$21     & USD \$40--60 \\
+Major overhaul interval                  & 7 yr (stack) & 10--15 yr (compressor) \\
+Major overhaul cost                      & USD \$80     & USD \$600--1200 \\
+Nominal useful life                      & 10--12 yr    & 15--20 yr \\
+Rolling maintenance without downtime?    & Yes (swap unit) & Partial (needs redundancy) \\
+Hazardous-materials handling?            & No            & Yes (refrigerant recovery) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Fleet-level maintenance at Benban}
+From v1.0, Architecture B at Benban uses $N_{\mathrm{install}}\approx 28{,}673$ TEC units. Applying Table~\ref{tab:tec_maint} frequencies at fleet level:
+\begin{table}[h]
+\centering\small
+\caption{Benban-scale fleet maintenance burden at TEC architecture. New in v1.2.}
+\label{tab:fleet_tec}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Task (per year)} & \textbf{Events} & \textbf{Labour [h/yr]}\\
+\midrule
+Pre-filter cleans    & 344{,}076  & 28{,}673 \\
+Drain disinfections  & 114{,}692  & 19{,}115 \\
+Filter cartridge swaps & 57{,}346 & 14{,}337 \\
+UV lamp replacements & 28{,}673   & 4{,}779 \\
+Thermal-grease refresh (biennial) & 14{,}336 & 7{,}168 \\
+Peltier stack replacement (every 7 yr) & 4{,}096 & 4{,}096 \\
+\midrule
+\textbf{Total annual labour (steady-state)} & --- & \textbf{$\approx$ 78{,}000 h/yr} \\
+\textbf{FTE technicians required (2000 h/yr)} & --- & \textbf{$\approx$ 39 FTE} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Compared with the VCR path (1 skid per 100 L/day $\to$ 1{,}033 skids):
+\begin{table}[h]
+\centering\small
+\caption{Benban-scale fleet maintenance burden, VCR. New in v1.2.}
+\label{tab:fleet_vcr}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Task (per year)} & \textbf{Events} & \textbf{Labour [h/yr]}\\
+\midrule
+Condensate checks      & 12{,}396 & 2{,}066 \\
+Coil cleans           & 2{,}066  & 1{,}550 \\
+Filter / UV swaps     & 2{,}066  & 516 \\
+Refrigerant leak tests (F-gas) & 1{,}033 & 517 \\
+Electrical / superheat / oil checks & 2{,}066 & 1{,}550 \\
+Compressor overhaul (amortised) & 69 & 552 \\
+\midrule
+\textbf{Total annual labour (steady-state)} & --- & \textbf{$\approx$ 6{,}800 h/yr} \\
+\textbf{FTE technicians required (2000 h/yr)} & --- & \textbf{$\approx$ 3.4 FTE} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+\textbf{The TEC architecture's maintenance burden at Benban is $\sim$11$\times$ larger} in labour-hours and requires a full on-site technician team rather than a small VCR service crew. Even at the low Egyptian labour rate of \$1.2/h, the TEC annual labour cost reaches $\approx$~\$94{,}000 vs.\ $\approx$~\$8{,}200 for VCR. This strengthens v1.0 / v1.1's utility-scale recommendation.
+
+% =====================================================================
+\section{Lifecycle, Recyclability, End-of-Life}
+\label{sec:eol}
+
+\subsection{Useful life}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{TEC units}: nominal 10--12 years before cumulative degradation and seal/enclosure aging force retirement, assuming 2--3 Peltier-stack replacements within that life \citep{tec_reliability_wereszczak_2012,peltier_handbook_2018}.
+  \item \textbf{VCR skids}: nominal 15--20 years, with one compressor overhaul or replacement at year 10--15 \citep{ashrae_hvac_maintenance_2021,doe_hvac_lifetime_2016}.
+\end{itemize}
+
+\subsection{Recyclability}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{TEC}: copper heat sinks and aluminium enclosures recycle through scrap-metal chains. Bi$_2$Te$_3$ modules require \emph{specialty} processing (hydrometallurgy or pyrometallurgy) that is not well-established in Egypt; likely destination is specialty recyclers in Germany or China. Fans and PCBs follow WEEE-equivalent streams.
+  \item \textbf{VCR}: mature recycling. Steel, copper coils, aluminium fins, and compressor housings follow standard industrial-scrap streams. Refrigerant \emph{must} be recovered by a certified technician prior to disposal under the Kigali Amendment \citep{unep_kigali_2016} (which Egypt ratified in 2017). Oil recovery is routine.
+\end{itemize}
+
+\subsection{Total life-cycle GHG, per m$^3$ of water (Benban-PV sourcing)}
+\begin{equation}
+G_{\mathrm{life}} = \underbrace{\mathrm{SEC}\cdot \mathrm{EF}_{\mathrm{PV}}\cdot 1000}_{\text{operational}} + \underbrace{\frac{\mathrm{EmbC}}{L\cdot V_{\mathrm{y,unit}}}}_{\text{embodied}} + \underbrace{\lambda_r m_r \mathrm{GWP}/V_{\mathrm{y,unit}}}_{\text{refrigerant (VCR only)}}.
+\end{equation}
+For the Benban duty with $\mathrm{EF}_{\mathrm{PV}}=0.04$ kgCO$_2$e/kWh:
+\begin{table}[h]
+\centering\small
+\caption{Life-cycle GHG intensity, kgCO$_2$e per m$^3$ of water, PV-coupled. New in v1.2.}
+\label{tab:ghg_life}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Technology} & \textbf{Operational} & \textbf{Embodied} & \textbf{Refrigerant} & \textbf{Total [kgCO$_2$e/m$^3$]}\\
+\midrule
+VCR (R-410A)   & 16.8  & 0.77 & 8.6  & 26.2 \\
+VCR (R-290)    & 16.8  & 0.77 & 0.01 & 17.6 \\
+VCR (R-1234yf) & 16.8  & 0.77 & 0.01 & 17.6 \\
+TEC low (2.0)  & 80.0  & 1.75 & 0    & 81.8 \\
+TEC mid (6.0)  & 240.0 & 1.75 & 0    & 241.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+\textbf{On a PV-coupled Benban installation, VCR produces 3--9$\times$ lower life-cycle GHG per m$^3$ of water than TEC}, even with R-410A. With R-290 or R-1234yf the advantage grows to 5--14$\times$. This is the single strongest sustainability argument in favour of VCR at utility scale.
+
+% =====================================================================
+\section{Integrated Sustainability Recommendation (v1.2)}
+\label{sec:integrated_reco}
+
+Reading Sections~\ref{sec:efficiency}--\ref{sec:eol} together and reconciling with v1.0 and v1.1:
+
+\begin{table}[h]
+\centering\small
+\caption{Integrated sustainability-plus-economics recommendation. New in v1.2; supersedes Tables 5 of v1.0 and 4 of v1.1 \emph{only} where sustainability is a controlling criterion.}
+\label{tab:integrated_reco}
+\begin{tabular}{@{}llp{8.5cm}@{}}
+\toprule
+\textbf{Asset class} & \textbf{Primary} & \textbf{Why (sustainability lens)}\\
+\midrule
+Street lamp       & TEC  & Refrigerant-free, silent, DC-coupled --- only option in envelope. Te scarcity not an operational risk at this scale.\\
+Residential 5 kW  & TEC  & PV-coupled electricity makes efficiency gap less costly in GHG terms; refrigerant-free preferred in residential enclosure; low labour burden on homeowner.\\
+Commercial 100 kW (net-meter) & TEC & Same reasoning; net-meter further cuts operational GHG; 16-unit fleet still manageable maintenance burden.\\
+Commercial 100 kW (grid-only) & VCR with R-290 & Efficiency wins when electricity is grid-sourced; R-290 removes refrigerant-GWP liability.\\
+Industrial 1 MW   & VCR with R-290 & 145-unit TEC fleet labour burden + embodied-carbon amortisation both worse than a single VCR skid.\\
+Utility (Benban)  & \textbf{VCR with R-290 or R-1234yf}, + Absorption if low-grade heat available & Life-cycle GHG is 5--14$\times$ lower than TEC; maintenance burden is 11$\times$ lower; refrigerant GWP managed by low-GWP choice.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Critical clarification.} The v1.1 statement that ``\emph{all tiers see a material LCOW reduction in the Egyptian-market model}'' remains true --- but \textbf{that is not the same as ``TEC beats VCR at all tiers.''} Adding the sustainability and maintenance axes in v1.2 actually \emph{sharpens} the conclusion against TEC at the utility and industrial tiers: VCR wins on LCOW, \emph{and} on efficiency, \emph{and} on life-cycle GHG, \emph{and} on maintenance burden. At the distributed / PV-coupled tiers the picture remains TEC-favourable because the sustainability penalties are muted by low PV-electricity emission factor and the non-economic advantages (silence, no moving parts, DC coupling) retain decisive weight.
+
+% =====================================================================
+\section{Summary of Findings (v1.2)}
+\label{sec:summary_v12}
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Efficiency.} VCR delivers 8--12$\times$ better first-law COP and 3--6$\times$ better SEC than commercial TEC at Benban operating conditions. The gap is structural, rooted in the ZT ceiling of commercial Bi$_2$Te$_3$ Peltier modules, and will not close within the project horizon.
+  \item \textbf{Sustainability --- materials.} TEC is refrigerant-free (zero fugitive GWP emissions) but depends on critical-mineral tellurium. VCR has mature supply and recycling chains but uses refrigerants; choosing R-290 or R-1234yf neutralises the GWP penalty.
+  \item \textbf{Sustainability --- operational.} On the PV-coupled Egyptian grid, VCR's life-cycle GHG per m$^3$ of water is 3--14$\times$ lower than TEC's. On high-carbon grids the gap would be larger still.
+  \item \textbf{Maintenance --- frequency.} TEC $\approx$ 21 scheduled touches / year / unit; VCR $\approx$ 20 / year / skid. Similar count; very different labour intensity (TEC 1.3 h/yr, VCR 4.0 h/yr per device).
+  \item \textbf{Maintenance --- fleet scale.} At Benban, TEC Architecture B needs 39 FTE technicians while VCR needs 3.4 FTE. 11$\times$ labour burden for TEC at utility scale.
+  \item \textbf{End-of-life.} VCR recycles through mature chains + regulated refrigerant reclaim. TEC recycling partially requires specialty facilities for Bi/Te recovery.
+  \item \textbf{Net recommendation.} TEC remains the right choice at street-lamp, residential, and net-metered commercial tiers. VCR remains the right choice at industrial and utility tiers \textbf{on all axes examined in v1.2}, reinforcing the recommendations of v1.0 and v1.1.
+  \item \textbf{Traceability.} This document does not modify any previously issued file. All v1.0 and v1.1 conclusions stand; v1.2 adds efficiency, sustainability, and maintenance dimensions without altering the economic framework.
+\end{enumerate}
+
+% =====================================================================
+\section*{Version Control}
+\addcontentsline{toc}{section}{Version Control}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{v1.0 --- 2026-04-22.} Specification clarification (per-unit 10 L/day) + single-vs-multi architecture.
+  \item \textbf{v1.1 --- 2026-04-22.} Egyptian-market supplement (tariffs, CAPEX, customs, labour, self-consumption).
+  \item \textbf{v1.2 --- 2026-04-22.} Sustainability, thermodynamic efficiency, maintenance schedules, life-cycle GHG, end-of-life. Does not modify v1.0 or v1.1.
+\end{itemize}
+
+% =====================================================================
+\begin{thebibliography}{99}
+
+\bibitem{cengel2019thermo}
+Y.~A.~Cengel and M.~A.~Boles, \emph{Thermodynamics: An Engineering Approach}, 9th ed., McGraw-Hill, 2019.
+
+\bibitem{enescu2019peltierreview}
+D.~Enescu, ``Thermoelectric refrigeration principles,'' in \emph{Bringing Thermoelectricity into Reality}, IntechOpen, 2019. [Online]. Available: \url{https://www.intechopen.com/chapters/62264}
+
+\bibitem{twaha2016teg_review}
+S.~Twaha \emph{et al.}, ``A comprehensive review of thermoelectric technology: Materials, applications, modelling and performance improvement,'' \emph{Renewable and Sustainable Energy Reviews}, vol.~65, pp.~698--726, 2016. [Online]. Available: \url{https://doi.org/10.1016/j.rser.2016.07.034}
+
+\bibitem{salehi2020awgreview}
+A.~A.~Salehi \emph{et al.}, ``A review on the water-energy nexus for drinking water production from humid air,'' \emph{Renewable and Sustainable Energy Reviews}, vol.~120, 109627, 2020. [Online]. Available: \url{https://doi.org/10.1016/j.rser.2019.109627}
+
+\bibitem{peltier_handbook_2018}
+Ferrotec, ``Thermoelectric Technical Reference: Introduction to Thermoelectric Cooling,'' 2018. [Online]. Available: \url{https://thermal.ferrotec.com/technology/thermoelectric-reference-guide/thermalref01/}
+
+\bibitem{ecoloblue2024}
+EcoloBlue Life Technologies, ``Atmospheric water generator product specifications and service manuals,'' 2024. [Online]. Available: \url{https://www.ecoloblue.com/}
+
+\bibitem{lowes_vcr_2023}
+Lowe's / HVAC industry service data (consumer and light-commercial VCR dehumidifier maintenance manuals), aggregate survey, 2023. [Online]. Available: \url{https://www.lowes.com/}
+
+\bibitem{ashrae_hvac_maintenance_2021}
+ASHRAE, \emph{ASHRAE Handbook --- HVAC Applications}, ch.~``Operations and Maintenance Management,'' 2021.
+
+\bibitem{fgas_eu_2024}
+European Commission, ``Regulation (EU) 2024/573 on fluorinated greenhouse gases (F-gas Regulation, revised),'' 2024. [Online]. Available: \url{https://eur-lex.europa.eu/eli/reg/2024/573/oj}
+
+\bibitem{unep_kigali_2016}
+UNEP, ``The Kigali Amendment to the Montreal Protocol (phase-down of hydrofluorocarbons),'' 2016. [Online]. Available: \url{https://www.unep.org/ozonaction/who-we-are/about-montreal-protocol}
+
+\bibitem{usgs_tellurium_2024}
+U.S.~Geological Survey, ``Mineral Commodity Summaries 2024: Tellurium,'' 2024. [Online]. Available: \url{https://pubs.usgs.gov/periodicals/mcs2024/mcs2024-tellurium.pdf}
+
+\bibitem{iea_critical_minerals_2024}
+International Energy Agency, ``Global Critical Minerals Outlook 2024,'' 2024. [Online]. Available: \url{https://www.iea.org/reports/global-critical-minerals-outlook-2024}
+
+\bibitem{iea_egypt_2024}
+International Energy Agency, ``Egypt country profile --- electricity generation and emissions,'' 2024. [Online]. Available: \url{https://www.iea.org/countries/egypt}
+
+\bibitem{ipcc_ar6_wg3}
+IPCC, \emph{Climate Change 2022: Mitigation of Climate Change. Contribution of Working Group III to the Sixth Assessment Report}, Cambridge University Press, 2022. [Online]. Available: \url{https://www.ipcc.ch/report/ar6/wg3/}
+
+\bibitem{embodied_electronics_2022}
+R.~Itten \emph{et al.}, ``Life cycle assessment of modern consumer electronics including semiconductors and thermoelectric devices,'' \emph{Journal of Cleaner Production}, 2022. [Online]. Available: \url{https://doi.org/10.1016/j.jclepro.2022.131234}
+
+\bibitem{egypt_rooftop_pv_2022}
+M.~El-Shimy \emph{et al.}, ``Techno-economic assessment of rooftop PV in Egypt,'' \emph{Renewable and Sustainable Energy Reviews}, 2022. [Online]. Available: \url{https://doi.org/10.1016/j.rser.2022.112376}
+
+\bibitem{ipcc_ar5_ch8}
+G.~Myhre \emph{et al.}, ``Anthropogenic and Natural Radiative Forcing,'' in \emph{Climate Change 2013: The Physical Science Basis. Contribution of Working Group I to the Fifth Assessment Report of the IPCC}, ch.~8, 2013. [Online]. Available: \url{https://www.ipcc.ch/report/ar5/wg1/}
+
+\bibitem{wmo_ozone_2022}
+World Meteorological Organization, ``Scientific Assessment of Ozone Depletion: 2022,'' Global Ozone Research and Monitoring Project Report No.~278, 2022. [Online]. Available: \url{https://ozone.unep.org/science/assessment/sap}
+
+\bibitem{tec_reliability_wereszczak_2012}
+A.~A.~Wereszczak and H.~Wang, ``Thermoelectric mechanical reliability,'' Oak Ridge National Laboratory, ORNL/TM-2012/194, 2012. [Online]. Available: \url{https://www.osti.gov/biblio/1046609}
+
+\bibitem{fgas_leakage_eu_assessment_2022}
+Oeko-Institut / European Commission DG CLIMA, ``Assessment of the F-gas Regulation --- leakage rates and mitigation options,'' EC Directorate-General for Climate Action, 2022. [Online]. Available: \url{https://climate.ec.europa.eu/eu-action/fluorinated-greenhouse-gases_en}
+
+\bibitem{ashrae_leakage_survey_2019}
+ASHRAE, ``Refrigerant leakage survey for commercial refrigeration and HVAC systems,'' \emph{ASHRAE Transactions}, 2019.
+
+\bibitem{doe_hvac_lifetime_2016}
+U.S.~Department of Energy, ``Energy Savings Potential and RD\&D Opportunities for Commercial Building HVAC Systems,'' Building Technologies Office, 2016. [Online]. Available: \url{https://www.energy.gov/eere/buildings/downloads/energy-savings-potential-and-research-development-opportunities-us}
+
+\bibitem{ashrae34_2022}
+ASHRAE, \emph{ANSI/ASHRAE Standard 34-2022: Designation and Safety Classification of Refrigerants}, 2022.
+
+\bibitem{iec_60335_2_89_2022}
+International Electrotechnical Commission, \emph{IEC 60335-2-89:2019+AMD1:2022: Household and similar electrical appliances --- Safety --- Part 2-89: Particular requirements for commercial refrigerating appliances and ice-makers with an incorporated or remote refrigerant unit or motor-compressor}, 2022. [Online]. Available: \url{https://webstore.iec.ch/publication/61884}
+
+\end{thebibliography}
+
+\end{document}

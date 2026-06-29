@@ -1,0 +1,254 @@
+% !TEX TS-program = pdflatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+% Allow line breaks in URLs at more places
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\/\do-\do_\do.\do=\do?\do&}
+\makeatother
+
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\title{\textbf{Project Structure}\\[0.35em]
+\large Atmospheric Water Harvesting for Autonomous PV Panels Cleaning ---\\
+Methodology, Data, Tools, and Formulas}
+\author{Graduation Project}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Purpose}
+This document consolidates a structured workflow for the graduation project \textit{Atmospheric Water Harvesting for Autonomous PV Panels Cleaning}, coupling \textbf{solar PV performance (soiling)} with \textbf{water demand for autonomous cleaning} and \textbf{atmospheric water harvesting (AWH)} supply sizing. It lists authoritative links, recommended software, and core formulas with references suitable for a thesis bibliography. Those formulas are treated as the \textbf{foundation for selecting and building the preferred system configuration}, not as the final project deliverable by themselves.
+
+\section{Methodology (Phased Workflow)}
+
+\subsection{Phase A --- Reference plant class (not only a map pin)}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Define plant classes} (state AC vs DC clearly):
+  \begin{itemize}[nosep]
+    \item Distributed / C\&I: typically $<5$--$10$\,MW.
+    \item Medium utility: $\sim 10$--$50$\,MW (common in older FiT-era portfolios).
+    \item Large utility: $50$--$500{+}$\,MW single-site or clustered mega-parks.
+  \end{itemize}
+  \item \textbf{Build a small inventory} (10--20 plants): MW, module technology (mono/bifacial), tracker/fixed tilt, ground coverage ratio (GCR), and qualitative dust proxies (roads, agriculture, quarries) from satellite imagery when possible.
+  \item \textbf{Select a primary case study} matching the majority class you observe in Egypt's fleet; add a \textbf{sensitivity case} (e.g., windier coastal desert vs dustier Upper Egypt cluster).
+\end{enumerate}
+\textbf{Often overlooked constraints:} water rights and discharge rules, grid curtailment (affects revenue and surplus energy for AWH), O\&M access, and module warranty limits on cleaning methods.
+
+\subsection{Phase B --- Weather and soiling (climate $\rightarrow$ cleaning need)}
+\begin{enumerate}[resume,leftmargin=*]
+  \item Obtain a \textbf{typical meteorological year (TMY)} at plant coordinates: irradiance, temperature, wind, relative humidity (RH), precipitation.
+  \item Separate \textbf{soiling drivers}: low-rain months, wind direction vs dust sources, dew/fog cycles (particle adhesion), avian/agricultural proximity.
+  \item Decide whether cleaning water demand is driven by \textbf{fixed schedule}, \textbf{threshold on predicted soiling loss}, or \textbf{hybrid}.
+\end{enumerate}
+\textbf{Often overlooked:} \textbf{rain as partial cleaning}; PV simulation tools treat soiling as factors you must justify.
+
+\subsection{Phase C --- Cleaning process model $\rightarrow$ water demand}
+\begin{enumerate}[resume,leftmargin=*]
+  \item Fix a \textbf{cleaning technology path}: manual hose, truck-mounted demineralized spray, robotic micro-spray, brush+dry, etc.\ (sets wetted area, pressure, recovery, blowdown).
+  \item Compute \textbf{liters per event} and \textbf{events per year}; sum annual demand with a \textbf{safety margin} (commonly 20--40\%) for flushing, line losses, and quality excursions.
+\end{enumerate}
+
+\subsection{Phase D --- AWH screening (climate + duty + energy)}
+\begin{enumerate}[resume,leftmargin=*]
+  \item Shortlist AWH families for \textbf{hot arid} climates (often low daytime RH; better RH at night/dawn):
+  passive dew/fog collectors; active cooling condensation / dehumidification; sorption-based systems (hygroscopic materials, brines, desiccants).
+  \item For each option, estimate \textbf{seasonal water productivity} and \textbf{specific energy consumption (SEC)} [kWh/kg]. Compare against the cleaning schedule's \textbf{peak week} demand, not annual average only.
+\end{enumerate}
+\textbf{Often overlooked:} storage and water chemistry (TDS/hardness $\rightarrow$ spotting), night-only scheduling tied to RH/temperature cycles.
+
+\subsection{Phase E --- Integrated simulation and prototype plan}
+\begin{enumerate}[resume,leftmargin=*]
+  \item \textbf{PV electrical annual yield and loss budget:} PVsyst and/or NREL SAM.
+  \item \textbf{AWH subsystem:} usually external to PVsyst; TRNSYS, Modelica, or Python coupled to the same TMY.
+  \item \textbf{CAD/CFD} for manifolds, nozzles, ducts; scale prototypes using dimensionless groups (Re, NTU, mass-transfer analogies) where relevant.
+  \item \textbf{Prototype KPI:} e.g.\ measured kg water per kWh at controlled inlet psychrometric state.
+\end{enumerate}
+
+\section{Recommended Egyptian Anchors (Case Studies)}
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}p{3.2cm}p{5.8cm}p{6.2cm}@{}}
+\toprule
+\textbf{Anchor} & \textbf{Rationale} & \textbf{Starting links} \\
+\midrule
+Benban Solar Park (Aswan Gov.) &
+Clustered utility plots; strong arid soiling context; widely referenced. &
+\url{https://en.wikipedia.org/wiki/Benban_Solar_Park}\\
+&& \url{https://benbansolarpark.com/}\\
+\midrule
+Kom Ombo PV (Aswan area) &
+Large single-site utility narrative; good for layout thinking. &
+\url{https://acwapower.com/en/projects/kom-ombo-pv/}\\
+\midrule
+National / global statistics context &
+Justify ``what Egypt mostly builds'' vs headline projects. &
+\url{https://www.irena.org/publications}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Data Portals and Simulation Tools}
+\begin{description}[style=nextline,leftmargin=0pt,labelwidth=!]
+  \item[NASA POWER] \url{https://power.larc.nasa.gov/} --- Solar, temperature, humidity, wind, precipitation; useful for TMY-style student datasets.
+  \item[Copernicus CDS (ERA5)] \url{https://cds.climate.copernicus.eu/} --- Reanalysis for hourly humidity, wind, precipitation on a grid cell.
+  \item[Global Solar Atlas] \url{https://globalsolaratlas.info} --- Benchmark GHI/PVOUT comparisons across Egypt.
+  \item[PVsyst documentation (soiling)] \url{https://www.pvsyst.com/help/project-design/array-and-system-losses/soiling-loss.html}
+  \item[NREL SAM] \url{https://sam.nrel.gov/} --- Free techno-economic cross-check for PV.
+  \item[NREA (Egypt)] \url{http://www.nrea.gov.eg/test/en/About/Intro} --- Institutional orientation; pair with project fact sheets for hard numbers.
+\end{description}
+
+\section{Formulas and References}
+
+\subsection{Module area from plant data}
+If module count $N$ and module length/width $L,W$ are known:
+\begin{equation}
+A_{\mathrm{pv}} = N\,L\,W .
+\end{equation}
+If only DC nameplate $P_{\mathrm{dc,STC}}$ and representative STC module efficiency $\eta_{\mathrm{mod}}$ are known:
+\begin{equation}
+A_{\mathrm{pv}} \approx \frac{P_{\mathrm{dc,STC}}}{\eta_{\mathrm{mod}}\,G_{\mathrm{STC}}},
+\qquad G_{\mathrm{STC}} = 1000\ \mathrm{W/m^2}.
+\end{equation}
+\textbf{Reference (monitoring definitions):} IEC~61724-1 (PV system performance monitoring) --- obtain via \url{https://webstore.iec.ch/}.
+
+\subsection{Annual cleaning water (intensity $\times$ schedule)}
+Let $w$ be water intensity [L/m$^2$] per cleaning event (process-dependent), $N_{\mathrm{clean}}$ events/year, and $f_{\mathrm{margin}}$ fractional margin for flushing/spills:
+\begin{equation}
+V_{\mathrm{year}} = w\,A_{\mathrm{pv}}\,N_{\mathrm{clean}}\,\bigl(1+f_{\mathrm{margin}}\bigr).
+\end{equation}
+\textbf{Experimental process anchor (read the paper before quoting $w$):}\\
+\url{https://www.sciencedirect.com/science/article/abs/pii/S0038092X20302450}
+
+\subsection{Economic framing for cleaning timing (literature entry point)}
+Compare cleaning cost to incremental revenue from restored production (optimization papers extend this). Starting reference:\\
+\url{https://www.sciencedirect.com/science/article/abs/pii/S0306261921000039}
+
+\subsection{Psychrometrics (moisture in air)}
+Let $p$ be total pressure, $\phi$ relative humidity, $p_{ws}(T)$ saturation pressure at dry-bulb $T$. Water vapor partial pressure:
+\begin{equation}
+p_w = \phi\, p_{ws}(T).
+\end{equation}
+Humidity ratio (absolute humidity):
+\begin{equation}
+\omega = 0.622\,\frac{p_w}{p - p_w}
+\quad [\mathrm{kg_{vapor}/kg_{dry\ air}}].
+\end{equation}
+\textbf{Reference:} ASHRAE Handbook---Fundamentals, Chapter~1 (Psychrometrics).\\
+\url{https://www.ashrae.org/technical-resources/handbooks}
+
+\subsection{AWH performance metrics}
+Specific electric energy consumption:
+\begin{equation}
+\mathrm{SEC}_{\mathrm{el}} = \frac{E_{\mathrm{el}}}{m_w}
+\quad [\mathrm{kWh/kg}].
+\end{equation}
+Water productivity (example form):
+\begin{equation}
+Y_w = \frac{m_w}{A_{\mathrm{AWH}}\,\Delta t}
+\quad [\mathrm{kg/m^2/day}].
+\end{equation}
+\textbf{Critical metrics / comparability:} Kim et al., \textit{Energy Environ.\ Sci.}\ (2022) ---\\
+\url{https://pubs.rsc.org/en/content/articlelanding/2022/ee/d2ee03079a}
+
+\textbf{Broad technology review:}\\
+\url{https://www.sciencedirect.com/science/article/abs/pii/S0360544223015803}
+
+\section{Software Stack (Beyond PVsyst + CAD)}
+\begin{itemize}[leftmargin=*]
+  \item PV energy + losses: PVsyst; cross-check with SAM; optional Python pvlib sanity checks.
+  \item AWH: TRNSYS / Modelica / custom Python coupled to TMY psychrometrics.
+  \item CAD: SolidWorks / Fusion~360; CFD (optional): OpenFOAM / Ansys Fluent for distribution uniformity.
+  \item GIS: QGIS for land-cover / road proximity as dust proxies.
+\end{itemize}
+
+\section{Closing Integration Statement}
+Anchor the plant class with evidence, lock a coordinate-specific TMY, translate soiling into a justified cleaning schedule, compute annual liters with uncertainty, then size AWH against peak-week demand reporting SEC (and thermal energy if applicable). Clearly separate what PVsyst validates (energy/soiling sensitivity) from what you must validate experimentally or with a dedicated AWH model (mass transfer, water quality, O\&M).
+
+\section{Selected Configuration and Traceable Build Path}
+\subsection{Calculated best-option parameters}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Numerical best LCOW route:} absorption-style AWH at SEC $\approx 0.38$\,kWh/kg under the current literature-based assumptions.
+  \item \textbf{Prototype-selected route:} modular \textbf{vapor-compression condensation} with polishing treatment, selected because it remains near the numerical optimum while being easier to procure and assemble.
+  \item \textbf{Shared design basis:} 200\,MW DC Benban-class block, $\eta_{\mathrm{mod}}=0.215$, $w=1.8$\,L/m$^2$/event, $N_{\mathrm{clean}}=18$/yr, $f_{\mathrm{margin}}=0.25$, and annual water duty on the order of $3.77\times 10^4$\,m$^3$/yr.
+  \item \textbf{Prototype target:} 200\,L/day condensate, 500\,L raw tank, 500\,L polished-water tank, and 2.0\,m$^3$/h delivery at 3.0\,bar for interface validation.
+\end{itemize}
+
+\subsection{Traceability matrix}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{4.1cm}p{4.0cm}p{6.6cm}@{}}
+\toprule
+\textbf{Source calculation} & \textbf{Decision} & \textbf{Traceable design output} \\
+\midrule
+Module-area equation & Fix plant cleaning footprint & Defines the cleaning duty that all AWH concepts must satisfy. \\
+Annual water-demand equation & Size storage and production & Requires modular generation plus buffering instead of direct supply only. \\
+SEC comparison & Rank candidate technologies & Keeps absorption as numeric benchmark and VCR as the preferred build route. \\
+Water-quality analysis & Select treatment train & Fixes sediment filtration, carbon polishing, UV, and optional RO bypass. \\
+Cleaning-interface requirements & Specify hydraulic discharge & Sets the prototype pump, manifold, and outlet instrumentation targets. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Simulation plan}
+\begin{enumerate}[leftmargin=*]
+  \item Run PVsyst with the same cleaning schedule used in the water-duty equations.
+  \item Build an hourly AWH simulation from NASA POWER and ERA5 psychrometrics.
+  \item Simulate compressor, fan, condensate, and storage behavior for summer, shoulder, and winter cases.
+  \item Add sensitivity cases for low-RH nights, filter fouling, and missed cleaning events.
+  \item Validate the design when condensate production, polished-water TDS, and cleaning-interface pressure all meet the target band.
+\end{enumerate}
+
+\subsection{Engineering drawings, BOM, and component specifications}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Drawings:} D-101 process flow, D-102 skid general arrangement, D-103 tank and drain layout, D-104 treatment manifold, D-105 electrical one-line, D-106 controls and instrumentation, D-107 cleaning-interface manifold.
+  \item \textbf{BOM:} compressor package, evaporator coil, condenser, EC fans, 500\,L raw tank, 500\,L polished tank, 5\,$\mu$m filter, carbon stage, UV reactor, 2.0\,m$^3$/h pump, flow meter, TDS meter, T/RH sensors, level switches, PLC/datalogger, valves, and tubing.
+  \item \textbf{Specifications:} food-safe or HDPE wetted surfaces, serviceable filter cartridges, laboratory electrical supply with interlocks, and maintenance access around the skid footprint.
+\end{itemize}
+
+\subsection{Build manual, safety, and quality control}
+\begin{enumerate}[leftmargin=*]
+  \item Assemble the refrigeration loop and complete a leak test before energization.
+  \item Install treatment and storage hardware according to D-101 and D-104.
+  \item Calibrate sensors and run dry then wet commissioning before full 24-hour tests.
+  \item Apply lockout-tagout, refrigerant handling, electrical earthing, and sanitation protocols.
+  \item Hold QC checkpoints at leak test, airflow verification, condensate-rate verification, TDS verification, and discharge-pressure verification.
+\end{enumerate}
+
+\subsection{Updated master project plan}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{2.0cm}p{4.1cm}p{3.0cm}p{2.0cm}p{3.6cm}@{}}
+\toprule
+\textbf{Milestone} & \textbf{Deliverable} & \textbf{Resources} & \textbf{Date} & \textbf{Success criteria} \\
+\midrule
+M1 & Freeze design basis and route ranking & PI + analyst & T0+2d & Inputs and traceability approved \\
+M2 & Complete PVsyst and AWH simulations & PV analyst + controls student & T0+7d & Weather-linked performance model closed \\
+M3 & Release drawing set D-101 to D-107 & CAD lead + mechanical lead & T0+10d & All interfaces dimensioned \\
+M4 & Procure BOM and fabricate skid & Procurement + workshop technician & T0+17d & Components inspected and ready \\
+M5 & Build and commission prototype & Mechanical + electrical + safety officer & T0+24d & Safe 24-hour run achieved \\
+M6 & Validate against selected targets & Test engineer + QA lead & T0+28d & Production, quality, and pressure targets achieved \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

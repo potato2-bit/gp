@@ -1,0 +1,512 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1781236375.2644584,
+    "ast_hash": "af5683cedca023035194f9ad92eb0eef",
+    "semantic_hash": "af5683cedca023035194f9ad92eb0eef"
+  },
+  "docs/TWO_WEEK_PROJECT_PLAN.toc": {
+    "mtime": 1776646981.7498484,
+    "ast_hash": "5fc70df80caa38e0ea7d2820c2674f83",
+    "semantic_hash": "5fc70df80caa38e0ea7d2820c2674f83"
+  },
+  "output/lcow_table.json": {
+    "mtime": 1776972876.0433242,
+    "ast_hash": "9e1a9f4c03245835e57acae8bb47157b",
+    "semantic_hash": "9e1a9f4c03245835e57acae8bb47157b"
+  },
+  "output/tec_robot_results.json": {
+    "mtime": 1780340175.479793,
+    "ast_hash": "ec7c75769386641f668ade830730d570",
+    "semantic_hash": "ec7c75769386641f668ade830730d570"
+  },
+  "scripts/_body.py": {
+    "mtime": 1780320029.8446841,
+    "ast_hash": "1b21bdb07463a7e2acd625129d74ffa5",
+    "semantic_hash": "1b21bdb07463a7e2acd625129d74ffa5"
+  },
+  "scripts/_tail.py": {
+    "mtime": 1780320029.8506837,
+    "ast_hash": "8254ada50be22ed2a2537a2df5a24a40",
+    "semantic_hash": "8254ada50be22ed2a2537a2df5a24a40"
+  },
+  "scripts/fetch_nasa_power.py": {
+    "mtime": 1776643478.2717605,
+    "ast_hash": "45fca1df6784385218133cf2e080f14d",
+    "semantic_hash": "45fca1df6784385218133cf2e080f14d"
+  },
+  "scripts/project_calculations.py": {
+    "mtime": 1776648588.3339045,
+    "ast_hash": "30541cb0d0fe6bf97ad84f362c9c241f",
+    "semantic_hash": "30541cb0d0fe6bf97ad84f362c9c241f"
+  },
+  "scripts/psychrometrics_hourly.py": {
+    "mtime": 1776642806.6056821,
+    "ast_hash": "c232418806c39c737019d9a461cf5924",
+    "semantic_hash": "c232418806c39c737019d9a461cf5924"
+  },
+  "scripts/tec_robot_design.py": {
+    "mtime": 1780320029.8880801,
+    "ast_hash": "5fda1f94ab4781c58345c5b321fcf722",
+    "semantic_hash": "5fda1f94ab4781c58345c5b321fcf722"
+  },
+  "scripts/verify_independent_solver.py": {
+    "mtime": 1780385644.7790537,
+    "ast_hash": "d14449a5bcdcb56c7fd16253a12b253d",
+    "semantic_hash": "d14449a5bcdcb56c7fd16253a12b253d"
+  },
+  ".claude/CLAUDE.md": {
+    "mtime": 1781089152.0064425,
+    "ast_hash": "817fe671013b35ae0bc9301dfe449a87",
+    "semantic_hash": "817fe671013b35ae0bc9301dfe449a87"
+  },
+  ".claude/skills/graphify/SKILL.md": {
+    "mtime": 1781236375.2213404,
+    "ast_hash": "27571c6fb41c9e1e2bde11a53c690892",
+    "semantic_hash": "27571c6fb41c9e1e2bde11a53c690892"
+  },
+  ".claude/skills/graphify/references/add-watch.md": {
+    "mtime": 1781089088.2952957,
+    "ast_hash": "0df0589623217ca38a12bdcabfb42f4c",
+    "semantic_hash": "0df0589623217ca38a12bdcabfb42f4c"
+  },
+  ".claude/skills/graphify/references/exports.md": {
+    "mtime": 1781089088.3044164,
+    "ast_hash": "7fb1a81aca17a462db70684a324fcfb0",
+    "semantic_hash": "7fb1a81aca17a462db70684a324fcfb0"
+  },
+  ".claude/skills/graphify/references/extraction-spec.md": {
+    "mtime": 1781089088.3044164,
+    "ast_hash": "24808b03abfeaf5f6435bb69c0125b2c",
+    "semantic_hash": "24808b03abfeaf5f6435bb69c0125b2c"
+  },
+  ".claude/skills/graphify/references/github-and-merge.md": {
+    "mtime": 1781089088.3044164,
+    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
+    "semantic_hash": "cde13df085e4c492aeb7ba298a996d0d"
+  },
+  ".claude/skills/graphify/references/hooks.md": {
+    "mtime": 1781089088.3044164,
+    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
+    "semantic_hash": "3f545db6ce646650bb9de588f5512a27"
+  },
+  ".claude/skills/graphify/references/query.md": {
+    "mtime": 1781089088.3044164,
+    "ast_hash": "c2a8e798674a81b02aa9975f43023819",
+    "semantic_hash": "c2a8e798674a81b02aa9975f43023819"
+  },
+  ".claude/skills/graphify/references/transcribe.md": {
+    "mtime": 1781089088.3044164,
+    "ast_hash": "70f6aa30d6211f3a2c7e9fc45479f50c",
+    "semantic_hash": "70f6aa30d6211f3a2c7e9fc45479f50c"
+  },
+  ".claude/skills/graphify/references/update.md": {
+    "mtime": 1781089088.3044164,
+    "ast_hash": "0dad167a95bdb389f02fecffb60b1bc8",
+    "semantic_hash": "0dad167a95bdb389f02fecffb60b1bc8"
+  },
+  "CLAUDE.md": {
+    "mtime": 1781089152.016971,
+    "ast_hash": "3ead6fd0f90638e5ae38d25fac1af11b",
+    "semantic_hash": "3ead6fd0f90638e5ae38d25fac1af11b"
+  },
+  "I would love to know about ROI  and also I wonder....txt": {
+    "mtime": 1766524012.523316,
+    "ast_hash": "822c814ffa5fe7ca3b6cc5912c64abd1",
+    "semantic_hash": "822c814ffa5fe7ca3b6cc5912c64abd1"
+  },
+  "Report_Structure_Senior_Design_I.md": {
+    "mtime": 1766854888.6462283,
+    "ast_hash": "81051bcc2cf1bedf378224b0a93e2877",
+    "semantic_hash": "81051bcc2cf1bedf378224b0a93e2877"
+  },
+  "What are the solar pv stations are located in egy....txt": {
+    "mtime": 1766524034.4833674,
+    "ast_hash": "5bbef9cd57d3bdba3c0a010655d5e3c6",
+    "semantic_hash": "5bbef9cd57d3bdba3c0a010655d5e3c6"
+  },
+  "do any of them use robots to clean the panels_.txt": {
+    "mtime": 1766524023.27606,
+    "ast_hash": "d26d58fbe8342932c1fa60406e990c37",
+    "semantic_hash": "d26d58fbe8342932c1fa60406e990c37"
+  },
+  "do you have resources that support the informatio....txt": {
+    "mtime": 1766524131.3145285,
+    "ast_hash": "b8f40f32fc5f098082f2c496904f7ee0",
+    "semantic_hash": "b8f40f32fc5f098082f2c496904f7ee0"
+  },
+  "docs/CITATION_VERIFICATION_2026-06-02.md": {
+    "mtime": 1780403480.9763422,
+    "ast_hash": "e5dde99a98fb44cea97677f5cd6dd1bf",
+    "semantic_hash": "e5dde99a98fb44cea97677f5cd6dd1bf"
+  },
+  "docs/CLAUDE_CODE_INSTALL_GUIDE.md": {
+    "mtime": 1777070265.7332513,
+    "ast_hash": "ad8b1a99123c96ca8060aad530de5549",
+    "semantic_hash": "ad8b1a99123c96ca8060aad530de5549"
+  },
+  "docs/PVsyst_runbook.md": {
+    "mtime": 1776643344.4185286,
+    "ast_hash": "17e7f8e459ab908dc10b46cdcdfcbfc3",
+    "semantic_hash": "17e7f8e459ab908dc10b46cdcdfcbfc3"
+  },
+  "docs/REE598_PROPOSAL_REVIEW.md": {
+    "mtime": 1776989449.4431787,
+    "ast_hash": "b062f3dcca1205e83f786f46ab1e8a3f",
+    "semantic_hash": "b062f3dcca1205e83f786f46ab1e8a3f"
+  },
+  "docs/TWO_WEEK_PROJECT_PLAN.md": {
+    "mtime": 1776649256.9610443,
+    "ast_hash": "92b7ecc2150627e9cb57d9a2875db22f",
+    "semantic_hash": "92b7ecc2150627e9cb57d9a2875db22f"
+  },
+  "figures/README_FIGURES.md": {
+    "mtime": 1776643345.8474252,
+    "ast_hash": "47edd1b5276e9b9f3081ac845e419d6d",
+    "semantic_hash": "47edd1b5276e9b9f3081ac845e419d6d"
+  },
+  "give all your numbers' resources and add links to....txt": {
+    "mtime": 1766523765.572186,
+    "ast_hash": "75589bce476ed220df854644709caeb0",
+    "semantic_hash": "75589bce476ed220df854644709caeb0"
+  },
+  "give me references to the percentages you mention....txt": {
+    "mtime": 1766524107.9036686,
+    "ast_hash": "8e73bee36db7e9b89efcc1c2c10e19a3",
+    "semantic_hash": "8e73bee36db7e9b89efcc1c2c10e19a3"
+  },
+  "memory/project_context.md": {
+    "mtime": 1776989102.8976326,
+    "ast_hash": "d931600b013395090ced31ede668f094",
+    "semantic_hash": "d931600b013395090ced31ede668f094"
+  },
+  "now do the same cost analysis with adding the res....txt": {
+    "mtime": 1766523745.3204334,
+    "ast_hash": "322fed4591747ee11881389c60592ff0",
+    "semantic_hash": "322fed4591747ee11881389c60592ff0"
+  },
+  "output/calculation_summary.txt": {
+    "mtime": 1776972876.082176,
+    "ast_hash": "a3c7034d8be8c9516a0d9d1c84baba7f",
+    "semantic_hash": "a3c7034d8be8c9516a0d9d1c84baba7f"
+  },
+  "project_inputs.yaml": {
+    "mtime": 1776841409.3319633,
+    "ast_hash": "0ead5fc3206a1057b782352a8234dcfc",
+    "semantic_hash": "0ead5fc3206a1057b782352a8234dcfc"
+  },
+  "requirements.txt": {
+    "mtime": 1776642869.4615624,
+    "ast_hash": "f5c4ff350439df0ef6ab73a06743139a",
+    "semantic_hash": "f5c4ff350439df0ef6ab73a06743139a"
+  },
+  "resend the _project scale and CAD Workflow_ file.txt": {
+    "mtime": 1766523688.2497551,
+    "ast_hash": "06c117666065586dc631cac4c9511f30",
+    "semantic_hash": "06c117666065586dc631cac4c9511f30"
+  },
+  "send references that have the datasheets I need f....txt": {
+    "mtime": 1766523672.5217204,
+    "ast_hash": "a5c6df7adf0a27b1360d54bcbca899f5",
+    "semantic_hash": "a5c6df7adf0a27b1360d54bcbca899f5"
+  },
+  "skills/terse-chat/SKILL.md": {
+    "mtime": 1776989026.5617082,
+    "ast_hash": "c5cebe8e2f99c5e5c35f852149cd829e",
+    "semantic_hash": "c5cebe8e2f99c5e5c35f852149cd829e"
+  },
+  "so let's assume there's a way to provide water so....txt": {
+    "mtime": 1766524121.147076,
+    "ast_hash": "440271950243db466537e76ba2c9aefd",
+    "semantic_hash": "440271950243db466537e76ba2c9aefd"
+  },
+  "submission/SUBMISSION_CHECKLIST.md": {
+    "mtime": 1776643345.218513,
+    "ast_hash": "9ec69e6217abceb6682da660af06ab02",
+    "semantic_hash": "9ec69e6217abceb6682da660af06ab02"
+  },
+  "write a detailed survey of the following documents.txt": {
+    "mtime": 1766523792.159736,
+    "ast_hash": "36c2a9edf7cd73b676b89687ea037964",
+    "semantic_hash": "36c2a9edf7cd73b676b89687ea037964"
+  },
+  "you didn't mention the part of it that will be us....txt": {
+    "mtime": 1766523730.1105309,
+    "ast_hash": "38a9c9cacafce314eeac5a49351d1cc7",
+    "semantic_hash": "38a9c9cacafce314eeac5a49351d1cc7"
+  },
+  "BENBAN_TEC_VCR_CAPACITY_ANALYSIS.pdf": {
+    "mtime": 1776804275.975519,
+    "ast_hash": "d6025a59f47511a9274000cc2fbe2393",
+    "semantic_hash": "d6025a59f47511a9274000cc2fbe2393"
+  },
+  "FINAL_SHORT_REPORT.pdf": {
+    "mtime": 1781086988.9749575,
+    "ast_hash": "6ba1739ddd323399121cc4f1c6a421cf",
+    "semantic_hash": "6ba1739ddd323399121cc4f1c6a421cf"
+  },
+  "FIVE_DAY_WRAPUP_PLAN.pdf": {
+    "mtime": 1781087540.599755,
+    "ast_hash": "b9d7041987559d30973235d07b6ca304",
+    "semantic_hash": "b9d7041987559d30973235d07b6ca304"
+  },
+  "Materials engineering.pdf": {
+    "mtime": 1759910678.5665703,
+    "ast_hash": "b12237627531b0d7c8edca650577e99d",
+    "semantic_hash": "b12237627531b0d7c8edca650577e99d"
+  },
+  "PROJECT_COMPLETION_PLAN.pdf": {
+    "mtime": 1781087760.5612857,
+    "ast_hash": "f7ed4c75e4a2efca25dc050485b8d543",
+    "semantic_hash": "f7ed4c75e4a2efca25dc050485b8d543"
+  },
+  "REE 598 GP_1_Guidelines.pdf": {
+    "mtime": 1781288434.139537,
+    "ast_hash": "4793b6862de1533bc376a84f77287a4e",
+    "semantic_hash": "4793b6862de1533bc376a84f77287a4e"
+  },
+  "REE598_proposal.pdf": {
+    "mtime": 1776992436.903299,
+    "ast_hash": "a7aa6dee0a611bd40df0c0980770038a",
+    "semantic_hash": "a7aa6dee0a611bd40df0c0980770038a"
+  },
+  "THESIS_OUTLINE.pdf": {
+    "mtime": 1781087504.5068016,
+    "ast_hash": "d9fd8555a5a147c947c859e762741a8e",
+    "semantic_hash": "d9fd8555a5a147c947c859e762741a8e"
+  },
+  "TWO_WEEK_PROJECT_PLAN.pdf": {
+    "mtime": 1776649034.328599,
+    "ast_hash": "e0c41e506e38e26fb5a677ac21cfb629",
+    "semantic_hash": "e0c41e506e38e26fb5a677ac21cfb629"
+  },
+  "ctz072.pdf": {
+    "mtime": 1759910489.6104834,
+    "ast_hash": "3feeb8df9a41569651e1b8d4a70c9790",
+    "semantic_hash": "3feeb8df9a41569651e1b8d4a70c9790"
+  },
+  "docs/TWO_WEEK_PROJECT_PLAN.pdf": {
+    "mtime": 1776646981.7963612,
+    "ast_hash": "fb0508cd153d48fa0e8f4ef2d1b893fd",
+    "semantic_hash": "fb0508cd153d48fa0e8f4ef2d1b893fd"
+  },
+  "egypt_pv_inventory_and_tec_small_scale.pdf": {
+    "mtime": 1776874410.921939,
+    "ast_hash": "7a079285045b839470dab4337b6f7c85",
+    "semantic_hash": "7a079285045b839470dab4337b6f7c85"
+  },
+  "feng-et-al-2022-recent-development-of-atmospheric-water-harvesting-materials-a-review.pdf": {
+    "mtime": 1759910690.5569394,
+    "ast_hash": "d38cd069326b7f225c3b0da01aa015d2",
+    "semantic_hash": "d38cd069326b7f225c3b0da01aa015d2"
+  },
+  "figures/fig_cop_sec_dT.pdf": {
+    "mtime": 1780340176.6852453,
+    "ast_hash": "0ca5fd6da50db7019218e2f0b084abd5",
+    "semantic_hash": "0ca5fd6da50db7019218e2f0b084abd5"
+  },
+  "figures/fig_diurnal.pdf": {
+    "mtime": 1780340177.227043,
+    "ast_hash": "31a5886ccc23f77fb6eb737af8df74d4",
+    "semantic_hash": "31a5886ccc23f77fb6eb737af8df74d4"
+  },
+  "figures/fig_energy_balance.pdf": {
+    "mtime": 1780340177.0201561,
+    "ast_hash": "e0dbccb8e6763ef8181d366ba94a557a",
+    "semantic_hash": "e0dbccb8e6763ef8181d366ba94a557a"
+  },
+  "figures/fig_margin_sensitivity.pdf": {
+    "mtime": 1780340176.866569,
+    "ast_hash": "9a4f691216c324874796de0e4cb52967",
+    "semantic_hash": "9a4f691216c324874796de0e4cb52967"
+  },
+  "figures/fig_monthly_climate.pdf": {
+    "mtime": 1780340176.3149128,
+    "ast_hash": "5c92d6766d63ec6a3d82028c4cfc1d72",
+    "semantic_hash": "5c92d6766d63ec6a3d82028c4cfc1d72"
+  },
+  "figures/fig_monthly_water.pdf": {
+    "mtime": 1780340176.5044558,
+    "ast_hash": "b0870a895ca8ab69cf1a898486bc59fc",
+    "semantic_hash": "b0870a895ca8ab69cf1a898486bc59fc"
+  },
+  "main_report.pdf": {
+    "mtime": 1776972900.2870238,
+    "ast_hash": "24e23586f0b9c9453cd4a5f1243c43c2",
+    "semantic_hash": "24e23586f0b9c9453cd4a5f1243c43c2"
+  },
+  "project_analysis_awh_comparison_and_scope.pdf": {
+    "mtime": 1776649005.5484064,
+    "ast_hash": "1471812c33908e582dae85a6875eebe2",
+    "semantic_hash": "1471812c33908e582dae85a6875eebe2"
+  },
+  "project_awh_benban_numbers_cost_quality.pdf": {
+    "mtime": 1776648962.9980786,
+    "ast_hash": "b7eca47c34ad9d60874c42835a578784",
+    "semantic_hash": "b7eca47c34ad9d60874c42835a578784"
+  },
+  "project_structure.pdf": {
+    "mtime": 1776649020.3247037,
+    "ast_hash": "25c3e81e1c85369f0fc2477c778d3d48",
+    "semantic_hash": "25c3e81e1c85369f0fc2477c778d3d48"
+  },
+  "proposal_short.pdf": {
+    "mtime": 1776972916.7465243,
+    "ast_hash": "7a284d4c2bccf97961947d50012958a0",
+    "semantic_hash": "7a284d4c2bccf97961947d50012958a0"
+  },
+  "prototype_design_report.pdf": {
+    "mtime": 1781331793.0453224,
+    "ast_hash": "fee0b07cf3ee18a76f696edbb38e879e",
+    "semantic_hash": ""
+  },
+  "sustainability-15-15431.pdf": {
+    "mtime": 1766523827.0713334,
+    "ast_hash": "09f8be768a579fcc3a17e3f1ea0fd467",
+    "semantic_hash": "09f8be768a579fcc3a17e3f1ea0fd467"
+  },
+  "tec_deployment_analysis_v1.1_egypt_market_supplement.pdf": {
+    "mtime": 1776951650.143499,
+    "ast_hash": "cb62a5ad280532ecc2afd7e0932ea84b",
+    "semantic_hash": "cb62a5ad280532ecc2afd7e0932ea84b"
+  },
+  "tec_single_vs_parallel_deployment_analysis_v1.0.pdf": {
+    "mtime": 1776951577.4852395,
+    "ast_hash": "b920da1a76a0f6f5b5dc414ea8a31115",
+    "semantic_hash": "b920da1a76a0f6f5b5dc414ea8a31115"
+  },
+  "tec_vcr_sustainability_efficiency_maintenance_v1.2.pdf": {
+    "mtime": 1776951669.2190313,
+    "ast_hash": "0f1f3e613de36f424f0fd9c640a4ccd3",
+    "semantic_hash": "0f1f3e613de36f424f0fd9c640a4ccd3"
+  },
+  "zhou-et-al-2020-atmospheric-water-harvesting-a-review-of-material-and-structural-designs.pdf": {
+    "mtime": 1759910560.6208766,
+    "ast_hash": "aee9fa078ed34b52eda62097e2a8aa32",
+    "semantic_hash": "aee9fa078ed34b52eda62097e2a8aa32"
+  },
+  "figures/system_architecture.png": {
+    "mtime": 1776989586.2469149,
+    "ast_hash": "3c1410ecd31eae2f3f67443bb2858030",
+    "semantic_hash": "3c1410ecd31eae2f3f67443bb2858030"
+  },
+  "figures/system_architecture.svg": {
+    "mtime": 1776989571.2681718,
+    "ast_hash": "88f4f22452f9570f825540626f2462eb",
+    "semantic_hash": "88f4f22452f9570f825540626f2462eb"
+  },
+  "logo.jpg": {
+    "mtime": 1766355062.7414718,
+    "ast_hash": "d4744941dddaafa90f56528c872e240f",
+    "semantic_hash": "d4744941dddaafa90f56528c872e240f"
+  },
+  "scripts/make_cad_dxf.py": {
+    "mtime": 1781282096.1289005,
+    "ast_hash": "a41927f07b2c04cfec3832f916dde144",
+    "semantic_hash": ""
+  },
+  "gazebo/pvbot_description/README_GAZEBO.md": {
+    "mtime": 1781330460.7027564,
+    "ast_hash": "ae497f9ab9775e857d77fc5a77886daf",
+    "semantic_hash": ""
+  },
+  "CAD_DESIGN_PACKAGE.pdf": {
+    "mtime": 1781331726.7972822,
+    "ast_hash": "255961192ae7cd7cb57fb15792284f28",
+    "semantic_hash": ""
+  },
+  "MARKET_BOM.pdf": {
+    "mtime": 1781331831.1061604,
+    "ast_hash": "e59791a5b640598980f15e598fc70aa2",
+    "semantic_hash": ""
+  },
+  "MARKET_PARTS_BOM.pdf": {
+    "mtime": 1781283470.7755609,
+    "ast_hash": "bcb503683a940f5bf7483c9af582d2ce",
+    "semantic_hash": ""
+  },
+  "ROS2_ARCHITECTURE.pdf": {
+    "mtime": 1781264405.4838684,
+    "ast_hash": "d44aa63a47257bbf4e6e756b63fa3a0f",
+    "semantic_hash": ""
+  },
+  "output/nac_site_meta.json": {
+    "mtime": 1781282992.898252,
+    "ast_hash": "e85281b919e8f2628a57e14bb6acf247",
+    "semantic_hash": ""
+  },
+  "output/nac_tec_robot_results.json": {
+    "mtime": 1781282997.7423825,
+    "ast_hash": "ad9c905ab6bb4f25a87ef9d65c9c514e",
+    "semantic_hash": ""
+  },
+  "scripts/nac_residential_design.py": {
+    "mtime": 1781282879.680405,
+    "ast_hash": "3b71706561d82fc9fbc73acb05785ad6",
+    "semantic_hash": ""
+  },
+  "RESIDENTIAL_SITE_DESIGN.pdf": {
+    "mtime": 1781326933.7714112,
+    "ast_hash": "0d95cb75709a8bb509a11fb6f0fbe7c6",
+    "semantic_hash": ""
+  },
+  "figures/nac_monthly_water.pdf": {
+    "mtime": 1781283000.5941994,
+    "ast_hash": "a16cbb55dea2f81d0e97c44c50630f09",
+    "semantic_hash": ""
+  },
+  "cad/3d/make_pvbot_3d_dxf.py": {
+    "mtime": 1781331502.8228161,
+    "ast_hash": "ba15884dda2c4e74ce21f55e531b2c97",
+    "semantic_hash": ""
+  },
+  "gazebo/pvbot_description/pvbot_coverage.py": {
+    "mtime": 1781330179.8483212,
+    "ast_hash": "f943f1fefa398fc1385530c042c386e5",
+    "semantic_hash": ""
+  },
+  "gazebo/pvbot_description/run_demo.sh": {
+    "mtime": 1781330340.421298,
+    "ast_hash": "c89e49a969b8f6b2656456e686272ca8",
+    "semantic_hash": ""
+  },
+  "gazebo/pvbot_description/validate_tilt_cov.sh": {
+    "mtime": 1781330199.6140525,
+    "ast_hash": "adb7428d110a98b7af92daad4a8b7d6f",
+    "semantic_hash": ""
+  },
+  "output/rail_guided_design.json": {
+    "mtime": 1781330661.4326553,
+    "ast_hash": "e4fb04c2a29382a8ec9c63b8680dc1ba",
+    "semantic_hash": ""
+  },
+  "prototype_design_report.toc": {
+    "mtime": 1781331792.9568715,
+    "ast_hash": "ea70baa32a0f964f50ee45c4d27b1200",
+    "semantic_hash": ""
+  },
+  "scripts/rail_guided_recalc.py": {
+    "mtime": 1781330654.0449076,
+    "ast_hash": "6e456d342bf25805bdbbf52ad1663a18",
+    "semantic_hash": ""
+  },
+  "scripts/sim_cleaning_demo.py": {
+    "mtime": 1781327974.125949,
+    "ast_hash": "fbe72a30564679b4076248b4927d74c0",
+    "semantic_hash": ""
+  },
+  "MARKET_PARTS_BUYLIST.md": {
+    "mtime": 1781331116.6345747,
+    "ast_hash": "29e444ff26a543c8ad99a0d9f4ffd974",
+    "semantic_hash": ""
+  },
+  "cad/3d/README_3D.md": {
+    "mtime": 1781331553.9598112,
+    "ast_hash": "c558e380d8af02a5d19a3b2d8deb3628",
+    "semantic_hash": ""
+  },
+  "figures/sim_cleaning_demo.gif": {
+    "mtime": 1781328017.095164,
+    "ast_hash": "ae35be45729121f51770ac54662601fc",
+    "semantic_hash": ""
+  }
+}

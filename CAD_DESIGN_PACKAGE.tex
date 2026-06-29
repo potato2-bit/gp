@@ -1,0 +1,496 @@
+%=====================================================================
+%  CAD Design Package - Mechanical Drawing Set and Gazebo Model
+%  Autonomous TEC-Based Atmospheric-Water PV-Cleaning Robot (REE598)
+%
+%  Companion to prototype_design_report.tex. All frozen numbers come
+%  from scripts/tec_robot_design.py via output/tec_robot_results.json.
+%  Drawings: cad/D-101..D-107 (.scr for AutoCAD + .dxf via ezdxf).
+%  Simulation model: gazebo/pvbot_description/.
+%  NOTE: colortbl deliberately not used (MiKTeX array-version bug).
+%=====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+\usepackage{cite}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newcommand{\dwg}[1]{\textbf{#1}}
+\newcommand{\fpath}[1]{{\ttfamily\small #1}}
+
+\title{\textbf{CAD Design Package}\\[0.4em]
+\large Mechanical Drawing Set (D-101 to D-110), 3D Model, and Gazebo Model\\[0.2em]
+\normalsize Autonomous Thermoelectric Atmospheric-Water PV-Cleaning Robot --- REE598}
+\author{Rahma El-Hamouly}
+\date{13 June 2026}
+
+\begin{document}
+\maketitle
+
+\section{Purpose and scope}
+This package turns the frozen design values of the prototype design report
+into manufacturable 2D drawings, a 3D model, and a simulation model. The robot
+has since been revised from a free differential-drive crawler to a rail-guided
+carriage that carries a full panel-width brush (Section~\ref{sec:railrev}
+gives the reason and the changed numbers). The drawing set covers every
+structural part of the 8.0\,kg carriage: chassis plate, motor brackets, brush
+assembly, the 4-tile TEC condenser sandwich, the 3.6\,L water tank with its
+pump, the electronics bay, a general assembly, and the three rail-drive sheets
+added by the revision (D-108 rail assembly, D-109 rack-and-pinion drive, D-110
+full-width brush). Each 2D drawing exists in two formats generated from the
+same dimensions: an AutoCAD script (\fpath{.scr}, plain text, no dependencies)
+and a DXF file (\fpath{.dxf}, written with the \fpath{ezdxf} library by
+\fpath{scripts/make\_cad\_dxf.py}). The 3D model is in \fpath{cad/3d/}:
+AutoCAD scripts that build native 3D solids of the carriage and the panel/rail
+scene, plus a faceted-mesh \fpath{.dxf} for any viewer. The Gazebo model in
+\fpath{gazebo/pvbot\_description/} uses the hand-maintained URDF, with the same
+link names and inertial values, so the mechanical and software documents
+describe one robot.
+
+The frozen inputs are: carriage mass 8.0\,kg; full-width brush 0.96\,m at
+$\varnothing$50\,mm with microfibre roller and low-pressure spray; operation
+on a residential panel tilted $24^\circ$; rail-drive force 37.2\,N at the
+rack, needing at least 0.84\,N\,m at the $\varnothing$30\,mm pinion turning
+near 38\,rpm, with a 1.5 safety factor applied at motor selection
+\cite{siegwart2011mobilerobots};
+TEC1-12706 modules of 40\,mm $\times$ 40\,mm \cite{tec12706ds} in a
+2$\times$2 bench array with 2\,m/s forced air on the cold side
+\cite{zhao2022teccondenser}; a 3.6\,L tank sized for one cleaning event at
+1.8\,L/m$^2$ over 2\,m$^2$; and an ESP32 electronics bay with INA219 current
+sensing per the prototype test plan.
+
+\section{Drawing register}
+\begin{table}[h]
+\centering
+\caption{Drawing register. Sheets D-101 to D-107 dated 2026-06-12; the
+rail-drive sheets D-108 to D-110 dated 2026-06-13. Units mm, general
+tolerance ISO 2768-m.}
+\label{tab:register}
+\small
+\begin{tabular}{lllll}
+\toprule
+No. & Title & Material & Scale & Files (\fpath{cad/}) \\
+\midrule
+D-101 & Chassis base plate & Al 6061-T6, 3\,mm & 1:2 A3 &
+  \fpath{D-101\_chassis\_base\_plate.scr/.dxf} \\
+D-102 & Motor mount bracket ($\times$2) & POM & 1:1 A4 &
+  \fpath{D-102\_motor\_mount\_bracket.scr/.dxf} \\
+D-103 & Brush assembly & mixed (see sheet) & 1:2 A3 &
+  \fpath{D-103\_brush\_assembly.scr/.dxf} \\
+D-104 & TEC cold-plate sandwich & Al 6061 + Al extrusion & 1:2 A3 &
+  \fpath{D-104\_tec\_coldplate\_sandwich.scr/.dxf} \\
+D-105 & Water tank 3.6\,L + pump & HDPE, 2\,mm & 1:2 A3 &
+  \fpath{D-105\_water\_tank\_pump.scr/.dxf} \\
+D-106 & Electronics bay & acrylic, 3\,mm & 1:1 A4 &
+  \fpath{D-106\_electronics\_bay.scr/.dxf} \\
+D-107 & General assembly & --- & 1:2 A3 &
+  \fpath{D-107\_general\_assembly.scr/.dxf} \\
+\addlinespace
+D-108 & Rail assembly (2$\times$2.4\,m) & Al 6063 2040 V-slot & 1:5 A3 &
+  see \fpath{cad/3d/rail\_and\_panel\_3d.scr} \\
+D-109 & Rack-and-pinion drive & steel rack + pinion, $\varnothing$30 & 1:2 A3 &
+  see \fpath{cad/3d/pvbot\_3d\_assembly.scr} \\
+D-110 & Full-width brush ($0.96$\,m) & microfibre over $\varnothing$50 core & 1:5 A3 &
+  see \fpath{cad/3d/pvbot\_3d\_assembly.scr} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The three rail-drive sheets D-108 to D-110 are carried in the 3D model in
+\fpath{cad/3d/} rather than as separate 2D scripts: \fpath{rail\_and\_panel\_3d.scr}
+builds the rails, rack, posts, and end stops (D-108), and
+\fpath{pvbot\_3d\_assembly.scr} builds the rack-and-pinion drive (D-109) and the
+full-width brush (D-110) as part of the carriage. \fpath{cad/3d/README\_3D.md}
+lists the exact AutoCAD steps and the workshop dimensions chosen for the model.
+
+Note on numbering: documents from the earlier Benban skid phase used D-101 to
+D-107 for the fixed AWG skid. After the April 2026 pivot the robot is the
+deliverable, so this register redefines the same numbers for the robot parts;
+the skid register in the older documents is superseded.
+
+\subsection{Design revision: free crawler to rail-guided carriage}
+\label{sec:railrev}
+The earlier drawings describe a free differential-drive crawler that drove a
+0.25\,m brush over the panel in a boustrophedon (lawn-mower) path. The Gazebo
+test of that crawler on the $24^\circ$ glass showed it could not hold a
+heading: with the panel friction the report assumes ($\mu=0.6$ glass under
+$\mu=0.9$ rubber), the wheels broke traction during every in-place yaw, so the
+robot could not complete the turns the boustrophedon path needs and drifted
+down the slope. The robot was therefore changed to a rail-guided carriage. Two
+rails run down the fall-line, the carriage rides them on V-groove wheels, and a
+rack-and-pinion drive moves it up and down; there is no yaw to lose. The brush
+now spans the full panel width, so one sweep down and back cleans the whole
+panel with no turning. The changed quantities are in
+\fpath{output/rail\_guided\_design.json}:
+
+\begin{itemize}\setlength\itemsep{1pt}
+  \item Brush: 0.25\,m swath $\rightarrow$ full-width 0.96\,m at $\varnothing$50\,mm.
+  \item Path: 5-pass boustrophedon (10.9\,m, 230\,s) $\rightarrow$ single
+        fall-line sweep down and up, 66.7\,s per panel.
+  \item Drive: two free traction wheels $\rightarrow$ rack-and-pinion on two
+        rails, 0.84\,N\,m at the $\varnothing$30\,mm pinion at 38\,rpm.
+  \item Mass: 6.0\,kg crawler $\rightarrow$ 8.0\,kg carriage (rails wheels,
+        side-frames, drive, longer brush).
+\end{itemize}
+
+The TEC water module, the 3.6\,L tank, the spray system, the power chain, and
+the sensors are unchanged. The buy-list for the rail hardware, drive motor with
+encoder, rack, pinion, and the full-width brush is
+\fpath{MARKET\_PARTS\_BUYLIST.md}, with live verified vendor links. The 3D
+model of the revised robot on its rails is \fpath{cad/3d/} (see
+Section~\ref{sec:register3d}).
+
+\section{How to open the drawings}
+
+\subsection{AutoCAD (.scr scripts)}
+Each \fpath{.scr} file is a plain-text command script that draws the part at
+1:1 in millimetres, with layers, dimensions, title block, and notes.
+\begin{enumerate}
+  \item Open AutoCAD and start a new drawing from the \fpath{acadiso.dwt}
+        template (metric).
+  \item Type \texttt{SCRIPT}, press Enter, and browse to the \fpath{.scr}
+        file (or drag the file into the drawing window).
+  \item The script sets its own layers and dimension variables, draws the
+        views, and ends with \texttt{ZOOM E}. Save as \fpath{.dwg} if needed.
+\end{enumerate}
+Blank lines inside the scripts are deliberate Enter keystrokes; do not strip
+them if editing. The scripts only use core commands (\texttt{LINE},
+\texttt{CIRCLE}, \texttt{RECTANG}, \texttt{DIMLINEAR}, \texttt{-TEXT},
+\texttt{-LAYER}), so they also run in LT and in older releases.
+
+\subsection{DXF files}
+The \fpath{.dxf} files (AutoCAD R2010 format) open directly with
+\texttt{OPEN} in AutoCAD, and in any DXF viewer (LibreCAD, QCAD, FreeCAD,
+DWG TrueView). They carry the same geometry, layers, and dimensions as the
+scripts and were verified with the \fpath{ezdxf} auditor (0 errors on all
+seven files). To regenerate after a dimension change:
+\texttt{python scripts/make\_cad\_dxf.py}.
+
+\subsection{Gazebo model}
+\fpath{gazebo/pvbot\_description/} holds \fpath{pvbot.urdf.xacro} (robot,
+primitive geometry only), \fpath{panel\_world.sdf} (2\,m$^2$ panel at
+$24^\circ$ on a ground plane), and \fpath{README\_GAZEBO.md} with exact
+spawn commands for Gazebo Harmonic (\texttt{gz sim} + \texttt{ros\_gz}) and
+Gazebo Classic 11 (\texttt{gazebo\_ros}). In short: convert with
+\texttt{xacro}, launch the world, then spawn with
+\texttt{ros2 run ros\_gz\_sim create} (Harmonic) or
+\texttt{ros2 run gazebo\_ros spawn\_entity.py} (Classic), and drive at the
+0.06\,m/s cleaning speed over \texttt{/cmd\_vel}.
+
+\subsection{3D model (\fpath{cad/3d/})}
+\label{sec:register3d}
+The 3D model of the revised rail-guided robot is a set of AutoCAD scripts that
+build native 3D solids. \fpath{pvbot\_3d\_assembly.scr} builds the carriage:
+chassis plate, TEC AWG module (cold plate, four tiles, finned hot sink, two
+fans), 3.6\,L tank, full-width 0.96\,m brush, spray bar with nine nozzles,
+side-frames with V-groove wheels, and the rack-and-pinion drive.
+\fpath{rail\_and\_panel\_3d.scr} builds the $24^\circ$ panel on posts, the two
+2.4\,m V-slot rails, the rack strips, and the end stops.
+\fpath{scene\_3d.scr} nests the two so the carriage sits on the rails in one
+drawing. Each subsystem is on its own colour-coded layer. To open: start a
+metric drawing, type \texttt{SCRIPT}, pick the file, then \texttt{ZOOM E},
+\texttt{-VIEW SWISO}, and \texttt{VSCURRENT} Realistic. A faceted-mesh copy,
+\fpath{cad/3d/pvbot\_3d.dxf} (regenerated by
+\fpath{cad/3d/make\_pvbot\_3d\_dxf.py}), opens in any DXF viewer.
+\fpath{cad/3d/README\_3D.md} carries the full steps and the workshop
+dimensions chosen for the model. Sizes match \fpath{pvbot.urdf} and the frozen
+rail-guided values.
+
+\section{Design rationale by part}
+
+\paragraph{D-101 chassis base plate.}
+The plate is the 400\,mm $\times$ 300\,mm footprint of the URDF chassis box,
+cut from 3\,mm Al 6061-T6. Thickness is set by stiffness, not strength: the
+worst static load is the full 6\,kg robot reacting through the four wheel and
+caster points ($\approx$59\,N total), and bending stress in a 3\,mm plate at
+this load is below 5\,MPa against a 240\,MPa yield, while the 3\,mm section
+keeps deflection under the brackets small enough that wheel camber does not
+change measurably under load. The traction reaction (32\,N along the deck on
+a $24^\circ$ panel) passes through the eight M4 bracket bolts in shear, each
+loaded to a few newtons. Wheels run in two 80\,mm $\times$ 26\,mm slots so
+the axle sits low (14\,mm above the deck) and the chassis keeps the 15\,mm
+ground clearance of the URDF model. All bays and hole groups are tabulated
+on the sheet (hole table A--F).
+
+\paragraph{D-102 motor mount bracket ($\times$2).}
+The bracket carries the geared DC motor whose rating follows from the frozen
+traction calculation: 1.37\,N\,m total, 0.686\,N\,m per wheel, 1.03\,N\,m
+selected with the 1.5 safety factor \cite{siegwart2011mobilerobots}. At
+stall the bore reacts 1.03\,N\,m as a force couple across the 28\,mm
+$\times$ 44\,mm M4 base pattern, about 23\,N per bolt, two orders below M4
+single-shear capacity. POM is chosen because it machines cleanly, damps gear
+noise, and will not fret against the anodised plate. The $\varnothing$25 H8
+clamp bore fits the JGA25-370 gearmotor body ($\varnothing$24.4); a 2\,mm
+slit with two M3 screws clamps it without a keyway.
+
+\paragraph{D-103/D-110 brush assembly.}
+After the rail revision the roller spans the full 0.96\,m panel width (sheet
+D-110), so a single fall-line sweep cleans the panel with no turning; the
+earlier 0.25\,m swath and its 5-pass boustrophedon path are superseded
+(Section~\ref{sec:railrev}). The $\varnothing$50\,mm roller core matches the
+URDF \texttt{brush\_link} cylinder. A microfibre sleeve over a $\varnothing$25
+PVC core keeps the roller soft against the glass; the longer roller raises the
+brush-assembly mass to about 1.0\,kg. The $\varnothing$8 steel shaft runs in
+two 608ZZ bearings in POM end housings, sized so bearing load stays
+negligible. The spray bar sits behind the brush with nine $\varnothing$1.0
+nozzles at 100\,mm pitch across the width, angled ahead of the contact line so
+water lands just before the brush; the low-pressure diaphragm pump (D-105)
+delivers the 1.8\,L/m$^2$ budget without atomising.
+
+\paragraph{D-104 TEC cold-plate sandwich.}
+Four TEC1-12706 tiles \cite{tec12706ds} sit in 40\,mm $\times$ 40\,mm
+$\times$ 0.5\,mm pockets at 85\,mm pitch in a 170\,mm $\times$ 170\,mm
+$\times$ 3\,mm Al 6061 cold plate, the 2$\times$2 bench layout of the
+prototype chapter. The pocket locates each tile and thins the conduction
+path; thermal paste and M4 clamps with nylon shoulder washers (1.2\,N\,m)
+give full-face contact. The hot side is a 160\,mm $\times$ 160\,mm field of
+four 80\,mm $\times$ 80\,mm $\times$ 25\,mm extruded sinks with two 80\,mm
+fans blowing through the fins, the arrangement assumed by the 0.15\,K/W
+hot-side resistance in the operating-point solver
+\cite{zhao2022teccondenser,lin2022heatsink}. A separate ducted fan gives the
+2\,m/s cold-side face velocity used in the condensation correlation. The
+plate mounts tilted $15^\circ$ so condensate runs to a 12\,mm $\times$
+12\,mm gutter and a $\varnothing$8 drain into the tank. The controller
+floors the plate at $+1\,^\circ$C as frost protection.
+
+\paragraph{D-105 water tank and pump.}
+Tank capacity is exactly one cleaning event: 1.8\,L/m$^2$ over 2\,m$^2$
+gives 3.6\,L, achieved with internal dimensions 166\,mm $\times$ 226\,mm
+$\times$ 96\,mm in 2\,mm welded HDPE. The flat, low shape keeps the full
+tank's centre of gravity about 70\,mm above the deck, which matters on a
+$24^\circ$ slope (Section~\ref{sec:ga}). Lugs match the four $\varnothing$5
+strap holes on D-101. Fittings: $\varnothing$40 filler, $\varnothing$8
+condensate inlet from the D-104 drain, $\varnothing$8 outlet barb to the
+12\,V diaphragm pump (90\,mm $\times$ 40\,mm $\times$ 35\,mm, feet on the
+two M4 plate holes), reed level switch in a $\varnothing$16 boss, and a
+$\varnothing$4 vent.
+
+\paragraph{D-106 electronics bay.}
+A 150\,mm $\times$ 100\,mm $\times$ 3\,mm acrylic deck on M3 standoffs
+carries the ESP32 DevKitC, the INA219 current monitor called for by the test
+plan, the dual motor driver, and the buck converter, with the small 12\,V
+battery strapped along the front edge. Acrylic is non-conductive, laser cuts
+in one pass, and lets the wiring be inspected through the matching vented
+cover. Standoff patterns follow the common module footprints (48\,mm
+$\times$ 22\,mm for the DevKit, 37\,mm $\times$ 37\,mm for the driver) and
+are dimensioned on the sheet, so substituting boards only means redrilling
+the deck, not the chassis.
+
+\paragraph{D-107 general assembly.}
+The GA fixes the envelope at 460\,mm $\times$ 300\,mm $\times$ 155\,mm
+(195\,mm when the $15^\circ$ harvest shim is fitted under the TEC sandwich)
+and prints the assembly order: plate, brackets and motors, wheels, casters,
+tank and pump, TEC sandwich on the tank lid, electronics bay, brush
+assembly, wiring last. A tipping check justifies the layout: the combined
+centre of gravity sits about 80\,mm above the panel surface and 140\,mm
+inside the rear wheel contact, so on a $24^\circ$ slope the overturning
+lever ($80 \times \tan 24^\circ \approx 36$\,mm) is a quarter of the
+restoring lever and the robot cannot tip before it slides; sliding itself is
+held by the wheel friction included in the 32\,N traction figure.
+
+\section{Designer's-choice assumptions}
+The frozen calculation fixes masses, torques, the swath, tile size, and tank
+volume, but not every workshop dimension. Table~\ref{tab:assumptions} lists
+the values chosen here so they can be revisited without touching the frozen
+analysis.
+
+\begin{table}[h]
+\centering
+\caption{Dimensions chosen in this package (not fixed by the frozen
+calculations).}
+\label{tab:assumptions}
+\small
+\begin{tabular}{p{0.42\textwidth}p{0.23\textwidth}p{0.27\textwidth}}
+\toprule
+Assumption & Value & Basis \\
+\midrule
+Chassis plate size and thickness & 400$\times$300$\times$3\,mm & URDF box
+footprint; stiffness \\
+Wheel slots in plate & 2$\times$ 80$\times$26\,mm & wheel $\varnothing$60
+$\times$20 + clearance \\
+Axle height above deck & 14\,mm & motor $\varnothing$24.4 clearance; URDF
+uses 12\,mm (rounded box model) \\
+Drive motor envelope & JGA25-370, $\varnothing$24.4$\times$62\,mm & common
+$\geq$1\,N\,m geared DC class \\
+Bracket base / bore & 44$\times$60$\times$6\,mm / $\varnothing$25\,H8 &
+clamp fit on motor body \\
+Roller core / shaft / bearings & $\varnothing$25 PVC / $\varnothing$8\,h6 /
+608ZZ & lightest stock parts \\
+Spray nozzles & 5$\times$ $\varnothing$1.0 at 50\,mm pitch & even wetting of
+250\,mm swath \\
+Cold plate / TEC pitch / pocket & 170$\times$170$\times$3\,mm / 85\,mm /
+0.5\,mm deep & 2$\times$2 layout, sink field width \\
+Hot sinks and fans & 4$\times$ 80$\times$80$\times$25\,mm + 2$\times$80\,mm
+fans & matches 0.15\,K/W solver value \\
+Gutter and drain & 12$\times$12\,mm, $\varnothing$8 & gravity drain at
+$15^\circ$ tilt \\
+Tank internal size, wall & 166$\times$226$\times$96\,mm, 2\,mm HDPE &
+3.60\,L working volume \\
+Pump & 12\,V diaphragm, 90$\times$40$\times$35\,mm & prototype BOM class \\
+Electronics deck and cover & acrylic 150$\times$100$\times$3\,mm & module
+footprints + battery strip \\
+Overall envelope & 460$\times$300$\times$155\,mm & GA stack-up \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Mass budget}
+\label{sec:mass}
+The rail-guided carriage budget closes at the frozen 8.00\,kg with the tank at
+mean fill (1.8\,kg of water). Against the earlier 6.0\,kg crawler, the
+revision drops the two free traction wheels and the casters and adds the
+carriage side-frames, the eight V-groove guide wheels, the two-rail
+rack-and-pinion drive, and the heavier full-width brush (Table~\ref{tab:mass}).
+The Gazebo URDF, \fpath{pvbot.urdf}, is the 6.0\,kg differential-drive
+simulation skeleton and is not re-massed here; it keeps the validated inertias
+used in the traction test that drove the revision.
+
+\begin{table}[h]
+\centering
+\caption{Rail-guided carriage mass budget at mean tank fill. Closure 8.00\,kg.}
+\label{tab:mass}
+\small
+\begin{tabular}{llr}
+\toprule
+Item & Drawing & Mass (kg) \\
+\midrule
+Carriage base plate & D-101 & 1.10 \\
+TEC sandwich (tiles, plate, sinks, fans) & D-104 & 1.05 \\
+Tank + pump, dry & D-105 & 0.40 \\
+Water, mean fill (1.8\,L) & --- & 1.80 \\
+Electronics bay incl.\ battery & D-106 & 0.37 \\
+Full-width brush ($0.96$\,m, $\varnothing$50) & D-103/D-110 & 1.00 \\
+Carriage side-frames (2) & D-108 & 0.80 \\
+V-groove guide wheels ($\times$8) & D-108 & 0.40 \\
+Rack-and-pinion drive (2 gearmotors + pinions) & D-109 & 0.46 \\
+IMU, sensors, cabling & --- & 0.62 \\
+\midrule
+\textbf{Total} & & \textbf{8.00} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two consequences follow. First, water is about 23\,\% of the moving mass, so
+the drive margin grows as the tank empties during cleaning; the full-mass case
+is the worst case for the rail drive. Second, the drive sizing in
+\fpath{rail\_guided\_design.json} is 37.2\,N at the rack and 0.84\,N\,m at the
+$\varnothing$30\,mm pinion at full carriage mass on the $24^\circ$ panel;
+splitting the load across two driven rails halves the per-motor torque, so a
+GA25-370-class gearmotor with encoder carries it inside a 1.5 safety factor.
+
+\section{Gazebo model and URDF correspondence}
+\label{sec:ga}
+\fpath{pvbot.urdf.xacro} keeps every value of the architecture document's
+skeleton: \texttt{base\_link} box 0.40$\times$0.30$\times$0.12\,m at
+5.0\,kg with inertia diag(0.0435, 0.0727, 0.1042)\,kg\,m$^2$; wheels of
+0.03\,m radius and 0.15\,kg at $(-0.12, \pm 0.13, -0.045)$ on a 0.26\,m
+track; the caster as a frictionless sphere; the brush as a continuous joint
+at $(0.22, 0, -0.05)$. This package adds what the skeleton omitted: visual
+primitives with materials, caster and brush inertials (sphere and cylinder
+formulas: $8.1\times10^{-6}$ and diag($3.4\times10^{-3}$,
+$3.4\times10^{-3}$, $4.8\times10^{-4}$)\,kg\,m$^2$), a wheel effort limit of
+1.03\,N\,m, and a differential-drive plugin for each simulator generation.
+The world file \fpath{panel\_world.sdf} is the validation scene: a 2.0\,m
+$\times$ 1.0\,m panel (2\,m$^2$, the frozen cleaned area) pitched at
+$24^\circ$, with glass-like friction ($\mu = 0.6$) under wheel rubber at
+$\mu = 0.9$. Driving the model at 0.05\,m/s with full tank mass reproduces
+the torque sizing case of the report in simulation.
+
+\section{Traceability of frozen values}
+Every number frozen by the verified calculation engine appears somewhere a
+manufacturer or simulator will read it. Table~\ref{tab:trace} maps each
+frozen value to its location in the drawings and the model, so a change in
+the analysis can be propagated by inspection.
+
+\begin{table}[h]
+\centering
+\caption{Frozen design values and where each one lands in the package.}
+\label{tab:trace}
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.16\textwidth}p{0.44\textwidth}}
+\toprule
+Frozen value & Source & Appears in \\
+\midrule
+Robot mass 6.0\,kg & results JSON & D-107 item list; Table~\ref{tab:mass};
+URDF mass sum \\
+Wheel radius 0.03\,m & results JSON & D-107 wheel $\varnothing$60; URDF
+wheel cylinders \\
+Track 0.26\,m & URDF skeleton & D-101 axle note; D-107 plan dim; URDF
+joint origins and plugin \\
+Resistive force 32.0\,N & \fpath{mechanics.F\_resist} & D-107 design-basis
+note; rationale D-101/D-102 \\
+Traction torque 1.37\,N\,m & \fpath{mechanics.T\_traction} & D-107 note;
+D-102 rationale \\
+Motor rating 1.03\,N\,m (SF 1.5) & report Ch.~6 & D-102 rationale; URDF
+joint effort limit \\
+Brush swath 0.25\,m & report Ch.~6 & D-103 roller face; D-107 plan dim;
+URDF brush length \\
+Panel tilt $24^\circ$, area 2\,m$^2$ & report Ch.~1, 6 & D-107 design
+basis; \fpath{panel\_world.sdf} pose and panel size \\
+Cleaning speed 0.05\,m/s & report Ch.~6 & README spawn commands
+(\texttt{cmd\_vel}) \\
+TEC1-12706, 40$\times$40\,mm, 4 tiles & report Ch.~2, 8 & D-104 pockets and
+section \\
+Cold-side air 2\,m/s & report Eq.~(3.7) & D-104 note 2 \\
+Hot-side $R_{th}=0.15$\,K/W & report Ch.~4 & D-104 sink/fan arrangement \\
+Frost floor $+1\,^\circ$C & report Eq.~(3.13) & D-104 note 4 \\
+Tank 3.6\,L (1.8\,L/m$^2$) & \fpath{cleaning.water\_per\_event} & D-105
+internal volume and level line \\
+ESP32 + INA219 instrumentation & report Ch.~7, 9 & D-106 standoff layout \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Manufacturing notes and fasteners}
+All plate parts (D-101 chassis, D-106 deck and cover, D-104 fan plate) are
+single-pass laser or waterjet cuts; only the D-102 brackets and the D-104
+cold-plate pockets need milling. The tank is welded from HDPE sheet, which a
+local plastics shop can do from the D-105 blank dimensions; a rotomoulded or
+off-the-shelf tank of the same internal volume is an acceptable substitute
+if the lug positions are reproduced. Anodising the chassis plate is optional
+but recommended on the deck face that carries the POM brackets.
+
+Hole-to-fastener mapping across the set: $\varnothing$3.2 takes M3
+(electronics standoffs, motor face and clamp screws), $\varnothing$4.5
+takes M4 (brackets, casters, pump, brush arms, TEC clamps), and
+$\varnothing$5 takes the M5 tank strap bolts. Countersinks appear only at
+the caster holes (M4 flat head, so the heads clear the panel surface at full
+suspension compression). The complete fastener kit is: M3$\times$8 (12),
+M3$\times$6 (8), M3 brass standoffs 10\,mm (4) and 35\,mm (4), M4$\times$12
+(18), M4$\times$16 flat head (4), M5$\times$16 (4), plus nyloc nuts
+throughout; total hardware mass is inside the 0.10\,kg miscellaneous
+allowance distributed across the item masses of Table~\ref{tab:mass}.
+
+Tolerances follow ISO 2768-m everywhere except three fits called out on the
+sheets: the D-102 motor bore ($\varnothing$25\,H8, reamed), the D-103
+bearing seats (608ZZ outer ring, $\varnothing$22\,H7), and the D-101 motor
+bracket hole group (positioned $\pm$0.2\,mm to the axle centreline so the
+two wheels stay parallel within the differential-drive controller's
+assumption).
+
+\section{File manifest}
+\begin{itemize}\setlength\itemsep{0pt}
+  \item \fpath{cad/D-101\dots D-107 (.scr + .dxf)}: drawing set (14 files)
+  \item \fpath{scripts/make\_cad\_dxf.py}: DXF generator (single
+        dimension source for the DXF set)
+  \item \fpath{gazebo/pvbot\_description/pvbot.urdf.xacro}: robot model
+  \item \fpath{gazebo/pvbot\_description/panel\_world.sdf}: $24^\circ$
+        panel world
+  \item \fpath{gazebo/pvbot\_description/README\_GAZEBO.md}: spawn
+        commands (Harmonic and Classic)
+  \item \fpath{CAD\_DESIGN\_PACKAGE.tex / .pdf}: this document
+\end{itemize}
+
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+\end{document}

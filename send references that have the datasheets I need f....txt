@@ -1,0 +1,143 @@
+﻿This guide provides links to real-world datasheets that match the "Optimum Build" specifications in your Project_Scale_and_CAD_Workflow.md file. It then details exactly how to process the data from these sheets to perform the essential engineering calculations.
+1. Real-World Datasheet References
+The data in your project file is representative. Here are links to real, specific products you can find and buy, which closely match those specifications. You can use these datasheets for your initial design.
+* Data Sheet 1: Solar Panel (The Constraint)
+   * Model: Longi LR5-72HPH-545M
+   * Reference Link (Official Datasheet PDF): https://www.longi.com/en/products/modules/hi-mo-5m/lr5-72hph-535-555m/
+   * Key Data to Extract: Dimensions (2278×1134×35mm) and Weight (27.5 kg).
+* Data Sheet 2: Drive Motor (60 RPM, 35 kg-cm)
+   * Model: Pololu 12V, 50:1 Metal Gearmotor 37Dx73L mm with 64 CPR Encoder
+   * Reference Link (Supplier Page with Specs): https://www.pololu.com/product/4745
+   * Key Data to Extract:
+      * Dimensions: 37D x 73L mm
+      * Weight: 215 g
+      * No-Load Speed (at 12V): 63 RPM
+      * Stall Current (at 12V): 9.2 A
+      * Stall Torque (at 12V): 38 kg-cm
+   * (Note: This is an almost perfect match for your "Optimum" spec.)
+* Data Sheet 3: Power System (12V 20Ah LiFePO4)
+   * Model: Dakota Lithium 12V 20Ah LiFePO4 Battery
+   * Reference Link (Official Datasheet PDF): https://dakotalithium.com/wp-content/uploads/2023/12/Dakota-Lithium-12V-20Ah-Spec-Sheet-1.1.pdf
+   * Key Data to Extract:
+      * Capacity: 20 Ah
+      * Max Continuous Discharge: 20 A
+      * Dimensions: 181 x 77 x 167 mm
+      * Weight: 2.5 kg (This is slightly heavier than the 2.2kg estimate, so we use this real number).
+* Data Sheet 4: Cleaning Brush Motor (200 RPM, 8 kg-cm)
+   * Model: Pololu 12V, 19:1 Metal Gearmotor 37Dx68L mm
+   * Reference Link (Supplier Page with Specs): https://www.pololu.com/product/4741
+   * Key Data to Extract:
+      * No-Load Speed (at 12V): 208 RPM
+      * Stall Current (at 12V): 9.2 A
+      * Stall Torque (at 12V): 14 kg-cm
+   * (Note: This has more torque than your spec, which is a good safety margin.)
+* Data Sheet 5: Water Pump (12V, 3.5 L/min)
+   * Model: SEAFLO 21-Series Diaphragm Pump
+   * Reference Link (Supplier Page with Specs): https://www.seaflo.com/product/21-series-dc-diaphragm-pump/
+   * Key Data to Extract:
+      * Flow: 1.0 GPM (3.8 L/min)
+      * Voltage: 12V
+      * Amp Draw (at 40 PSI): 4.0 A
+      * Dimensions: 178 x 101 x 62 mm
+      * Weight: 0.64 kg
+2. How to Process the Data: What to Calculate
+This is your core engineering checklist. You must answer these questions before you model in CAD.
+Check 1: Total Mass & Center of Gravity
+* Goal: Find the total weight of the robot and where that weight is centered.
+* What to Calculate:
+   1. Estimate Frame Mass: (From Solar_Robot_Build_Plan_EG.md) ~1.8 kg for an aluminum frame.
+   2. Estimate Water Mass: A 5-liter tank, when full, holds 5 kg of water.
+   3. Sum All Components:
+      * Frame: 1.80 kg
+      * Battery (DS-3): 2.50 kg
+      * Drive Motors (DS-2): 0.215 kg * 4 = 0.86 kg
+      * Brush Motor (DS-4): 0.18 kg (approx)
+      * Pump (DS-5): 0.64 kg
+      * Water (Full Tank): 5.00 kg
+      * Misc (Brush, Wires, Tank): ~2.00 kg
+   4. Total Estimated Mass: ~12.98 kg
+* Result: 13 kg is well below your 25 kg target. This is excellent. You will confirm this exactly in SOLIDWORKS, which will calculate the Center of Gravity for you based on where you place these parts.
+Check 2: Drive Motor Torque (Will it move?)
+* Goal: Ensure your drive motors (DS-2) are strong enough to move the robot up the steepest angle a solar panel might be tilted (e.g., 30°).
+* What to Calculate:
+   1. Force of Gravity (Down the slope):
+      * F_gravity = Total_Mass * g * sin(angle)
+      * F_gravity = 13 kg * 9.81 m/s² * sin(30°)
+      * F_gravity = 13 * 9.81 * 0.5 = 63.8 Newtons
+   2. Required Torque (per wheel):
+      * Torque_per_motor = (F_gravity / 4 wheels) * Wheel_Radius
+      * Assume you use a 5 cm (0.05 m) radius wheel.
+      * Torque_per_motor = (63.8 N / 4) * 0.05 m = 0.79 N-m
+   3. Convert to kg-cm (to match datasheet):
+      * 0.79 N-m * (1 kg / 9.81 N) * (100 cm / 1 m) = 8.1 kg-cm
+   4. Compare to Datasheet:
+      * Required Torque: 8.1 kg-cm (to climb a 30° slope)
+      * Stall Torque (DS-2): 38 kg-cm
+* Result: Your motors are more than 4x stronger than needed. This is a fantastic safety margin and confirms they are the right choice.
+Check 3: Battery Life (Will it stay on?)
+* Goal: Calculate how long the robot can clean on a single charge.
+* What to Calculate:
+   1. Estimate Total Current Draw (Amps):
+      * This is an estimate. You don't run motors at stall. A good guess is 25% of stall current under a normal load.
+      * Drive Motors (DS-2): 9.2 A (stall) * 25% load * 4 motors = 9.2 A
+      * Brush Motor (DS-4): 9.2 A (stall) * 25% load * 1 motor = 2.3 A
+      * Pump (DS-5): 4.0 A (This runs intermittently, not continuously. We'll average it to 1.0 A over the cleaning time).
+      * Controller (Pi/Arduino): ~0.5 A
+   2. Total Average Current: 9.2 + 2.3 + 1.0 + 0.5 = 13.0 Amps
+   3. Check Max Current: Your total (13.0 A) is well below the battery's max continuous current of 20 A (DS-3). This is safe.
+   4. Calculate Runtime:
+      * Runtime (hours) = Battery_Capacity (Ah) / Total_Current (A)
+      * Runtime = 20 Ah / 13.0 A = 1.54 hours
+* Result: Your robot can run continuously for ~1.5 hours. This is more than enough time to clean a 1MW farm (178.6 L required / 3.8 L/min pump = 47 mins of pumping time) and travel between rows.
+Check 4: Cleaning Performance (Will it clean well?)
+* Goal: Verify your robot uses the right amount of water.
+* What to Calculate:
+   1. Robot Speed:
+      * No-Load Speed (DS-2): 63 RPM
+      * Wheel Circumference: 2 * pi * 0.05 m (radius) = 0.314 m
+      * Max Speed: 63 RPM * 0.314 m/rev = 19.8 m/min (We'll assume it runs at 15 m/min)
+   2. Time to Clean One Panel (2.2m long):
+      * Time = 2.278 m / 15 m/min = 0.15 min
+   3. Water Used per Panel:
+      * Water = Pump_Flow_Rate (DS-5) * Time
+      * Water = 3.8 L/min * 0.15 min = 0.57 Liters
+* Result: Your design uses 0.57 Liters per panel, which perfectly matches your target of 0.5-1.0 L/panel. This confirms your pump and motor choices are compatible.
+3. Mind Map of the Calculation Workflow
+Here is a mind map that summarizes the process.
+GOAL: Verify Robot Design Before Building in CAD/Simulink
+
+1. GATHER DATASHEETS (Real-World Component Specs)
+  ├─ 1.1: Solar Panel (Longi) -> [Constraint: Width, Length]
+  ├─ 1.2: Drive Motor (Pololu 4745) -> [Spec: Torque, Speed, Current, Weight]
+  ├─ 1.3: Battery (Dakota 20Ah) -> [Spec: Capacity, Max Current, Weight]
+  ├─ 1.4: Brush Motor (Pololu 4741) -> [Spec: Torque, Current, Weight]
+  ├─ 1.5: Pump (Seaflo 21) -> [Spec: Flow Rate, Current, Weight]
+  └─ 1.6: Other Parts -> [Estimate: Frame Weight, Tank Weight, etc.]
+
+2. PERFORM ENGINEERING CHECKS
+  ├─ CHECK 1: Total Mass (Is it light enough?)
+  │  ├─ Sum all weights from (1.2, 1.3, 1.4, 1.5, 1.6)
+  │  └─ Add Water Mass (e.g., 5kg)
+  │  └─ RESULT: Total Mass (~13 kg) -> [OK]
+  │
+  ├─ CHECK 2: Motor Torque (Can it climb?)
+  │  ├─ Input: Total Mass (from Check 1)
+  │  ├─ Input: Panel Angle (e.g., 30°)
+  │  ├─ Calculate: Force of Gravity (F = m*g*sin(a))
+  │  ├─ Calculate: Required Torque (T = F * r_wheel)
+  │  └─ Compare: Required Torque (8.1 kg-cm) < Stall Torque (38 kg-cm) -> [OK]
+  │
+  ├─ CHECK 3: Battery System (Will it be safe and last long enough?)
+  │  ├─ Calculate: Total Current Draw (Sum of all motors/pumps)
+  │  ├─ Compare: Total Current (13 A) < Max Battery Current (20 A) -> [SAFE]
+  │  └─ Calculate: Runtime (Capacity / Total Current) -> 1.5 Hours -> [OK]
+  │
+  ├─ CHECK 4: Cleaning Performance (Does it use the right amount of water?)
+  │  ├─ Calculate: Robot Speed (from Drive Motor RPM)
+  │  ├─ Calculate: Time per Panel (Panel Length / Robot Speed)
+  │  └─ Calculate: Water per Panel (Pump Flow Rate * Time per Panel) -> 0.57L -> [OK]
+  │
+  └─ FINAL VERDICT: All checks passed. The components are well-matched.
+
+3. PROCEED TO CAD (SOLIDWORKS)
+  └─ Model the system using the *exact dimensions* from the datasheets.

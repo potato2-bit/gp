@@ -1,0 +1,100 @@
+# AWH silica-gel adsorption simulation — sub-project configuration
+# This file is the single source of truth for the awh_sim sub-project.
+# Economics, SEC anchors, and the Benban reference site are imported from the
+# parent ../project_inputs.yaml (do NOT duplicate them here).
+
+meta:
+  name: "Solar-regenerated silica-gel adsorption AWH — multi-fidelity simulation"
+  parent_inputs: "../project_inputs.yaml"   # economics, sec_kWh_per_kg, Benban site
+  spec: "docs/DESIGN_SPEC.md"
+
+# ----------------------------------------------------------------------------
+# Tier 0 — isotherm (pyGAPS)
+# ----------------------------------------------------------------------------
+isotherm:
+  candidate_models: [GAB, DubininAstakhov, Toth, Sips, Freundlich]
+  cadet_expressible: [Toth, Sips, Freundlich]   # must be one of these for Tier 1
+  validation_data:
+    - name: Hraiech2025          # Sci. Rep. 15:29041 (ad + de branches, 27/33/44 C, 44-82% RH)
+      file: data/isotherm/hraiech2025.csv
+    - name: LSBU_Yeboah2021      # Data in Brief 35:106736 (packed-bed breakthrough)
+      file: data/isotherm/lsbu_yeboah2021.csv
+  isosteric_heat_band_MJ_per_kg: [2.2, 2.8]     # treat as uncertain DoE input
+  out: data/isotherm/params.yaml
+
+# ----------------------------------------------------------------------------
+# Bed / hardware nominal (design factors swept in DoE; frozen for annual sweep)
+# ----------------------------------------------------------------------------
+bed:
+  geometry: cylindrical_axisymmetric           # 2-D axisymmetric wedge in OpenFOAM
+  rho_bulk_kg_m3: 750                           # Hraiech 2025
+  porosity: 0.38
+  cp_solid_J_kgK: 921
+  k_solid_W_mK: 0.197                           # LSBU measured
+  regeneration_mode: wall_heat_flux            # closed solar-thermal collector (Appendix A 4.3)
+  n_beds: 1
+
+collector:
+  type: flat_plate_air
+  eta0: 0.55                                    # placeholder; replace with datasheet
+  a1_W_m2K: 4.0                                 # efficiency slope eta = eta0 - a1*dT/G
+  area_m2: 2.0                                  # placeholder; sized in economics
+
+# ----------------------------------------------------------------------------
+# DoE factors (4 operating + 3 design) — ranges per Appendix B section 1
+# ----------------------------------------------------------------------------
+doe:
+  sampler: sobol                               # sobol | lhs
+  seed: 20260626
+  n_lowfi: 384                                  # CADET (cheap)
+  n_highfi: 40                                  # OpenFOAM (nested subset of low-fi)
+  n_test_highfi: 12                             # independent high-fi test set (Gate G3)
+  factors:
+    # operating (surrogate inputs at sweep time)
+    T_ads_C:    {min: 5,   max: 30,  type: operating}
+    RH_ads_pct: {min: 15,  max: 90,  type: operating}
+    T_reg_C:    {min: 60,  max: 120, type: operating}   # from collector/irradiance
+    u_face_m_s: {min: 0.1, max: 1.0, type: operating}
+    # design (frozen for annual sweep)
+    L_bed_mm:   {min: 30,  max: 150, type: design}
+    d_p_mm:     {min: 1.0, max: 4.0, type: design}
+    t_half_h:   {min: 2.0, max: 12.0, type: design}
+
+# ----------------------------------------------------------------------------
+# Surrogate (SMT multi-fidelity Kriging)
+# ----------------------------------------------------------------------------
+surrogate:
+  method: MFK                                   # multi-fidelity Kriging; fallback KRG
+  corr: matern52
+  responses_mfk:   [m_w, omega_breakthrough, Q_reg, SEC]
+  responses_highfi_only: [T_peak]
+  responses_direct: [dP]                        # Ergun, no surrogate
+  gates:
+    r2_min: 0.95
+    nrmse_max_pct: 5
+    T_peak_max_abs_err_C: 5
+  cv_folds: 5
+
+# ----------------------------------------------------------------------------
+# Climate sites (6 Egyptian) — coordinates per Appendix B section 6
+# (Alamein / Siwa / NAC flagged approximate; refine to deployment block)
+# ----------------------------------------------------------------------------
+climate:
+  nasa_power:
+    community: RE
+    start_date: "20200101"
+    end_date: "20201231"
+    parameters: [T2M, RH2M, ALLSKY_SFC_SW_DWN, WS2M, PRECTOTCORR]
+  sites:
+    - {name: aswan_benban,  lat: 24.45, lon: 32.75, elevation_m: 180, koppen: BWh, role: "arid Upper-Egypt / PV anchor"}
+    - {name: mansoura,      lat: 31.04, lon: 31.38, elevation_m: 11,  koppen: BWh, role: "Nile Delta interior (humid nights)"}
+    - {name: new_alamein,   lat: 30.92, lon: 28.45, elevation_m: 30,  koppen: BWh, role: "Mediterranean coast (approx)"}
+    - {name: hurghada,      lat: 27.18, lon: 33.80, elevation_m: 10,  koppen: BWh, role: "Red Sea coast (humid + high DNI)"}
+    - {name: siwa,          lat: 29.20, lon: 25.52, elevation_m: -17, koppen: BWh, role: "deep desert oasis (low-RH stress, approx)"}
+    - {name: nac,           lat: 30.00, lon: 31.60, elevation_m: 250, koppen: BWh, role: "New Administrative Capital (approx)"}
+  cycle_per_day: 1                              # one adsorb(night)/desorb(day) cycle
+
+paths:
+  data: data
+  results: results
+  cases: cases

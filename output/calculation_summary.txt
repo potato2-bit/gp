@@ -1,0 +1,83 @@
+# Calculation summary (from project_inputs.yaml)
+P_dc_MW=200, eta_module=0.215
+A_pv_m2=930232.56
+V_year_m3=37674.4186
+m_year_kg=37674418.6047
+m_day_avg_kg=103217.5852
+CRF(i=0.08, n=15)=0.116830
+
+# LCOW rows
+VCR: E_year_GWh=15.823256, LCOW_USD_m3=13.9819
+Absorption: E_year_GWh=14.316279, LCOW_USD_m3=13.1819
+Silica_adsorption: E_year_GWh=43.702326, LCOW_USD_m3=30.0223
+MOF: E_year_GWh=111.516279, LCOW_USD_m3=74.7052
+TEC_low: E_year_GWh=75.348837, LCOW_USD_m3=44.9616
+TEC_mid: E_year_GWh=226.046512, LCOW_USD_m3=124.9616
+TEC_high: E_year_GWh=452.093023, LCOW_USD_m3=244.9616
+
+# Design translation
+The theoretical calculations are a screening tool used to select a buildable system configuration.
+Calculated numerical minimum LCOW route: Absorption (SEC=0.38 kWh/kg, LCOW=13.18 USD/m3).
+Prototype-selected route: VCR (SEC=0.42 kWh/kg, LCOW=13.98 USD/m3, delta_to_best=0.80 USD/m3) because it is directly buildable with standard compressor, fan, tank, filter, UV, and pump hardware.
+
+# Calculated best-option parameters
+full_scale_block_P_dc_MW=200
+full_scale_area_m2=930232.56
+full_scale_water_m3_per_year=37674.4186
+full_scale_average_water_m3_per_day=103.2176
+prototype_target_L_per_day=200
+prototype_delivery_pump_m3_per_h=2.00
+prototype_delivery_pressure_bar=3.00
+
+# Traceability matrix
+A_pv_m2=930232.56 -> determines full-scale water duty and prototype scaling ratio.
+V_year_m3=37674.4186 -> determines storage capacity and average delivery target.
+best_LCOW_route=Absorption -> keeps absorption and VCR as the final screening pair.
+VCR_LCOW_delta=0.8000 -> justifies prototype route selection with minimal economic penalty.
+
+# Simulation plan
+1. Build an hourly weather case from NASA POWER and ERA5 using the selected Benban coordinates.
+2. Validate the cleaning schedule with PVsyst soiling-loss runs that use the same cleaning frequency as the water model.
+3. Simulate the VCR skid with compressor, fan, and condensate collection logic under summer, shoulder, and winter cases.
+4. Run sensitivity cases for low-RH nights, fouled filters, fan derating, and one missed cleaning cycle.
+5. Accept the design only if production covers 95% of simulated days and polished water meets the rinse-water target.
+
+# Engineering drawing package
+D-101: process flow diagram from air intake to cleaning-water outlet.
+D-102: general arrangement of prototype skid (2200 x 1400 x 2100 mm envelope).
+D-103: condensate collection tank, drains, and overflow arrangement.
+D-104: filtration, UV, sampling, and bypass manifold.
+D-105: electrical one-line diagram and control panel layout.
+D-106: instrumentation and control loop diagram.
+D-107: prototype cleaning-water discharge manifold and test interface.
+
+# Bill of materials and component specifications
+1x compressor/condensing package sized for approximately 200 L/day condensate output.
+1x hydrophilic evaporator coil with stainless drain tray.
+1x air-cooled condenser coil with service valves.
+2x EC axial fans for process airflow.
+1x 500 L raw condensate tank.
+1x 500 L polished-water tank.
+1x 5 um sediment filter housing and cartridge.
+1x activated-carbon polishing cartridge.
+1x UV disinfection unit.
+1x delivery pump rated 2.00 m3/h at 3.00 bar.
+1x inline flow meter.
+1x inline TDS meter.
+2x temperature sensors and 2x RH sensors.
+1x PLC or datalogger with safety interlocks.
+
+# Build manual, safety protocols, and quality-control checkpoints
+1. Assemble the refrigeration loop, pressure-test it, and verify electrical isolation before energization.
+2. Install tanks, filters, UV, and pump in the same order shown on the process flow diagram.
+3. Calibrate sensors, then perform dry commissioning, wet commissioning, and a 24-hour condensate run.
+4. Apply lockout-tagout, refrigerant handling procedures, earthing checks, splash protection, and tank sanitation.
+5. Hold QC checkpoints at leak test, airflow verification, condensate-rate verification, TDS verification, and delivery-pressure verification.
+
+# Updated master project plan
+M1 T0+2d: Freeze design basis and route ranking. Resources: PI + analyst. Success: all inputs and formulas approved.
+M2 T0+7d: Complete PVsyst and hourly AWH simulations. Resources: PV analyst + controls student. Success: weather-linked performance model closed.
+M3 T0+10d: Release drawing package D-101 to D-107. Resources: CAD lead + mechanical lead. Success: interfaces dimensioned and reviewed.
+M4 T0+17d: Procure BOM and fabricate skid. Resources: procurement + workshop technician. Success: received and inspected long-lead items.
+M5 T0+24d: Build and commission prototype. Resources: mechanical + electrical + safety officer. Success: 24-hour safe run completed.
+M6 T0+28d: Validate against targets. Resources: test engineer + QA lead. Success: condensate rate, TDS, and pump duty meet the calculated target.

@@ -1,0 +1,29 @@
+/*--------------------------------*- C++ -*----------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    {
+        name    bed;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        box     (-1e6 -1e6 -1e6) (1e6 1e6 1e6);
+    }
+    {
+        name    bed;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        set     bed;
+    }
+);
+
+// ************************************************************************* //

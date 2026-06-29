@@ -1,0 +1,146 @@
+meta:
+  generated: '2026-06-26T10:46:35'
+  script: isotherm/fit_isotherm.py
+  branch: adsorption
+  ground_truth: Hraiech et al. 2025, Sci. Rep. 15:29041, T-explicit correlation
+  tool: scipy.optimize.curve_fit (pyGAPS used only as isosteric-heat cross-check)
+chosen_model:
+  name: Sips
+  cadet_expressible: true
+  form: q = qm*(K*P)^n / (1 + (K*P)^n)   [P in Pa]
+  constants_at_25C:
+    qm: 0.39079712878744455
+    K: 7.183083781999954e-05
+    n: 0.6819637278159347
+  temperature_dependence:
+    _global_form: Sips
+    T_ref_C: 30.0
+    qm: 0.39079712878744455
+    K_ref: 3.707238835550887e-05
+    dHk_Jmol: -99414.09542067378
+    n0: 0.6819637278159347
+    n1: -0.017811620676531893
+  fit_quality:
+    global_rmse_kgkg: 0.0005151488654197062
+    global_rel_rmse_pct: 0.6966569415474491
+    global_r2: 0.9991348211102721
+    per_T_mean_rel_rmse_pct: 0.24037722584256357
+all_models_fit_quality:
+  Sips:
+    cadet_expressible: true
+    global_rel_rmse_pct: 0.6966569415474491
+    global_r2: 0.9991348211102721
+    per_T_mean_rel_rmse_pct: 0.24037722584256357
+  Toth:
+    cadet_expressible: true
+    global_rel_rmse_pct: 5.259788584121936
+    global_r2: 0.9506821025948115
+    per_T_mean_rel_rmse_pct: 0.7363178215432894
+  Freundlich:
+    cadet_expressible: true
+    global_rel_rmse_pct: 5.573908144460271
+    global_r2: 0.9446155826255833
+    per_T_mean_rel_rmse_pct: 0.16871430416734196
+  GAB:
+    cadet_expressible: false
+    global_rel_rmse_pct: 1.5845795049349198
+    global_r2: 0.9955239384959628
+    per_T_mean_rel_rmse_pct: 1.0217212394675927
+isosteric_heat:
+  method: 'Clausius-Clapeyron: dH = R*T^2*d(lnP)/dT at fixed loading'
+  cc_temperature_window_C:
+  - 27.0
+  - 33.0
+  cc_window_reason: Hraiech correlation's +8.91e-5(T-25)^2 term makes q* rise with
+    T above ~33 C (empirical artifact); CC is only thermodynamically valid over the
+    lower-T monotone window
+  loading_kgkg:
+  - 0.032
+  - 0.044
+  - 0.046
+  - 0.048
+  - 0.05
+  - 0.052
+  - 0.054
+  - 0.056
+  - 0.058
+  - 0.06
+  - 0.062
+  - 0.064
+  - 0.066
+  - 0.068
+  - 0.07
+  - 0.072
+  - 0.074
+  - 0.076
+  - 0.078
+  - 0.08
+  - 0.082
+  - 0.084
+  - 0.086
+  - 0.088
+  - 0.09
+  dH_ads_MJ_per_kg:
+  - 1.1871
+  - 1.273
+  - 1.3779
+  - 1.4758
+  - 1.5676
+  - 1.6542
+  - 1.7361
+  - 1.8139
+  - 1.8881
+  - 1.959
+  - 2.0269
+  - 2.0923
+  - 2.1553
+  - 2.2162
+  - 2.2751
+  - 2.3323
+  - 2.388
+  - 2.4422
+  - 2.4951
+  - 2.5468
+  - 2.5975
+  - 2.6471
+  - 2.6959
+  - 2.7438
+  - 2.791
+  dH_ads_loading_dependence: rises monotonically ~1.2 (q=0.03) to ~2.8 (q=0.09) MJ/kg
+  representative_loading_window_kgkg:
+  - 0.06
+  - 0.09
+  representative_MJ_per_kg: 2.4003
+  representative_kJ_per_mol: 43.24
+  literature_band_MJ_per_kg:
+  - 2.2
+  - 2.8
+  hraiech_reported_kJ_per_mol:
+  - 40
+  - 42
+  pygaps_crosscheck: pyGAPS Clapeyron dH (operational q=0.06-0.09) = 43.5 kJ/mol (2.41
+    MJ/kg), |r|~1.00
+ldf_kinetics:
+  note: Chihara/Glueckauf k_LDF = 15*Ds/Rp^2; Ds = 2.54e-4*exp(-42000/(R*T))
+  d_p_mm_nominal: 2.0
+  Rp_m: 0.001
+  Ds_at_300K_m2_s: 1.2363086265186226e-11
+  kLDF_at_300K_1_s: 0.0001854462939777934
+gate_G0:
+  fit_criterion: chosen-model global rel-RMSE <= 1.5% (adsorption)
+  fit_value_pct: 0.6966569415474491
+  fit_pass: true
+  heat_criterion: dH_ads in 2.2-2.8 MJ/kg
+  heat_value_MJ_per_kg: 2.4003
+  heat_pass: true
+  PASS: true
+provenance_notes:
+- Ground truth = Hraiech 2025 T-explicit correlation (paper RMSE 1.5% ads, R2 0.99).
+- Synthetic q*(P) generated on a (T,phi) grid; RH->P via P=phi*Psat(T), Psat=Arden-Buck.
+- Sips and Toth are CADET-expressible (Sips reduces to Freundlich at low coverage;
+  FreundlichLDF / LangmuirLDF are the kinetic LDF forms exposed by CADET-Process 0.12).
+- Validity 27-44 C, 44-82% RH; phi sampled 10-90% so 10-44% and 82-90% are mild extrapolation
+  of the published validity window.
+- 'Deviation from spec: scipy.optimize.curve_fit used instead of pyGAPS ModelIsotherm
+  (pyGAPS has no Sips model and its T-dependent CC workflow fought the synthetic data);
+  pyGAPS still imported for an isosteric-heat cross-check where it cooperates.'

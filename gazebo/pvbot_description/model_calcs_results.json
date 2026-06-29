@@ -1,0 +1,50 @@
+{
+  "force": {
+    "F_grav": 31.9206917485888,
+    "F_roll": 3.584752375789566,
+    "F_brush": 1.73,
+    "F_total": 37.23544412437836,
+    "margin": 1.208525936999315
+  },
+  "drive": {
+    "T_pinion_total": 0.5585316618656754,
+    "T_req_SF": 0.837797492798513,
+    "T_per_motor": 0.2792658309328377,
+    "torque_margin": 1.8620251473767229,
+    "rpm_pinion": 38.197186342054884,
+    "sigma_tooth_MPa": 8.619315769532028,
+    "T_backdrive_motor_mNm": 6.743808115899043
+  },
+  "brush": {
+    "T_brush": 0.043250000000000004,
+    "P_brush_mech": 0.4529129408925286
+  },
+  "coverage": {
+    "t_per_panel": 66.66666666666667,
+    "rate_m2h": 108.0,
+    "panels_per_h": 53.99999999999999,
+    "m2_per_day": 518.4
+  },
+  "water": {
+    "per_event": 0.6,
+    "cleans_per_tank": 6.0,
+    "tank_fills_per_array": 3.8341666666666665
+  },
+  "energy": {
+    "E_panel_Wh": 0.8881905605352602,
+    "panels_per_charge": 108.0849136047409,
+    "array_cleans_per_charge": 4.698322695272372,
+    "E_batt_usable": 96.0
+  },
+  "dock": {
+    "harvest_Lday": 4.02686,
+    "demand_Lday": 3.9436164383561647,
+    "self_supply_f": 1.0211084325631157,
+    "energy_kWhyr": 2129.14,
+    "bench_gday": 58.6
+  },
+  "stability": {
+    "cg_shift_mm": 26.713721118512172,
+    "SF_tip": 4.866413010125801
+  }
+}

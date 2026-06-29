@@ -1,0 +1,70 @@
+﻿This document answers your key questions about the project's scale, finding 3D models for SOLIDWORKS, and provides the example "data sheets" you need to start your design.
+1. Are We Talking Industrial or Medium Scale?
+We are designing a Medium-Scale Industrial solution.
+Here’s the distinction:
+* Small Scale (Prototype/DIY): Building 1-2 AWH units and one robot, like the "Lowest Functional" costings in your AWH_System_Build_Plan_EG.md and Solar_Robot_Build_Plan_EG.md files. The goal is just to prove the concept.
+* Medium Scale (Your Goal): This is a fleet approach. You are designing a single, robust robot (the "Optimum Value Robot") and a modular AWH farm (e.g., 20-150 units). This is a commercial-grade, "industrial" solution for a specific site (like a 1 MW solar farm). It's not mass-market, but it's a professional, automated system.
+* Large Scale (Mass Market): This would involve designing a product for sale to any solar farm, requiring a factory, supply chains, etc. This is outside our current scope.
+Conclusion: You are in the "Medium-Scale Industrial" phase. You are acting as the Chief Engineer for a specific operational site.
+2. Are Commercial Parts Available to Add in SOLIDWORKS?
+Yes, absolutely. But they are not "in" SOLIDWORKS by default. You add them from supplier websites.
+This is a standard part of professional engineering design, and it's much easier than you think. You almost never model simple, off-the-shelf parts (COTS) like batteries, motors, or screws. You download them.
+Here is the professional workflow:
+1. Go to a Supplier Website: Don't just go to a store like RAM Electronics. Go to a major component distributor website. The most famous one is McMaster-Carr.
+2. Find Your Part: Search for your component, for example, "12V DC Gear Motor."
+3. Download the 3D Model: Next to the part number, there is a "CAD" icon or link. You can select "SOLIDWORKS" (or a neutral format like ".STP" or ".IGS") and click "Download."
+4. Add to Your Assembly: You now have a perfect, dimensionally-accurate 3D model of that exact motor. You drop this file directly into your SOLIDWORKS assembly and use "Mates" to attach it to your custom-designed frame.
+Why is this the correct workflow?
+* Accuracy: Your simulation in Simscape will use the exact mass, inertia, and dimensions of the real-world part.
+* Speed: You save dozens of hours by not modeling common parts.
+* Bill of Materials (BOM): When you finish your design, SOLIDWORKS can automatically generate a shopping list (a BOM) with the exact part numbers from the suppliers you used.
+Resource Links:
+* McMaster-Carr: The #1 resource for engineers. Their CAD library is legendary.
+   * Link: https://www.mcmaster.com/
+* GrabCAD Community: A massive free library where engineers and designers share 3D models. If you need a model for a specific brand-name motor or Raspberry Pi, someone has almost certainly modeled it and shared it here.
+   * Link: https://grabcad.com/community/library
+3. Example "Data Sheets" for Your "Paper" Design
+As requested, here are the "datasheets" for the Optimum Value Robot components listed in your Solar_Robot_Build_Plan_EG.md file. You will use these exact numbers to start your SOLIDWORKS and Simulink design.
+Data Sheet 1: Solar Panel (The Constraint)
+* Model: Longi LR5-72HPH-545M
+* Dimensions: 2278 mm (Length) x 1134 mm (Width) x 35 mm (Height)
+* Weight: 27.5 kg
+* Design Decision: Your robot's cleaning width must be < 1134 mm. We will design the chassis to be 1.0 m (1000 mm) wide.
+Data Sheet 2: Drive Motor (Optimum Build)
+* Model: 12V DC Spur Gear Motor with 64-CPR Encoder
+* Voltage: 12V
+* No-Load Speed: 60 RPM
+* Stall Torque: 35 kg-cm
+* Stall Current: 9 A
+* Shaft Diameter: 6 mm
+* Weight: 220 g (0.22 kg)
+* Dimensions (Body): 37 mm (Diameter) x 78 mm (Length)
+* Simulink Input: You will use the Torque and Speed values to define your "DC Motor" block.
+* SOLIDWORKS Input: You will model a cylinder of 37mm x 78mm.
+Data Sheet 3: Power System (Optimum Build)
+* Model: 12V LiFePO4 Battery Pack
+* Voltage: 12.8V (Nominal)
+* Capacity: 20 Ah
+* Max Continuous Current: 20 A
+* Dimensions (L x W x H): 181 mm x 77 mm x 167 mm
+* Weight: 2.2 kg
+* Simulink Input: This determines the max power and voltage available for your motors.
+* SOLIDWORKS Input: You will model a simple block of this exact size and assign it a "Mass Property" of 2.2 kg. This is critical for your Center of Gravity calculation.
+Data Sheet 4: Cleaning Brush Motor (Optimum Build)
+* Model: 12V DC Gear Motor (Higher Speed)
+* Voltage: 12V
+* No-Load Speed: 200 RPM
+* Stall Torque: 8 kg-cm
+* Weight: 180 g (0.18 kg)
+* Dimensions (Body): 37 mm (Diameter) x 65 mm (Length)
+* Simulink Input: You will add this as a separate actuated joint in your model.
+* SOLIDWORKS Input: Model this part and mate it to your cylindrical brush.
+Data Sheet 5: Water Pump (Optimum Build)
+* Model: 12V Diaphragm Water Pump
+* Voltage: 12V
+* Flow Rate: 3.5 Liters/min (max)
+* Max Pressure: 70 PSI
+* Weight: 600 g (0.6 kg)
+* Dimensions (L x W x H): 165 mm x 100 mm x 62 mm
+* Simulink Input: This is not typically simulated in Simscape Multibody, but you would note its power draw (Amps) for your battery life calculation.
+* SOLIDWORKS Input: Model a block of this size and assign its mass for the physics simulation.

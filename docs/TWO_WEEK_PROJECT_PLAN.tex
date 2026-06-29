@@ -1,0 +1,191 @@
+% !TEX TS-program = pdflatex
+% Two-week graduation schedule (detailed) --- compile to PDF if desired.
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\title{\textbf{Two-Week Project Completion Schedule}\\[0.35em]
+\large Atmospheric Water Harvesting for Autonomous PV Panels Cleaning}
+\author{Graduation project --- working document}
+\date{Updated: 22 April 2026 \quad|\quad Proposal due: 29 April 2026 \quad|\quad Submission: 6 May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This document is a day-by-day and phase-by-phase schedule to finish the graduation project in fourteen days (22~April -- 6~May~2026), with the short proposal submitted within the first seven days (by 29~April~2026). It is aligned with the Benban case study, \texttt{project\_inputs.yaml}, \texttt{main\_report.tex}, PVsyst workflow, and Python calculation scripts already in the repository. For the definitive calendar-dated version, see \texttt{PROJECT\_COMPLETION\_PLAN.tex}.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Project context and files}
+\textbf{Official title:} Atmospheric Water Harvesting for Autonomous PV Panels Cleaning.
+
+\textbf{Case study:} Benban Solar Park (Aswan, Egypt) --- representative PV block; coordinates and parameters in \texttt{project\_inputs.yaml}.
+
+\textbf{Key paths:}
+\begin{itemize}[nosep]
+  \item Proposal: \texttt{proposal\_short.tex} $\rightarrow$ \texttt{proposal\_short.pdf}
+  \item Main report: \texttt{main\_report.tex} $\rightarrow$ \texttt{main\_report.pdf}
+  \item Numbers: \texttt{scripts/project\_calculations.py}, \texttt{output/lcow\_table\_autogen.tex}
+  \item Weather (optional): \texttt{scripts/fetch\_nasa\_power.py}, \texttt{scripts/psychrometrics\_hourly.py}
+  \item PVsyst: \texttt{docs/PVsyst\_runbook.md}; exports: \texttt{submission/pvsyst\_exports/}
+  \item QA: \texttt{submission/SUBMISSION\_CHECKLIST.md}
+\end{itemize}
+
+\section{Ground rules (all fourteen days)}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Single source of truth:} change only \texttt{project\_inputs.yaml} for $P_{\mathrm{dc}}$, $\eta_{\mathrm{mod}}$, $w$, $N_{\mathrm{clean}}$, $f_{\mathrm{margin}}$, tariff, SEC bands; then run \texttt{python scripts/project\_calculations.py} before compiling \texttt{main\_report.tex}.
+  \item \textbf{Project logic:} theory and calculations are used to \textbf{select the optimal configuration}; the deliverable is a \textbf{validated buildable system design} with simulation, drawings, BOM, and prototype workflow.
+  \item \textbf{Scope:} thesis center = AWH + water treatment for \textbf{autonomous} (minimally attended) panel cleaning; full robot kinematics optional unless the advisor mandates it.
+  \item \textbf{Simulation depth:} PVsyst for energy and soiling; Python/CSV for water--energy and optional monthly psychrometrics; TRNSYS/CFD only if time remains.
+\end{enumerate}
+
+\section{Selected configuration and traceability basis}
+\subsection{Calculated best-option parameters}
+\begin{itemize}[leftmargin=*]
+  \item Numerical minimum LCOW route: \textbf{Absorption}.
+  \item Prototype-selected configuration: \textbf{VCR condensation skid + polishing treatment + storage}.
+  \item Shared calculation basis: 200~MW DC, $\eta_{\mathrm{mod}}=0.215$, $w=1.8$~L/m$^2$/event, $N_{\mathrm{clean}}=18$/yr, $f_{\mathrm{margin}}=0.25$, $V_{\mathrm{year}}\approx 3.77\times 10^4$~m$^3$/yr.
+  \item Prototype target: 200~L/day condensate, 500~L raw tank, 500~L polished tank, and 2.0~m$^3$/h discharge at 3.0~bar.
+\end{itemize}
+
+\subsection{Traceability matrix}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{4.1cm}p{4.0cm}p{6.5cm}@{}}
+\toprule
+\textbf{Calculation} & \textbf{Decision} & \textbf{Output} \\
+\midrule
+PV area and annual water duty & Use modular production plus storage & Sets tank volume and condensate target \\
+LCOW ranking & Keep absorption as benchmark; build VCR & Selects prototype route with low risk \\
+Water-quality assessment & Add polishing train & Fixes sediment + carbon + UV stages \\
+Cleaning-interface assumptions & Define pump and manifold duty & Sets 2.0~m$^3$/h at 3.0~bar validation target \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Simulation, drawings, BOM, and build controls}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Simulation:} hourly NASA POWER/ERA5 weather, PVsyst soiling validation, VCR performance model, and sensitivity cases for summer heat, low-RH nights, fouled filters, and missed cleaning cycles.
+  \item \textbf{Drawings:} D-101 process flow, D-102 skid GA, D-103 tank/drains, D-104 treatment manifold, D-105 electrical one-line, D-106 controls/instrumentation, D-107 cleaning interface.
+  \item \textbf{BOM:} compressor package, evaporator, condenser, EC fans, tanks, sediment filter, carbon filter, UV, pump, flow meter, TDS meter, T/RH sensors, level switches, PLC/datalogger, and valves.
+  \item \textbf{Assembly/QC:} leak test, electrical isolation, sensor calibration, 24-hour condensate run, TDS verification, and discharge-pressure verification.
+\end{itemize}
+
+\section{Phase A --- Days 0--2: short proposal (22--24 April 2026)}
+\textbf{Primary deliverable:} finalized \texttt{proposal\_short.pdf} (submit by \textbf{Fri 24~Apr}).
+
+\subsection{Day 0 (Wed 22 Apr)}
+\begin{itemize}[nosep]
+  \item Read advisor requirements (page limit, cover sheet, Arabic abstract if any).
+  \item Skim \texttt{proposal\_short.tex}; ensure title matches official project title.
+  \item Confirm scope: 200~MW block; robot CAD optional unless mandated.
+\end{itemize}
+
+\subsection{Day 1 (Thu 23 Apr)}
+\begin{itemize}[nosep]
+  \item Lock \textbf{problem statement}: soiling + water scarcity for autonomous cleaning in arid Egypt.
+  \item Lock \textbf{objectives}: water demand model, PVsyst, AWH comparison (SEC/LCOW), water quality discussion.
+  \item List \textbf{deliverables}: final PDF, PVsyst export folder, YAML + script outputs, IEEE bibliography.
+  \item Freeze \texttt{project\_inputs.yaml}; run \texttt{python scripts/project\_calculations.py}.
+\end{itemize}
+
+\subsection{Day 2 (Fri 24 Apr)}
+\begin{itemize}[nosep]
+  \item Add \textbf{risks}: illustrative SEC/CAPEX/tariff; soiling without on-site measurements.
+  \item Compile: \texttt{pdflatex proposal\_short.tex $\rightarrow$ bibtex $\rightarrow$ pdflatex $\times$2}; submit PDF to advisor.
+  \item \textbf{Advisor checkpoint:} confirm DC block size (200~MW) and whether robot CAD is in scope.
+  \item \textit{Start PVsyst} in parallel (see Phase~B).
+\end{itemize}
+
+\section{Phase B --- Days 1--7: data lock and core simulations (23--29 April 2026)}
+(Overlaps Phase A from Day~1. \textbf{Proposal submitted by end of Day~7 = Wed 29~Apr.})
+
+\subsection{Day 1 (Thu 23 Apr, parallel with proposal)}
+Freeze \texttt{project\_inputs.yaml}. Run \texttt{python scripts/project\_calculations.py}. Confirm \texttt{output/calculation\_summary.txt} and \texttt{output/lcow\_table\_autogen.tex} exist.
+
+\subsection{Day 2 (Fri 24 Apr)}
+Open PVsyst; create site near \textbf{24.45$^\circ$N, 32.75$^\circ$E}. Start grid-connected system per \texttt{docs/PVsyst\_runbook.md}. Import TMY from NASA POWER or Meteonorm.
+
+\subsection{Day 3 (Sat 25 Apr)}
+Complete PVsyst \textbf{monthly soiling} table with literature justification (arid Upper Egypt). Export annual energy, PR, and loss report PDF to \texttt{submission/pvsyst\_exports/annual\_base.pdf}.
+
+\subsection{Day 4 (Sun 26 Apr)}
+Run one \textbf{soiling sensitivity} (+1--2\% absolute loss in worst month). Export loss diagram to \texttt{figures/pvsyst\_loss\_diagram.pdf}.
+
+\subsection{Day 5 (Mon 27 Apr)}
+Run \texttt{python scripts/fetch\_nasa\_power.py} (adjust date range in YAML if needed). Run \texttt{python scripts/psychrometrics\_hourly.py}. Plan one paragraph or figure from \texttt{output/psychrometrics\_monthly.csv} (seasonality / storage rationale).
+
+\subsection{Day 6 (Tue 28 Apr)}
+Expand \texttt{main\_report.tex} Chapters~1--2: introduction (autonomous cleaning + AWH), site and methodology; paste PVsyst \textbf{assumptions table}; cross-check abstract numbers against YAML.
+
+\subsection{Day 7 (Wed 29 Apr --- Proposal Deadline)}
+\textbf{Submit finalized \texttt{proposal\_short.pdf}} (incorporate any advisor feedback). Confirm simulation outputs match YAML. Commit all files to version control.
+
+\section{Phase C --- Days 8--12: full report body (30 April -- 4 May 2026)}
+\subsection{Day 8 (Thu 30 Apr)}
+Water demand section: equations + numerical results from YAML; cite cleaning-intensity literature. AWH metrics definitions: SEC$_{\mathrm{el}}$, LCOW, TDS targets.
+
+\subsection{Day 9 (Fri 1 May)}
+AWH comparison chapter: VCR (SEC 0.3--0.8~kWh/kg), silica/desiccant ($\sim$1.2~kWh/kg), MOF bands, TEC benchmark (2--12~kWh/kg); SEC and LCOW from autogen table + narrative from \texttt{references.bib} (IEEE format).
+
+\subsection{Day 10 (Sat 2 May)}
+PV results chapter: embed \texttt{figures/pvsyst\_loss\_diagram}; tabulate yield, PR, monthly soiling loss fractions. Draft design translation section (D-101 to D-107 drawings; prototype BOM).
+
+\subsection{Day 11 (Sun 3 May)}
+Discussion: trade-offs (energy vs water quality vs CAPEX); psychrometrics figure; limitations (no on-site soiling station, illustrative CAPEX, no effluent data).
+
+\subsection{Day 12 (Mon 4 May --- Full Draft Deadline)}
+Conclusions + future work. Optionally merge non-conflicting passages from \texttt{project\_structure.tex}, \texttt{project\_analysis\_awh\_comparison\_and\_scope.tex}, \texttt{project\_awh\_benban\_numbers\_cost\_quality.tex}. Full rebuild; verify abstract vs YAML.
+
+\section{Phase D --- Days 13--14: QA and submission (5--6 May 2026)}
+\subsection{Day 13 (Tue 5 May)}
+\begin{itemize}[nosep]
+  \item Run checklist in \texttt{submission/SUBMISSION\_CHECKLIST.md}.
+  \item Full rebuild: \texttt{project\_calculations.py} $\rightarrow$ \texttt{pdflatex main\_report.tex} $\rightarrow$ \texttt{bibtex main\_report} $\rightarrow$ \texttt{pdflatex} $\times$2.
+  \item Verify abstract matches YAML; all figure paths resolve; no \texttt{??} in PDF; IEEE bibliography renders correctly.
+  \item Spell-check; Arabic abstract if required.
+\end{itemize}
+
+\subsection{Day 14 (Wed 6 May --- Final Submission)}
+Table/figure numbering; PDF font-embedding and file-size check; pack folder: \texttt{main\_report.pdf}, \texttt{proposal\_short.pdf}, \texttt{output/}, \texttt{submission/pvsyst\_exports/}, source \texttt{.tex}/\texttt{.yaml}/\texttt{.py}, \texttt{references.bib}. \textbf{Submit.}
+
+\section{If time runs short --- priority order}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Must:} YAML-consistent water demand + LCOW table + PVsyst base case + written AWH comparison.
+  \item \textbf{Should:} loss diagram + monthly soiling justification in text.
+  \item \textbf{Nice:} psychrometrics plot; extra PVsyst sensitivity.
+  \item \textbf{Defer:} CFD, full robot CAD, lab MOF campaign --- document as future work.
+\end{enumerate}
+
+\section{Build commands (project root)}
+\begin{verbatim}
+pip install -r requirements.txt
+python scripts/project_calculations.py
+python scripts/fetch_nasa_power.py
+python scripts/psychrometrics_hourly.py
+pdflatex proposal_short.tex
+pdflatex main_report.tex
+bibtex main_report
+pdflatex main_report.tex
+pdflatex main_report.tex
+pdflatex docs/TWO_WEEK_PROJECT_PLAN.tex
+\end{verbatim}
+
+\end{document}

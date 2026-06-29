@@ -1,0 +1,55 @@
+{
+  "critical_tilt_deg": {
+    "0.03": 31.72,
+    "0.05": 30.55,
+    "0.08": 28.77
+  },
+  "margin_at_24_mu05": 1.209,
+  "anchors": {
+    "area_per_kWp": 4.64736,
+    "tile_water_Lday": 0.10597,
+    "pv_Wp_per_tile": 35.84514870170893,
+    "unit_capacity_m2day": 518.4
+  },
+  "variants": [
+    {
+      "variant": "Commercial rooftop",
+      "kWp": 200.0,
+      "area_m2": 929.5,
+      "water_event_L": 278.84,
+      "water_day_L": 79.67,
+      "water_yr_L": 29079.0,
+      "n_tiles": 752,
+      "dock_PV_Wp": 26956.0,
+      "tank_fills": 77.5,
+      "clean_time_h": 8.61,
+      "n_units": 1
+    },
+    {
+      "variant": "Residential rooftop",
+      "kWp": 9.9,
+      "area_m2": 46.0,
+      "water_event_L": 13.8,
+      "water_day_L": 3.94,
+      "water_yr_L": 1439.0,
+      "n_tiles": 38,
+      "dock_PV_Wp": 1362.0,
+      "tank_fills": 3.8,
+      "clean_time_h": 0.43,
+      "n_units": 1
+    },
+    {
+      "variant": "Street-lamp PV",
+      "kWp": 0.3,
+      "area_m2": 1.4,
+      "water_event_L": 0.42,
+      "water_day_L": 0.12,
+      "water_yr_L": 44.0,
+      "n_tiles": 2,
+      "dock_PV_Wp": 72.0,
+      "tank_fills": 0.1,
+      "clean_time_h": 0.01,
+      "n_units": 1
+    }
+  ]
+}

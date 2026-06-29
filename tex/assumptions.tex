@@ -1,0 +1,88 @@
+% Shared numeric assumptions (must match project_inputs.yaml)
+% -----------------------------------------------------------------------
+% Benban site (retained as climate validation reference)
+% -----------------------------------------------------------------------
+\newcommand{\BenbanLat}{24.45}
+\newcommand{\BenbanLon}{32.75}
+
+% -----------------------------------------------------------------------
+% PV module baseline (used in climate validation chapter)
+% -----------------------------------------------------------------------
+\newcommand{\Etamod}{0.215}
+\newcommand{\WaterIntensity}{1.8}
+\newcommand{\Nclean}{18}
+\newcommand{\Fmargin}{0.25}
+
+% -----------------------------------------------------------------------
+% Economics
+% -----------------------------------------------------------------------
+\newcommand{\TariffUSD}{0.020}
+\newcommand{\TariffEGP}{0.97}
+
+% -----------------------------------------------------------------------
+% TEC module parameters (TEC1-12706)
+% -----------------------------------------------------------------------
+\newcommand{\TECImax}{6.0}
+\newcommand{\TECVmax}{15.4}
+\newcommand{\TECQmax}{57.2}
+\newcommand{\TECDTmax}{68}
+\newcommand{\TECAlpha}{0.0534}
+\newcommand{\TECR}{1.98}
+\newcommand{\TECK}{0.524}
+\newcommand{\TECCOPnom}{0.38}
+
+% -----------------------------------------------------------------------
+% Street-lamp scale (Scale A)
+% -----------------------------------------------------------------------
+\newcommand{\ScaleAPV}{80}
+\newcommand{\ScaleATECn}{1}
+\newcommand{\ScaleAWaterDay}{0.15}
+\newcommand{\ScaleACleanArea}{0.35}
+\newcommand{\ScaleABattWh}{150}
+
+% -----------------------------------------------------------------------
+% Residential scale (Scale R - villa rooftop, 5 kWp)
+% -----------------------------------------------------------------------
+\newcommand{\ScaleRPV}{5}
+\newcommand{\ScaleRTECn}{6}
+\newcommand{\ScaleRWaterDay}{1.5}
+\newcommand{\ScaleRCleanArea}{28}
+\newcommand{\ScaleRBattWh}{1200}
+
+% -----------------------------------------------------------------------
+% Commercial scale (Scale B - rooftop, 10 kWp)
+% -----------------------------------------------------------------------
+\newcommand{\ScaleBPV}{10}
+\newcommand{\ScaleBTECn}{12}
+\newcommand{\ScaleBWaterDay}{3.0}
+\newcommand{\ScaleBCleanArea}{46}
+\newcommand{\ScaleBBattWh}{2500}
+
+% -----------------------------------------------------------------------
+% Industrial scale (Scale C - ground-mount, 200 kWp, stretch)
+% -----------------------------------------------------------------------
+\newcommand{\ScaleCPV}{200}
+\newcommand{\ScaleCPdcMW}{0.200}
+\newcommand{\PdcMW}{200}
+\newcommand{\ScaleCTECn}{80}
+\newcommand{\ScaleCWaterDay}{40}
+\newcommand{\ScaleCCleanArea}{930}
+\newcommand{\ScaleCBattWh}{24000}
+
+% -----------------------------------------------------------------------
+% Climate / psychrometric operating point (Egyptian summer, conservative)
+% -----------------------------------------------------------------------
+\newcommand{\TambSummer}{38}
+\newcommand{\RHmin}{25}
+\newcommand{\RHdesign}{35}
+\newcommand{\TdewDesign}{18.5}
+\newcommand{\TcoldDesign}{14}
+\newcommand{\ThotDesign}{58}
+\newcommand{\DTdesign}{44}
+
+% -----------------------------------------------------------------------
+% Robot motion (commercial/industrial rail-guided)
+% -----------------------------------------------------------------------
+\newcommand{\RobotSpeed}{0.05}
+\newcommand{\BrushWidth}{0.25}
+\newcommand{\FlowNozzle}{0.008}

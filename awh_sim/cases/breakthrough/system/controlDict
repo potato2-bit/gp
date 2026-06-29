@@ -1,0 +1,45 @@
+/*--------------------------------*- C++ -*----------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     adsorpSilicaFoam;
+
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         10000;
+deltaT          4;                 // implicit PIMPLE; flow is quasi-steady Darcy
+
+writeControl    timeStep;
+writeInterval   250;               // ~10 frames (every 1000 s) for visualisation
+purgeWrite      0;
+writeFormat     ascii;
+writePrecision  8;
+writeCompression off;
+timeFormat      general;
+timePrecision   6;
+runTimeModifiable true;
+
+functions
+{
+    outletY { type surfaceFieldValue; libs (fieldFunctionObjects); regionType patch;
+              name outlet; operation areaAverage; fields (Y); writeFields false;
+              writeControl timeStep; writeInterval 5; log false; }
+    Tmax    { type volFieldValue; libs (fieldFunctionObjects); operation max;
+              fields (T); regionType all; writeFields false;
+              writeControl timeStep; writeInterval 5; log false; }
+    Tavg    { type volFieldValue; libs (fieldFunctionObjects); operation volAverage;
+              fields (T); regionType all; writeFields false;
+              writeControl timeStep; writeInterval 5; log false; }
+    qavg    { type volFieldValue; libs (fieldFunctionObjects); operation volAverage;
+              fields (q); regionType all; writeFields false;
+              writeControl timeStep; writeInterval 5; log false; }
+}
+
+// ************************************************************************* //
